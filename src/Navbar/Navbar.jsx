@@ -137,7 +137,7 @@ const Navbar = () => {
                         onClick={() => setIsActive(false)}
                     >
                         <div
-                            className={`fixed top-0 right-0 h-screen bg-white shadow-2xl transition-all duration-500 ease-in-out ${isActive ? "w-2/3" : "w-0 overflow-hidden"
+                            className={`fixed top-0 right-0 h-screen bg-white shadow-2xl transition-all duration-200 ease-in-out ${isActive ? "w-2/3" : "w-0 overflow-hidden"
                                 }`}
                             onClick={(e) => e.stopPropagation()}
                         >
