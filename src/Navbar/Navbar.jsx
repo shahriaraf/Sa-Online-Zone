@@ -1,0 +1,262 @@
+import { Link, NavLink } from "react-router-dom";
+import { IoMenu } from "react-icons/io5";
+import { MdClose } from "react-icons/md";
+import { useState, useEffect } from "react";
+
+// nav logo
+import nav_logo from '../../public/Picsart_24-12-18_17-11-57-456.png'
+
+const Navbar = () => {
+  const [isActive, setIsActive] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLink = (
+    <>
+      <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+        <NavLink 
+          to="/" 
+          className={({ isActive }) => 
+            `relative hover:text-cyan-500 transition-all duration-300 ${
+              isActive ? 'text-cyan-500' : ''
+            } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${
+              isActive ? 'after:w-full' : ''
+            }`
+          }
+        >
+          Home
+        </NavLink>
+      </li>
+      <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+        <NavLink 
+          to="/about-us"
+          className={({ isActive }) => 
+            `relative hover:text-cyan-500 transition-all duration-300 ${
+              isActive ? 'text-cyan-500' : ''
+            } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${
+              isActive ? 'after:w-full' : ''
+            }`
+          }
+        >
+          About us
+        </NavLink>
+      </li>
+      <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+        <NavLink 
+          to="/blog"
+          className={({ isActive }) => 
+            `relative hover:text-cyan-500 transition-all duration-300 ${
+              isActive ? 'text-cyan-500' : ''
+            } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${
+              isActive ? 'after:w-full' : ''
+            }`
+          }
+        >
+          Blog
+        </NavLink>
+      </li>
+      <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+        <NavLink 
+          to="/contact"
+          className={({ isActive }) => 
+            `relative hover:text-cyan-500 transition-all duration-300 ${
+              isActive ? 'text-cyan-500' : ''
+            } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${
+              isActive ? 'after:w-full' : ''
+            }`
+          }
+        >
+          Contact
+        </NavLink>
+      </li>
+    </>
+  );
+
+  const handleMenuIcon = () => setIsActive(true);
+
+  return (
+    <div className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100' 
+        : 'bg-blue-50 backdrop-blur-sm'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between py-3 relative">
+          
+          {/* Logo */}
+          <div className="nav-start flex items-center gap-x-3 group">
+            <div className="relative overflow-hidden rounded-full ring-2 ring-cyan-500/20 transition-all duration-300 group-hover:ring-cyan-500/40">
+              <img 
+                src={nav_logo} 
+                alt="Logo" 
+                className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] object-cover transition-transform duration-300 group-hover:scale-110" 
+              />
+            </div>
+            <div className="flex flex-col">
+              <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-800 to-cyan-600 bg-clip-text text-transparent">
+                Saonline <span className="text-cyan-500">Zone</span>
+              </h2>
+              <div className="h-0.5 w-0 bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-500 group-hover:w-full"></div>
+            </div>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="nav-center mr-10 hidden lg:flex">
+            <ul className="flex items-center space-x-2">
+              {navLink}
+            </ul>
+          </div>
+        
+          {/* User & Mobile */}
+          <div className="flex items-center gap-x-4">
+            {/* Mobile Menu Button */}
+            <div className="lg:hidden">
+              <button
+                onClick={handleMenuIcon}
+                className="p-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                {!isActive && <IoMenu className="w-6 h-6" />}
+              </button>
+            </div>
+
+            {/* Desktop Login Button */}
+            <div className="hidden lg:block">
+              <Link to="/signIn">
+                <button className="relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-2.5 rounded-full font-semibold uppercase tracking-wide shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 before:absolute before:inset-0 before:bg-white/20 before:transform before:-skew-x-12 before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-700">
+                  <span className="relative z-10">Log In</span>
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Mobile Sidebar */}
+          <div
+            tabIndex={0}
+            className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-all duration-300 ease-in-out lg:hidden ${
+              isActive ? "opacity-100 visible" : "opacity-0 invisible"
+            }`}
+            onClick={() => setIsActive(false)}
+          >
+            <div
+              className={`h-full bg-white shadow-2xl transition-all duration-500 ease-in-out ${
+                isActive ? "w-[85%] sm:w-[400px]" : "w-0 overflow-hidden"
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Sidebar Header */}
+              <div className="flex justify-between items-center p-4 border-b border-gray-100 bg-gradient-to-r from-cyan-50 to-blue-50">
+                <div className="flex items-center gap-x-3">
+                  <div className="relative overflow-hidden rounded-full ring-2 ring-cyan-500/30">
+                    <img 
+                      src={nav_logo} 
+                      alt="Logo" 
+                      className="w-[50px] h-[50px] object-cover" 
+                    />
+                  </div>
+                  <h2 className="text-lg flex font-bold bg-gradient-to-r from-gray-800 to-cyan-600 bg-clip-text text-transparent">
+                    Saonline <span className="text-cyan-500 ml-2">Zone</span>
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setIsActive(false)}
+                  className="p-2 rounded-full bg-gray-100 hover:bg-red-100 transition-colors duration-300 group"
+                >
+                  <MdClose className="w-6 h-6 text-gray-600 group-hover:text-red-500 transition-colors duration-300" />
+                </button>
+              </div>
+
+              {/* Sidebar Navigation */}
+              <div className="px-4 py-6 bg-white">
+                <ul className="space-y-2">
+                  <li className="transform hover:translate-x-2 transition-transform duration-300">
+                    <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
+                      <NavLink 
+                        to="/" 
+                        onClick={() => setIsActive(false)}
+                        className={({ isActive }) => 
+                          `text-lg font-medium transition-all duration-300 ${
+                            isActive ? 'text-cyan-500' : 'hover:text-cyan-500'
+                          }`
+                        }
+                      >
+                        Home
+                      </NavLink>
+                    </div>
+                  </li>
+                  <li className="transform hover:translate-x-2 transition-transform duration-300">
+                    <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
+                      <NavLink 
+                        to="/about-us"
+                        onClick={() => setIsActive(false)}
+                        className={({ isActive }) => 
+                          `text-lg font-medium transition-all duration-300 ${
+                            isActive ? 'text-cyan-500' : 'hover:text-cyan-500'
+                          }`
+                        }
+                      >
+                        About us
+                      </NavLink>
+                    </div>
+                  </li>
+                  <li className="transform hover:translate-x-2 transition-transform duration-300">
+                    <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
+                      <NavLink 
+                        to="/blog"
+                        onClick={() => setIsActive(false)}
+                        className={({ isActive }) => 
+                          `text-lg font-medium transition-all duration-300 ${
+                            isActive ? 'text-cyan-500' : 'hover:text-cyan-500'
+                          }`
+                        }
+                      >
+                        Blog
+                      </NavLink>
+                    </div>
+                  </li>
+                  <li className="transform hover:translate-x-2 transition-transform duration-300">
+                    <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
+                      <NavLink 
+                        to="/contact"
+                        onClick={() => setIsActive(false)}
+                        className={({ isActive }) => 
+                          `text-lg font-medium transition-all duration-300 ${
+                            isActive ? 'text-cyan-500' : 'hover:text-cyan-500'
+                          }`
+                        }
+                      >
+                        Contact
+                      </NavLink>
+                    </div>
+                  </li>
+                </ul>
+
+                {/* Divider */}
+                <div className="my-6 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+
+                {/* Mobile Login Button */}
+                <div className="pt-4">
+                  <Link to="/signIn" onClick={() => setIsActive(false)}>
+                    <button className="w-full relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-full font-semibold uppercase tracking-wide shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 before:absolute before:inset-0 before:bg-white/20 before:transform before:-skew-x-12 before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-700">
+                      <span className="relative z-10">Log In / Sign Up</span>
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
