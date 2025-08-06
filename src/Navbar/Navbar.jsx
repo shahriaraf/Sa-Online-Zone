@@ -222,6 +222,20 @@ const Navbar = () => {
                                             </NavLink>
                                         </div>
                                     </li>
+                                    <li className="transform hover:translate-x-2 transition-transform duration-300">
+                                        <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
+                                            <NavLink
+                                                to="/dashboard"
+                                                onClick={() => setIsActive(false)}
+                                                className={({ isActive }) =>
+                                                    `text-lg font-medium transition-all duration-300 ${isActive ? 'text-cyan-500' : 'hover:text-cyan-500'
+                                                    }`
+                                                }
+                                            >
+                                            Dashboard
+                                            </NavLink>
+                                        </div>
+                                    </li>
                                 </ul>
 
                                 {/* Divider */}
