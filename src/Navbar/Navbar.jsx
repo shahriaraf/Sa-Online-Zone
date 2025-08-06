@@ -70,6 +70,18 @@ const Navbar = () => {
                     Contact
                 </NavLink>
             </li>
+            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+                <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                        `relative hover:text-cyan-500 transition-all duration-300 ${isActive ? 'text-cyan-500' : ''
+                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
+                        }`
+                    }
+                >
+                    Dashboard
+                </NavLink>
+            </li>
         </>
     );
 
