@@ -133,7 +133,7 @@ const Navbar = () => {
 
                         {/* Desktop Login Button */}
                         <div className="hidden lg:block">
-                            <Link to="/signIn">
+                            <Link to="/sign-in">
                                 <button className="relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-2.5 rounded-full font-semibold uppercase tracking-wide shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 before:absolute before:inset-0 before:bg-white/20 before:transform before:-skew-x-12 before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-700">
                                     <span className="relative z-10">Log In</span>
                                 </button>
@@ -243,7 +243,7 @@ const Navbar = () => {
 
                                 {/* Mobile Login Button */}
                                 <div className="pt-4">
-                                    <Link to="/signIn" onClick={() => setIsActive(false)}>
+                                    <Link to="/sign-in" onClick={() => setIsActive(false)}>
                                         <button className="w-full relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-full font-semibold uppercase tracking-wide shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 before:absolute before:inset-0 before:bg-white/20 before:transform before:-skew-x-12 before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-700">
                                             <span className="relative z-10">Log In / Sign Up</span>
                                         </button>

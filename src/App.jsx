@@ -5,24 +5,35 @@ import Home from './HomePage/Home';
 import About from './About/About';
 import Footer from './Footer/Footer';
 import Dashboard from './DashBoard/DashBoard';
+import SignUp from './Authentication/SignUp';
 
 function AppWrapper() {
   const location = useLocation();
 
-  // You can customize this array for more routes where you want to hide the Navbar
-  const hideNavbarRoutes = ['/dashboard'];
+  // Route configuration
+  const routeConfig = {
+    '/': { showNavbar: true, showFooter: true },
+    '/about-us': { showNavbar: true, showFooter: true },
+    '/dashboard': { showNavbar: false, showFooter: false },
+    '/sign-in': { showNavbar: false, showFooter: false }
+  };
 
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  const currentRouteConfig = routeConfig[location.pathname] || { showNavbar: true, showFooter: true };
 
   return (
     <>
-      {!shouldHideNavbar && <Navbar />}
+      {/* Show Navbar based on current route config */}
+      {currentRouteConfig.showNavbar && <Navbar />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about-us" element={<About />} />
-        <Route path="/dashboard" element={<Dashboard></Dashboard>} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/sign-in" element={<SignUp />} />
       </Routes>
-      {!shouldHideNavbar && <Footer></Footer>}
+      
+      {/* Show Footer based on current route config */}
+      {currentRouteConfig.showFooter && <Footer />}
     </>
   );
 }
