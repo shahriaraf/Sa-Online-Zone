@@ -34,7 +34,7 @@ const Blog = () => {
   return (
     <div className="bg-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 mt-20">
           <h2 className="text-3xl font-bold text-blue-600 mb-4">Latest in the Blog</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Insights, tips and trends for freelancers and clients in the micro-job economy
