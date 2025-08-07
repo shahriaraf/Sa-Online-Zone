@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { 
-    FiDollarSign, 
-    FiUsers, 
-    FiTarget, 
-    FiTrendingUp, 
-    FiPackage, 
-    FiSettings, 
-    FiBell, 
-    FiSearch, 
-    FiMenu, 
-    FiFileText, 
-    FiMail, 
+import {
+    FiDollarSign,
+    FiUsers,
+    FiTarget,
+    FiTrendingUp,
+    FiPackage,
+    FiSettings,
+    FiBell,
+    FiSearch,
+    FiMenu,
+    FiFileText,
+    FiMail,
     FiZap,
     FiShoppingBag,
     FiHeadphones,
@@ -21,12 +21,15 @@ import {
 } from 'react-icons/fi';
 import { IoBarChartSharp } from "react-icons/io5";
 import logo from '../../public/Picsart_24-12-18_17-11-57-456.png'
+import AddList from './AddList';
+import Deposit from './Deposit';
+import JobTask from './JobTask';
+import MyJobList from './MyJobList';
+import WithDrawForm from './WithDrawForm';
 
 const Dashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [selectedPeriod, setSelectedPeriod] = useState('30D');
-    const [notifications, setNotifications] = useState(3);
-    const [searchOpen, setSearchOpen] = useState(false);
+    const [activePage, setActivePage] = useState('Add List');
     const [isMobile, setIsMobile] = useState(false);
 
     // Check if mobile device
@@ -34,10 +37,10 @@ const Dashboard = () => {
         const checkIfMobile = () => {
             setIsMobile(window.innerWidth < 1024);
         };
-        
+
         checkIfMobile();
         window.addEventListener('resize', checkIfMobile);
-        
+
         return () => window.removeEventListener('resize', checkIfMobile);
     }, []);
 
@@ -53,116 +56,21 @@ const Dashboard = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [sidebarOpen, isMobile]);
 
-    // Sample data
-    const revenueData = [
-        { name: 'Jan', value: 12000, users: 2400 },
-        { name: 'Feb', value: 19000, users: 2800 },
-        { name: 'Mar', value: 15000, users: 2200 },
-        { name: 'Apr', value: 25000, users: 3200 },
-        { name: 'May', value: 22000, users: 2900 },
-        { name: 'Jun', value: 30000, users: 3500 },
-        { name: 'Jul', value: 28000, users: 3300 }
-    ];
 
-    const stats = [
-        {
-            title: 'Total Revenue',
-            value: '$54,239',
-            change: '+12.5%',
-            trend: 'up',
-            icon: FiDollarSign,
-            color: 'from-cyan-500 to-blue-500',
-            bgColor: 'bg-cyan-100',
-            textColor: 'text-cyan-600'
-        },
-        {
-            title: 'New Customers',
-            value: '2,847',
-            change: '+8.2%',
-            trend: 'up',
-            icon: FiUsers,
-            color: 'from-blue-500 to-cyan-500',
-            bgColor: 'bg-blue-100',
-            textColor: 'text-blue-600'
-        },
-        {
-            title: 'Active Users',
-            value: '18,429',
-            change: '-2.3%',
-            trend: 'down',
-            icon: FiTarget,
-            color: 'from-cyan-400 to-blue-600',
-            bgColor: 'bg-gray-100',
-            textColor: 'text-gray-600'
-        },
-        {
-            title: 'Conversion Rate',
-            value: '3.24%',
-            change: '+0.8%',
-            trend: 'up',
-            icon: IoBarChartSharp,
-            color: 'from-blue-600 to-cyan-400',
-            bgColor: 'bg-cyan-50',
-            textColor: 'text-cyan-700'
-        }
-    ];
 
-    const activities = [
-        {
-            id: 1,
-            title: 'New order placed',
-            description: 'Order #12847 - $234.50',
-            time: '2 minutes ago',
-            color: 'bg-cyan-500',
-            type: 'order',
-            icon: FiShoppingBag
-        },
-        {
-            id: 2,
-            title: 'Support ticket resolved',
-            description: 'Ticket #5891 closed',
-            time: '15 minutes ago',
-            color: 'bg-blue-500',
-            type: 'support',
-            icon: FiHeadphones
-        },
-        {
-            id: 3,
-            title: 'Product inventory updated',
-            description: 'Stock levels adjusted',
-            time: '1 hour ago',
-            color: 'bg-cyan-400',
-            type: 'inventory',
-            icon: FiPackage
-        },
-        {
-            id: 4,
-            title: 'Monthly report generated',
-            description: 'Analytics report ready',
-            time: '3 hours ago',
-            color: 'bg-blue-400',
-            type: 'report',
-            icon: FiFileText
-        },
-        {
-            id: 5,
-            title: 'New user registration',
-            description: 'User: sarah.connor@email.com',
-            time: '5 hours ago',
-            color: 'bg-cyan-600',
-            type: 'user',
-            icon: FiUser
-        }
-    ];
 
-    const navItems = [
-        { name: 'Overview', icon: IoBarChartSharp, active: true, badge: null },
-        { name: 'Analytics', icon: FiTrendingUp, active: false, badge: null },
-        { name: 'Customers', icon: FiUsers, active: false, badge: '12' },
-        { name: 'Revenue', icon: FiDollarSign, active: false, badge: null },
-        { name: 'Products', icon: FiPackage, active: false, badge: '5' },
-        { name: 'Settings', icon: FiSettings, active: false, badge: null }
-    ];
+
+ 
+
+   const navItems = [
+    { name: 'Add List', icon: IoBarChartSharp, badge: null },
+    { name: 'Deposit', icon: FiTrendingUp, badge: null },
+    { name: 'Job Task', icon: FiUsers, badge: '12' },
+    { name: 'My Jobs', icon: FiDollarSign, badge: null },
+    { name: 'Withdraw', icon: FiPackage, badge: '5' },
+    { name: 'Settings', icon: FiSettings, badge: null }
+];
+
 
     const StatCard = ({ stat }) => {
         const IconComponent = stat.icon;
@@ -174,8 +82,8 @@ const Dashboard = () => {
                     </div>
                     <div className="text-right">
                         <span className={`text-xs md:text-sm font-semibold px-2 md:px-2.5 lg:px-3 py-1 rounded-full ${stat.trend === 'up'
-                                ? 'text-green-700 bg-green-100'
-                                : 'text-red-700 bg-red-100'
+                            ? 'text-green-700 bg-green-100'
+                            : 'text-red-700 bg-red-100'
                             }`}>
                             {stat.change}
                         </span>
@@ -224,15 +132,14 @@ const Dashboard = () => {
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100">
             <div className="flex h-screen overflow-hidden">
                 {/* Sidebar */}
-                <aside className={`fixed lg:sticky top-0 z-50 w-64 md:w-72 h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white shadow-xl border-r border-gray-700 transform transition-transform duration-300 ease-in-out ${
-                    sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-                }`}>
+                <aside className={`fixed lg:sticky top-0 z-50 w-64 md:w-72 h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white shadow-xl border-r border-gray-700 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+                    }`}>
                     {/* Logo */}
                     <div className="p-4 md:p-6 lg:p-8 border-b border-gray-700">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2 md:gap-3 group">
                                 <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110 overflow-hidden">
-                                   <img src={logo} alt="Logo" className="w-full h-full object-contain" />
+                                    <img src={logo} alt="Logo" className="w-full h-full object-contain" />
                                 </div>
                                 <div>
                                     <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-white">
@@ -257,23 +164,28 @@ const Dashboard = () => {
                                 const IconComponent = item.icon;
                                 return (
                                     <li key={item.name}>
-                                        <button 
-                                            onClick={() => isMobile && setSidebarOpen(false)}
-                                            className={`w-full flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-lg lg:rounded-xl transition-all duration-300 group touch-manipulation ${item.active
-                                                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
-                                                : 'text-gray-300 hover:bg-gray-700 hover:text-white hover:translate-x-1'
-                                            }`}>
-                                            <IconComponent className={`text-base md:text-lg group-hover:scale-110 transition-transform ${item.active ? 'filter drop-shadow-sm' : ''}`} />
+                                        <button
+                                            onClick={() => {
+                                                setActivePage(item.name);
+                                                if (isMobile) setSidebarOpen(false);
+                                            }}
+                                            className={`w-full flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-lg lg:rounded-xl transition-all duration-300 group touch-manipulation ${activePage === item.name
+                                                    ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
+                                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white hover:translate-x-1'
+                                                }`}
+                                        >
+                                            <IconComponent className={`text-base md:text-lg group-hover:scale-110 transition-transform ${activePage === item.name ? 'filter drop-shadow-sm' : ''}`} />
                                             <span className="font-medium flex-1 text-left text-sm md:text-base">{item.name}</span>
                                             {item.badge && (
                                                 <span className="bg-red-500 text-white text-xs rounded-full px-1.5 md:px-2 py-0.5 md:py-1 min-w-[18px] md:min-w-[20px] text-center shadow-sm">
                                                     {item.badge}
                                                 </span>
                                             )}
-                                            {item.active && (
+                                            {activePage === item.name && (
                                                 <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full animate-pulse shadow-sm"></div>
                                             )}
                                         </button>
+
                                     </li>
                                 );
                             })}
@@ -309,192 +221,17 @@ const Dashboard = () => {
                             <FiMenu className="text-lg md:text-xl" />
                         </button>
 
-                        {/* Header */}
-                        <header className="bg-white/95 backdrop-blur-md rounded-xl lg:rounded-2xl p-4 md:p-5 lg:p-6 mb-6 md:mb-8 border border-gray-200 shadow-lg">
-                            <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
-                                <div className="pt-12 lg:pt-0">
-                                    <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-1 md:mb-2">
-                                        <span className="bg-gradient-to-r from-gray-800 to-cyan-600 bg-clip-text text-transparent">
-                                            Welcome back, Alex!
-                                        </span>
-                                        <span className="text-lg md:text-xl lg:text-2xl ml-2">👋</span>
-                                    </h2>
-                                    <p className="text-gray-600 text-sm md:text-base lg:text-lg">
-                                        Here's what's happening with your business today.
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-2 md:gap-4">
-                                    {/* Notifications */}
-                                    <button
-                                        onClick={() => setNotifications(0)}
-                                        className="relative p-2.5 md:p-3 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg lg:rounded-xl border border-gray-200 hover:from-cyan-100 hover:to-blue-100 transition-all duration-300 group hover:scale-105 touch-manipulation"
-                                    >
-                                        <FiBell className="text-lg md:text-xl text-gray-600" />
-                                        {notifications > 0 && (
-                                            <div className="absolute -top-1 -right-1 w-4 h-4 md:w-5 md:h-5 bg-gradient-to-r from-red-500 to-red-400 rounded-full flex items-center justify-center text-xs text-white font-bold animate-pulse shadow-lg">
-                                                {notifications}
-                                            </div>
-                                        )}
-                                    </button>
-
-                                    {/* Search Toggle for Mobile */}
-                                    <button
-                                        onClick={() => setSearchOpen(!searchOpen)}
-                                        className="md:hidden p-2.5 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg border border-gray-200 hover:from-cyan-100 hover:to-blue-100 transition-all duration-300 touch-manipulation"
-                                    >
-                                        <FiSearch className="text-lg text-gray-600" />
-                                    </button>
-
-                                    {/* Search - Desktop */}
-                                    <div className="hidden md:block relative">
-                                        <input
-                                            type="text"
-                                            placeholder="Search..."
-                                            className="pl-10 pr-4 py-2.5 lg:py-3 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg lg:rounded-xl border border-gray-200 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-300 w-48 lg:w-64 hover:shadow-md"
-                                        />
-                                        <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Mobile Search */}
-                            {searchOpen && (
-                                <div className="md:hidden mt-4 relative">
-                                    <input
-                                        type="text"
-                                        placeholder="Search..."
-                                        className="w-full pl-10 pr-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg border border-gray-200 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-300"
-                                        autoFocus
-                                    />
-                                    <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                                </div>
-                            )}
-                        </header>
-
-                        {/* Stats Grid */}
-                        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
-                            {stats.map((stat) => (
-                                <StatCard key={stat.title} stat={stat} />
-                            ))}
-                        </section>
-
-                        {/* Charts and Activity */}
-                        <section className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
-                            {/* Revenue Chart */}
-                            <div className="xl:col-span-2 bg-white rounded-xl lg:rounded-2xl p-4 md:p-5 lg:p-6 border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 md:mb-6 gap-3 md:gap-4">
-                                    <div>
-                                        <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-1">Revenue Analytics</h3>
-                                        <p className="text-gray-600 text-xs md:text-sm">Monthly revenue breakdown</p>
-                                    </div>
-                                    <div className="flex gap-1 md:gap-2">
-                                        {['7D', '30D', '3M'].map((period) => (
-                                            <button
-                                                key={period}
-                                                onClick={() => setSelectedPeriod(period)}
-                                                className={`px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all duration-300 touch-manipulation ${selectedPeriod === period
-                                                        ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
-                                                        : 'bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-600 hover:from-cyan-100 hover:to-blue-100'
-                                                    }`}
-                                            >
-                                                {period}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div className="h-64 md:h-72 lg:h-80">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <AreaChart data={revenueData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                                            <defs>
-                                                <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
-                                                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
-                                                </linearGradient>
-                                            </defs>
-                                            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                            <XAxis
-                                                dataKey="name"
-                                                stroke="#6b7280"
-                                                fontSize={window.innerWidth < 768 ? 10 : 12}
-                                                fontWeight={500}
-                                            />
-                                            <YAxis
-                                                stroke="#6b7280"
-                                                fontSize={window.innerWidth < 768 ? 10 : 12}
-                                                fontWeight={500}
-                                                width={window.innerWidth < 768 ? 40 : 60}
-                                            />
-                                            <Tooltip
-                                                contentStyle={{
-                                                    backgroundColor: 'white',
-                                                    border: '1px solid #e5e7eb',
-                                                    borderRadius: '12px',
-                                                    color: '#374151',
-                                                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                                                    fontSize: window.innerWidth < 768 ? '12px' : '14px'
-                                                }}
-                                            />
-                                            <Area
-                                                type="monotone"
-                                                dataKey="value"
-                                                stroke="url(#gradient)"
-                                                strokeWidth={2}
-                                                fillOpacity={1}
-                                                fill="url(#colorRevenue)"
-                                            />
-                                            <defs>
-                                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                    <stop offset="0%" stopColor="#06b6d4" />
-                                                    <stop offset="100%" stopColor="#3b82f6" />
-                                                </linearGradient>
-                                            </defs>
-                                        </AreaChart>
-                                    </ResponsiveContainer>
-                                </div>
-                            </div>
-
-                            {/* Recent Activity */}
-                            <div className="bg-white rounded-xl lg:rounded-2xl p-4 md:p-5 lg:p-6 border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                                <div className="flex justify-between items-center mb-4 md:mb-6">
-                                    <div>
-                                        <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-1">Recent Activity</h3>
-                                        <p className="text-gray-600 text-xs md:text-sm">Latest updates</p>
-                                    </div>
-                                    <button className="text-cyan-500 hover:text-cyan-600 text-xs md:text-sm transition-colors duration-300 font-medium touch-manipulation">
-                                        View All
-                                    </button>
-                                </div>
-                                <div className="space-y-1 md:space-y-2 max-h-64 md:max-h-72 lg:max-h-80 overflow-y-auto">
-                                    {activities.map((activity) => (
-                                        <ActivityItem key={activity.id} activity={activity} />
-                                    ))}
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* Quick Actions */}
-                        <section className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                            {[
-                                { icon: FiFileText, title: 'Create Report' },
-                                { icon: FiMail, title: 'Send Campaign' },
-                                { icon: FiTarget, title: 'Set Goals' },
-                                { icon: FiZap, title: 'Quick Actions' }
-                            ].map((action) => {
-                                const IconComponent = action.icon;
-                                return (
-                                    <button
-                                        key={action.title}
-                                        className="bg-white rounded-lg lg:rounded-xl p-3 md:p-4 border border-gray-100 hover:border-cyan-200 transition-all duration-300 hover:scale-[1.02] lg:hover:scale-105 hover:shadow-xl group touch-manipulation"
-                                    >
-                                        <div className="text-xl md:text-2xl mb-1 md:mb-2 group-hover:scale-110 transition-transform filter group-hover:drop-shadow-sm">
-                                            <IconComponent className="text-gray-600 group-hover:text-cyan-600 transition-colors duration-300 mx-auto" />
-                                        </div>
-                                        <p className="text-gray-700 font-medium text-xs md:text-sm group-hover:text-cyan-600 transition-colors duration-300 text-center">{action.title}</p>
-                                    </button>
-                                );
-                            })}
-                        </section>
+                        {/* Conditional Rendering */}
+                        {activePage === 'Add List' && <AddList></AddList>}
+                        {activePage === 'Deposit' && <Deposit></Deposit>}
+                        {activePage === 'Job Task' && <JobTask></JobTask>}
+                        {activePage === 'My Jobs' && <MyJobList></MyJobList>}
+                        {activePage === 'Withdraw' && <WithDrawForm></WithDrawForm>}
+                        {activePage === 'Settings' && (
+                            <div className="text-xl font-semibold text-gray-700">Settings Page</div>
+                        )}
                     </main>
+
                 </div>
             </div>
 

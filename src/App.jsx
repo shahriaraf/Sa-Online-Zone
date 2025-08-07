@@ -6,6 +6,7 @@ import About from './About/About';
 import Footer from './Footer/Footer';
 import Dashboard from './DashBoard/DashBoard';
 import SignUp from './Authentication/SignUp';
+import Blog from './Blogs/Blog';
 
 function AppWrapper() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function AppWrapper() {
         <Route path="/about-us" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/sign-in" element={<SignUp />} />
+        <Route path="/blog" element={<Blog></Blog>} />
       </Routes>
       
       {/* Show Footer based on current route config */}
