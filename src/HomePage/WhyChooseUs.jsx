@@ -1,80 +1,50 @@
-import React from 'react';
-import { FiCheckCircle, FiShield, FiZap, FiPieChart, FiClock, FiUsers } from 'react-icons/fi';
+import React from "react";
+import { BsBoxArrowInUpRight } from "react-icons/bs";
+import img_1 from "../../public/01_about.jpg";
 
 const WhyChooseUs = () => {
-  const features = [
-    {
-      icon: <FiZap className="w-8 h-8 text-cyan-500" />,
-      title: "Lightning-Fast Matching",
-      description: "Our AI connects you with perfect freelancers or jobs in under 60 seconds"
-    },
-    {
-      icon: <FiShield className="w-8 h-8 text-blue-500" />,
-      title: "Secure Payments",
-      description: "Escrow protection ensures you only pay for approved work"
-    },
-    {
-      icon: <FiPieChart className="w-8 h-8 text-cyan-500" />,
-      title: "Cost-Effective",
-      description: "Save up to 70% compared to traditional agencies"
-    },
-    {
-      icon: <FiClock className="w-8 h-8 text-blue-500" />,
-      title: "24/7 Availability",
-      description: "Global talent pool working across all time zones"
-    },
-    {
-      icon: <FiUsers className="w-8 h-8 text-cyan-500" />,
-      title: "Curated Talent",
-      description: "Only 18% of applicants pass our rigorous screening"
-    },
-    {
-      icon: <FiCheckCircle className="w-8 h-8 text-blue-500" />,
-      title: "Satisfaction Guarantee",
-      description: "Free revisions until you're 100% satisfied"
-    }
-  ];
-
   return (
-    <div className="bg-white py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-blue-600 mb-4">Why Choose the Leading Micro-Job Marketplace</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We're revolutionizing how small tasks get done - combining speed, quality and affordability like no other platform
+    <div className="w-full bg-blue-50 pt-30 pb-80 md:pb-30 px-4">
+      <div className="max-w-6xl mx-auto flex flex-col-reverse md:flex-row  gap-12 lg:gap-28">
+
+            {/* Image Section */}
+        <div className="relative w-full ">
+          {/* Top Image */}
+          <img
+            src={img_1}
+            alt="About Us"
+            className="w-[300px] lg:w-full h-[300px] object-cover absolute top-2 left-4 sm:left-6 z-20 rounded-md shadow-md"
+          />
+
+          {/* Background Card - Gray */}
+          <div className="w-full h-[300px] bg-[#F1F1F1] absolute top-6 left-2 sm:left-4 z-10 rounded-md"></div>
+
+          {/* Background Card - Blue */}
+          <div className="w-full h-[300px] bg-blue-400 absolute top-12 left-0 z-0 rounded-md"></div>
+        </div>
+
+        {/* Content Section */}
+        <div className="w-full space-y-5 text-center md:text-left px-2 sm:px-4">
+          <h4 className="text-sm sm:text-base md:text-lg font-bold uppercase tracking-widest text-blue-400">
+            Who We Are
+          </h4>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
+            PROVIDE AWESOME AND BEST BUSINESS SOLUTIONS
+          </h2>
+          <p className="text-gray-600 leading-relaxed border-l-4 border-blue-400 pl-4 my-6">
+            We specialize in providing creative and cost-effective business solutions tailored to your unique needs. Whether you’re a startup or an established enterprise, our strategies help you drive growth, increase efficiency, and stay ahead in your industry.
           </p>
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-800 font-semibold uppercase text-sm sm:text-base transition-colors duration-300"
+          >
+            <BsBoxArrowInUpRight className="text-base sm:text-lg" />
+            Read More
+          </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {features.map((feature, index) => (
-            <div key={index} className="bg-blue-50 rounded-xl p-8 hover:bg-gradient-to-br from-blue-50 to-cyan-50 transition-all duration-300 group">
-              <div className="bg-white p-3 rounded-full w-14 h-14 flex items-center justify-center shadow-sm group-hover:shadow-md mb-6 transition-shadow">
-                {feature.icon}
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </div>
-          ))}
-        </div>
+    
 
-        <div className="mt-16 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl p-8 text-white">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="mb-6 md:mb-0">
-                <h3 className="text-2xl font-bold mb-2">Ready to experience the difference?</h3>
-                <p className="text-blue-100">Join thousands of businesses and professionals getting more done</p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-white text-blue-600 font-bold py-3 px-6 rounded-full hover:bg-blue-50 transition-all shadow-lg">
-                  Post a Job - It's Free
-                </button>
-                <button className="bg-transparent border-2 border-white text-white font-bold py-3 px-6 rounded-full hover:bg-white hover:bg-opacity-10 transition-all">
-                  Browse Talent
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

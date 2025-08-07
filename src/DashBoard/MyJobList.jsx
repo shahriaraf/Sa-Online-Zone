@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import jobTask from '../../public/Job-Task.json';
+import React, { useEffect, useState } from "react";
+import jobTask from "../../public/Job-Task.json";
 
 const MyJobList = () => {
   const [applications, setApplications] = useState([]);
@@ -7,27 +7,27 @@ const MyJobList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = jobTask;
-      setTimeout(() => setApplications(data), 1000); // simulate loading delay
+      setTimeout(() => setApplications(data), 1000); // simulate 1s delay
     };
     fetchData();
   }, []);
 
   return (
-    <div className="p-4 w-fit  bg-white sm:p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8 w-full max-w-7xl mx-auto">
       <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800">
-        My Job Applications
+        Job Applications
       </h2>
 
       <div className="overflow-x-auto rounded-xl shadow-sm border border-gray-200">
         <table className="min-w-full divide-y divide-gray-200 text-sm text-left">
-          <thead className="text-slate-900">
+          <thead className="bg-gray-100 text-slate-900">
             <tr>
-              <th className="px-4 py-3">#</th>
-              <th className="px-4 py-3">Title</th>
-              <th className="px-4 py-3">Company</th>
-              <th className="px-4 py-3">Location</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Applied Date</th>
+              <th className="px-4 py-3 whitespace-nowrap">#</th>
+              <th className="px-4 py-3 whitespace-nowrap">Title</th>
+              <th className="px-4 py-3 whitespace-nowrap">Company</th>
+              <th className="px-4 py-3 whitespace-nowrap">Location</th>
+              <th className="px-4 py-3 whitespace-nowrap">Status</th>
+              <th className="px-4 py-3 whitespace-nowrap">Applied Date</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -42,31 +42,33 @@ const MyJobList = () => {
                 <tr
                   key={app.id}
                   className={`${
-                    index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
-                  } hover:bg-gray-300 text-slate-900 hover:text-slate-900 transition-colors`}
+                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                  } hover:bg-gray-200 transition-colors text-slate-900`}
                 >
                   <td className="px-4 py-3 text-center">{index + 1}</td>
-                  <td className="px-4 py-3">{app.title}</td>
-                  <td className="px-4 py-3">{app.company}</td>
-                  <td className="px-4 py-3">{app.location}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{app.title}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{app.company}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{app.location}</td>
                   <td className="px-4 py-3">
                     <span
                       className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${
-                        app.status === 'Pending'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : app.status === 'Interview Scheduled'
-                          ? 'bg-blue-100 text-blue-800'
-                          : app.status === 'Rejected'
-                          ? 'bg-red-100 text-red-800'
-                          : app.status === 'Shortlisted'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-gray-100 text-gray-700'
+                        app.status === "Pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : app.status === "Interview Scheduled"
+                          ? "bg-blue-100 text-blue-800"
+                          : app.status === "Rejected"
+                          ? "bg-red-100 text-red-800"
+                          : app.status === "Shortlisted"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-gray-100 text-gray-700"
                       }`}
                     >
                       {app.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3">{app.appliedDate}</td>
+                  <td className="px-4 py-3 text-gray-900 whitespace-nowrap">
+                    {app.appliedDate}
+                  </td>
                 </tr>
               ))
             )}

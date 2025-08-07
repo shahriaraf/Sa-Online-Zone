@@ -15,7 +15,7 @@ const AddList = () => {
 
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold text-blue-600 mb-2">📢 Advertisement List</h2>
+          <h2 className="text-4xl font-bold text-blue-500 mb-2">📢 Advertisement List</h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
         </div>
 
@@ -24,7 +24,7 @@ const AddList = () => {
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm text-black">
               <thead>
-                <tr className="bg-blue-600 text-white">
+                <tr className="bg-blue-500 text-white">
                   <th className="py-4 px-6 font-semibold border-r border-blue-500">#</th>
                   <th className="py-4 px-6 font-semibold border-r border-blue-500">Name</th>
                   <th className="py-4 px-6 font-semibold border-r border-blue-500">Email</th>

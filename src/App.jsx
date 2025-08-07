@@ -7,6 +7,7 @@ import Footer from './Footer/Footer';
 import Dashboard from './DashBoard/DashBoard';
 import SignUp from './Authentication/SignUp';
 import Blog from './Blogs/Blog';
+import { PostJobProvider } from './Context/PostJobProvider';
 
 function AppWrapper() {
   const location = useLocation();
@@ -43,7 +44,9 @@ function AppWrapper() {
 function App() {
   return (
     <BrowserRouter>
-      <AppWrapper />
+    <PostJobProvider>
+         <AppWrapper />
+    </PostJobProvider>
     </BrowserRouter>
   );
 }

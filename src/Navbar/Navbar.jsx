@@ -22,60 +22,60 @@ const Navbar = () => {
 
     const navLink = (
         <>
-            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
                 <NavLink
                     to="/"
                     className={({ isActive }) =>
-                        `relative hover:text-cyan-500 transition-all duration-300 ${isActive ? 'text-cyan-500' : ''
-                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
+                        `relative hover:text-blue-500 transition-all duration-300 ${isActive ? 'text-blue-500' : ''
+                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
                         }`
                     }
                 >
                     Home
                 </NavLink>
             </li>
-            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
                 <NavLink
                     to="/about-us"
                     className={({ isActive }) =>
-                        `relative hover:text-cyan-500 transition-all duration-300 ${isActive ? 'text-cyan-500' : ''
-                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
+                        `relative hover:text-blue-500 transition-all duration-300 ${isActive ? 'text-blue-500' : ''
+                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
                         }`
                     }
                 >
                     About us
                 </NavLink>
             </li>
-            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
                 <NavLink
                     to="/blog"
                     className={({ isActive }) =>
-                        `relative hover:text-cyan-500 transition-all duration-300 ${isActive ? 'text-cyan-500' : ''
-                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
+                        `relative hover:text-blue-500 transition-all duration-300 ${isActive ? 'text-blue-500' : ''
+                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
                         }`
                     }
                 >
                     Blog
                 </NavLink>
             </li>
-            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
                 <NavLink
                     to="/contact"
                     className={({ isActive }) =>
-                        `relative hover:text-cyan-500 transition-all duration-300 ${isActive ? 'text-cyan-500' : ''
-                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
+                        `relative hover:text-blue-500 transition-all duration-300 ${isActive ? 'text-blue-500' : ''
+                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
                         }`
                     }
                 >
                     Contact
                 </NavLink>
             </li>
-            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-cyan-500'>
+            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
                 <NavLink
                     to="/dashboard"
                     className={({ isActive }) =>
-                        `relative hover:text-cyan-500 transition-all duration-300 ${isActive ? 'text-cyan-500' : ''
-                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-cyan-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
+                        `relative hover:text-blue-500 transition-all duration-300 ${isActive ? 'text-blue-500' : ''
+                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
                         }`
                     }
                 >
@@ -89,8 +89,8 @@ const Navbar = () => {
 
     return (
         <div className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled
-                ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100'
-                : 'bg-blue-50 backdrop-blur-sm'
+                ? ' backdrop-blur-md shadow-lg border-b border-gray-100'
+                : 'bg-transparent '
             }`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between py-3 relative">
@@ -105,8 +105,8 @@ const Navbar = () => {
                             />
                         </div>
                         <div className="flex flex-col">
-                            <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-800 to-cyan-600 bg-clip-text text-transparent">
-                                Saonline <span className="text-cyan-500">Zone</span>
+                            <h2 className="text-xl sm:text-2xl font-bold text-cyan-500">
+                                Saonline <span className="text-[#A62783]">Zone</span>
                             </h2>
                             <div className="h-0.5 w-0 bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-500 group-hover:w-full"></div>
                         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { FaWallet, FaArrowDown, FaMoneyBillWave } from 'react-icons/fa';
 
-const Deposit = () => {
+const DepositSection = () => {
   const [paymentMethod, setPaymentMethod] = useState('bkash');
   const [amount, setAmount] = useState('');
   const [transactionId, setTransactionId] = useState('');
@@ -10,7 +11,6 @@ const Deposit = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const depositAmount = parseFloat(amount);
 
     if (!amount || isNaN(depositAmount) || depositAmount <= 0 || !transactionId) {
@@ -29,44 +29,44 @@ const Deposit = () => {
   };
 
   return (
-    <div className="w-full lg:w-fit mx-auto mt-8 p-6 rounded-xl bg-gradient-to-r from-blue-700 to-sky-500 text-white shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">Deposit Funds</h2>
+    <div className="w-full max-w-3xl mx-auto mt-10 p-6 rounded-2xl bg-white text-gray-800 shadow-2xl">
+      <h2 className="text-3xl font-bold text-center mb-10">💳 Deposit Funds</h2>
 
-      {/* Summary */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 text-center">
-        <div className="bg-white/20 rounded-lg p-4">
+      {/* Summary Boxes */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-500 text-white p-5 rounded-xl flex flex-col items-center shadow-lg">
+          <FaWallet className="text-3xl mb-2" />
           <p className="text-sm">Current Balance</p>
-          <h3 className="text-lg font-bold">{currentBalance} ৳</h3>
+          <h3 className="text-xl font-bold">{currentBalance} ৳</h3>
         </div>
-        <div className="bg-white/20 rounded-lg p-4">
+        <div className="bg-gradient-to-r from-pink-600 to-rose-400 text-white p-5 rounded-xl flex flex-col items-center shadow-lg">
+          <FaArrowDown className="text-3xl mb-2" />
           <p className="text-sm">Last Deposit</p>
-          <h3 className="text-lg font-bold">{lastDeposit} ৳</h3>
+          <h3 className="text-xl font-bold">{lastDeposit} ৳</h3>
         </div>
-        <div className="bg-white/20 rounded-lg p-4">
+        <div className="bg-gradient-to-r from-green-600 to-emerald-400 text-white p-5 rounded-xl flex flex-col items-center shadow-lg">
+          <FaMoneyBillWave className="text-3xl mb-2" />
           <p className="text-sm">Total Deposited</p>
-          <h3 className="text-lg font-bold">{totalDeposited} ৳</h3>
+          <h3 className="text-xl font-bold">{totalDeposited} ৳</h3>
         </div>
       </div>
 
       {/* Deposit Form */}
-      <form onSubmit={handleSubmit} className="space-y-4 bg-white/10 backdrop-blur rounded-lg p-6">
+      <form onSubmit={handleSubmit} className="space-y-6 p-6 rounded-xl border border-gray-200 bg-gray-50">
         {/* Payment Method */}
         <div>
           <label className="block text-sm font-medium mb-1">Payment Method</label>
-        
-
-                <select
-            name="method"
+          <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
-            className="w-full rounded-md px-3 py-2  hover:text-slate-900 border border-white/30 bg-transparent focus:outline-none focus:ring-2 focus:ring-white"
+            className="w-full rounded-lg border border-gray-300 bg-white text-gray-800 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           >
-            <option className=" text-slate-950" value="">Select a method</option>
-            <option className=" text-slate-950" value="bkash">bKash</option>
-            <option className=" text-slate-950" value="nagad">Nagad</option>
-            <option className=" text-slate-950" value="rocket">Rocket</option>
-            <option className=" text-slate-950" value="bank">Bank Transfer</option>
+            <option value="" disabled>Select a method</option>
+            <option value="bkash">bKash</option>
+            <option value="nagad">Nagad</option>
+            <option value="rocket">Rocket</option>
+            <option value="bank">Bank Transfer</option>
           </select>
         </div>
 
@@ -78,26 +78,26 @@ const Deposit = () => {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="e.g. 1000"
-            className="w-full border border-amber-50 rounded-md px-3 py-2 text-white"
+            className="w-full rounded-lg border border-gray-300 bg-white text-gray-800 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             min="1"
           />
         </div>
 
         {/* Transaction ID */}
         <div>
-          <label className="block text-sm font-medium  mb-1">Transaction ID</label>
+          <label className="block text-sm font-medium mb-1">Transaction ID</label>
           <input
             type="text"
             value={transactionId}
             onChange={(e) => setTransactionId(e.target.value)}
             placeholder="e.g. TX123456789"
-            className="w-full rounded-md px-3 py-2 text-white"
+            className="w-full rounded-lg border border-gray-300 bg-white text-gray-800 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-white text-blue-700 font-semibold py-2 rounded-md hover:bg-gray-100 transition"
+          className="w-full py-2 px-4 rounded-lg bg-gradient-to-r from-blue-700 to-sky-500 hover:opacity-90 text-white font-bold transition duration-300"
         >
           Submit Deposit
         </button>
@@ -106,4 +106,4 @@ const Deposit = () => {
   );
 };
 
-export default Deposit;
+export default DepositSection;

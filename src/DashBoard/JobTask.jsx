@@ -13,27 +13,27 @@ const JobTask = () => {
   }, []);
 
   return (
-    <div className="p-4 w-fit   bg-white  sm:p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8 w-full max-w-7xl mx-auto">
       <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800">
         Job Applications
       </h2>
 
       <div className="overflow-x-auto rounded-xl shadow-sm border border-gray-200">
         <table className="min-w-full divide-y divide-gray-200 text-sm text-left">
-          <thead className=" text-slate-900">
+          <thead className="bg-gray-100 text-slate-900">
             <tr>
-              <th className="px-4 py-3">#</th>
-              <th className="px-4 py-3">Title</th>
-              <th className="px-4 py-3">Company</th>
-              <th className="px-4 py-3">Location</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Applied Date</th>
+              <th className="px-4 py-3 whitespace-nowrap">#</th>
+              <th className="px-4 py-3 whitespace-nowrap">Title</th>
+              <th className="px-4 py-3 whitespace-nowrap">Company</th>
+              <th className="px-4 py-3 whitespace-nowrap">Location</th>
+              <th className="px-4 py-3 whitespace-nowrap">Status</th>
+              <th className="px-4 py-3 whitespace-nowrap">Applied Date</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 ">
+          <tbody className="divide-y divide-gray-100">
             {applications.length === 0 ? (
               <tr>
-                <td colSpan="6" className="text-center px-4 py-6 text-white">
+                <td colSpan="6" className="text-center px-4 py-6 text-gray-500">
                   Loading...
                 </td>
               </tr>
@@ -42,14 +42,13 @@ const JobTask = () => {
                 <tr
                   key={app.id}
                   className={`${
-                    index % 2 === 0 ? "bg-gray-200" : "bg-white"
-                  } hover:bg-gray-300 text-slate-900 hover:text-slate-900 transition-colors`}
+                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                  } hover:bg-gray-200 transition-colors text-slate-900`}
                 >
-                  {" "}
-                  <td className="px-4 py-3 text-center ">{index + 1}</td>
-                  <td className="px-4 py-3">{app.title}</td>
-                  <td className="px-4 py-3">{app.company}</td>
-                  <td className="px-4 py-3">{app.location}</td>
+                  <td className="px-4 py-3 text-center">{index + 1}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{app.title}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{app.company}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">{app.location}</td>
                   <td className="px-4 py-3">
                     <span
                       className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${
@@ -67,7 +66,9 @@ const JobTask = () => {
                       {app.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-gray-900">{app.appliedDate}</td>
+                  <td className="px-4 py-3 text-gray-900 whitespace-nowrap">
+                    {app.appliedDate}
+                  </td>
                 </tr>
               ))
             )}
