@@ -8,7 +8,7 @@ const FindJobs = () => {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const res = await axios.get('/public/AllJobs.json');
+                const res = await axios.get('/AllJobs.json');
                 setJobs(res.data);
             } catch (error) {
                 console.error(error);
