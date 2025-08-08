@@ -9,6 +9,7 @@ import {
   Save,
   Lightbulb
 } from 'lucide-react';
+import Headline from '../HeadLine/Headline';
 
 const Settings = () => {
   // State management for settings
@@ -104,6 +105,7 @@ const Settings = () => {
         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900' 
         : 'bg-gradient-to-br from-blue-50 via-white to-blue-50'
     }`}>
+      <Headline className='mb-10'  headlines={["Welcome to our amazing platform!"]} ></Headline>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         
         {/* Header */}

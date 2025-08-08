@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaWallet, FaArrowUp, FaMoneyCheckAlt } from 'react-icons/fa';
+import Headline from '../HeadLine/Headline';
 
 const WithDrawForm = () => {
   const [paymentMethod, setPaymentMethod] = useState('bkash');
@@ -72,6 +73,7 @@ const WithDrawForm = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto mt-10 p-6 rounded-2xl bg-white text-gray-800 shadow-2xl">
+      <Headline className='mb-10'  headlines={["Welcome to our amazing platform!"]} ></Headline>
       <h2 className="text-3xl font-bold text-center mb-10">💸 Withdraw Funds</h2>
 
       {/* Summary Boxes */}

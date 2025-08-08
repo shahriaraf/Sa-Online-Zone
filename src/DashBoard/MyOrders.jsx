@@ -16,6 +16,7 @@ import {
   Calendar,
   Activity
 } from 'lucide-react';
+import Headline from '../HeadLine/Headline';
 
 const MyOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -200,6 +201,7 @@ const MyOrders = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-4 sm:py-8">
+      <Headline className='mb-10'  headlines={["Welcome to our amazing platform!"]} ></Headline>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}

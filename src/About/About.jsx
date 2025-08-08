@@ -41,7 +41,7 @@ const About = () => {
   ];
 
   return (
-    <section className="relative bg-blue-50 pt-30 pb-60 px-4 md:px-20 overflow-hidden">
+    <section className="relative bg-blue-50 pt-30 pb-60 px-4 md:px-36 overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <div className="absolute top-20 left-10 w-32 h-32 bg-cyan-400 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-400 rounded-full blur-3xl animate-pulse delay-1000"></div>

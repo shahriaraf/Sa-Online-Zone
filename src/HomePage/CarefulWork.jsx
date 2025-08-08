@@ -11,7 +11,7 @@ const items = [
 
 const CarefulWork = () => {
   return (
-    <div className="py-16 px-4 bg-blue-50">
+    <div className="py-16 bg-blue-50">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
