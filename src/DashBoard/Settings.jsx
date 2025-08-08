@@ -7,7 +7,6 @@ import {
   Globe,
   DollarSign,
   Save,
-  LogOut,
   Lightbulb
 } from 'lucide-react';
 
@@ -16,7 +15,6 @@ const Settings = () => {
   const [theme, setTheme] = useState('light');
   const [language, setLanguage] = useState('en');
   const [currency, setCurrency] = useState('USD');
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   // Available options
@@ -96,21 +94,6 @@ const Settings = () => {
     alert('Settings saved successfully!');
   };
 
-  // Handle logout
-  const handleLogout = () => {
-    // Clear user data and redirect to login
-    localStorage.clear();
-    sessionStorage.clear();
-    
-    // Simulate logout process
-    setTimeout(() => {
-      alert('You have been logged out successfully!');
-      setShowLogoutModal(false);
-      // In a real app, you would redirect to login page
-      // window.location.href = '/login';
-    }, 500);
-  };
-
   // Get current language and currency objects
   const currentLanguage = languages.find(lang => lang.code === language);
   const currentCurrency = currencies.find(curr => curr.code === currency);
@@ -121,23 +104,23 @@ const Settings = () => {
         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900' 
         : 'bg-gradient-to-br from-blue-50 via-white to-blue-50'
     }`}>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 ${
+        <div className="text-center mb-6 sm:mb-8">
+          <div className={`inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full mb-4 sm:mb-6 ${
             theme === 'dark'
               ? 'bg-gradient-to-r from-indigo-600 to-blue-700'
               : 'bg-gradient-to-r from-indigo-500 to-blue-600'
           }`}>
-            <SettingsIcon className="w-10 h-10 text-white" />
+            <SettingsIcon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
           </div>
-          <h1 className={`text-5xl font-bold mb-4 ${
+          <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4 ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>
             Settings
           </h1>
-          <p className={`text-xl max-w-2xl mx-auto ${
+          <p className={`text-base sm:text-lg lg:text-xl max-w-2xl mx-auto px-4 ${
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           }`}>
             Customize your experience and manage your account preferences
@@ -145,35 +128,35 @@ const Settings = () => {
         </div>
 
         {/* Settings Card */}
-        <div className={`rounded-3xl shadow-xl border overflow-hidden ${
+        <div className={`rounded-2xl sm:rounded-3xl shadow-xl border overflow-hidden ${
           theme === 'dark'
             ? 'bg-gray-800 border-gray-700'
             : 'bg-white border-gray-100'
         }`}>
           
           {/* Card Header */}
-          <div className="bg-gradient-to-r from-indigo-500 to-blue-600 px-8 py-6">
-            <h2 className="text-2xl font-bold text-white">Account Settings</h2>
-            <p className="text-indigo-100 mt-1">Manage your preferences and account settings</p>
+          <div className="bg-gradient-to-r from-indigo-500 to-blue-600 px-4 sm:px-8 py-4 sm:py-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">Account Settings</h2>
+            <p className="text-indigo-100 mt-1 text-sm sm:text-base">Manage your preferences and account settings</p>
           </div>
 
-          <div className="p-8 space-y-8">
+          <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
             
             {/* Theme Settings */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 mb-4">
-                <Palette className="w-6 h-6 text-blue-600" />
-                <h3 className={`text-xl font-semibold ${
+                <Palette className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                <h3 className={`text-lg sm:text-xl font-semibold ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
                   Appearance
                 </h3>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <button
                   onClick={() => handleThemeChange('light')}
-                  className={`p-6 rounded-xl border-2 transition-all duration-200 ${
+                  className={`p-4 sm:p-6 rounded-xl border-2 transition-all duration-200 ${
                     theme === 'light'
                       ? 'border-indigo-500 bg-indigo-50'
                       : theme === 'dark'
@@ -182,16 +165,16 @@ const Settings = () => {
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-white rounded-full border border-gray-300 flex items-center justify-center">
-                      <Sun className="w-4 h-4 text-yellow-500" />
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full border border-gray-300 flex items-center justify-center">
+                      <Sun className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
                     </div>
                     <div className="text-left">
-                      <p className={`font-semibold ${
+                      <p className={`font-semibold text-sm sm:text-base ${
                         theme === 'dark' ? 'text-white' : 'text-gray-900'
                       }`}>
                         Light Mode
                       </p>
-                      <p className={`text-sm ${
+                      <p className={`text-xs sm:text-sm ${
                         theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
                       }`}>
                         Clean and bright interface
@@ -202,23 +185,23 @@ const Settings = () => {
 
                 <button
                   onClick={() => handleThemeChange('dark')}
-                  className={`p-6 rounded-xl border-2 transition-all duration-200 ${
+                  className={`p-4 sm:p-6 rounded-xl border-2 transition-all duration-200 ${
                     theme === 'dark'
                       ? 'border-indigo-500 bg-indigo-900'
                       : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-gray-800 rounded-full border border-gray-600 flex items-center justify-center">
-                      <Moon className="w-4 h-4 text-blue-400" />
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-800 rounded-full border border-gray-600 flex items-center justify-center">
+                      <Moon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
                     </div>
                     <div className="text-left">
-                      <p className={`font-semibold ${
+                      <p className={`font-semibold text-sm sm:text-base ${
                         theme === 'dark' ? 'text-white' : 'text-gray-900'
                       }`}>
                         Dark Mode
                       </p>
-                      <p className={`text-sm ${
+                      <p className={`text-xs sm:text-sm ${
                         theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
                       }`}>
                         Easy on the eyes
@@ -232,28 +215,28 @@ const Settings = () => {
             {/* Language Settings */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 mb-4">
-                <Globe className="w-6 h-6 text-blue-600" />
-                <h3 className={`text-xl font-semibold ${
+                <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                <h3 className={`text-lg sm:text-xl font-semibold ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
                   Language
                 </h3>
               </div>
               
-              <div className={`p-4 rounded-xl border ${
+              <div className={`p-3 sm:p-4 rounded-xl border ${
                 theme === 'dark'
                   ? 'border-gray-600 bg-gray-700'
                   : 'border-gray-300 bg-gray-50'
               }`}>
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`font-medium ${
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 space-y-2 sm:space-y-0">
+                  <span className={`font-medium text-sm sm:text-base ${
                     theme === 'dark' ? 'text-white' : 'text-gray-900'
                   }`}>
                     Current Language
                   </span>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xl">{currentLanguage?.flag}</span>
-                    <span className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                    <span className="text-lg sm:text-xl">{currentLanguage?.flag}</span>
+                    <span className={`text-sm sm:text-base ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                       {currentLanguage?.name}
                     </span>
                   </div>
@@ -262,7 +245,7 @@ const Settings = () => {
                 <select
                   value={language}
                   onChange={(e) => handleLanguageChange(e.target.value)}
-                  className={`w-full p-3 rounded-lg border transition-colors ${
+                  className={`w-full p-3 rounded-lg border transition-colors text-sm sm:text-base ${
                     theme === 'dark'
                       ? 'border-gray-600 bg-gray-800 text-white'
                       : 'border-gray-300 bg-white text-gray-900'
@@ -280,33 +263,33 @@ const Settings = () => {
             {/* Currency Settings */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 mb-4">
-                <DollarSign className="w-6 h-6 text-blue-600" />
-                <h3 className={`text-xl font-semibold ${
+                <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                <h3 className={`text-lg sm:text-xl font-semibold ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
                   Currency
                 </h3>
               </div>
               
-              <div className={`p-4 rounded-xl border ${
+              <div className={`p-3 sm:p-4 rounded-xl border ${
                 theme === 'dark'
                   ? 'border-gray-600 bg-gray-700'
                   : 'border-gray-300 bg-gray-50'
               }`}>
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`font-medium ${
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 space-y-2 sm:space-y-0">
+                  <span className={`font-medium text-sm sm:text-base ${
                     theme === 'dark' ? 'text-white' : 'text-gray-900'
                   }`}>
                     Current Currency
                   </span>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xl">{currentCurrency?.flag}</span>
-                    <span className={`font-bold ${
+                    <span className="text-lg sm:text-xl">{currentCurrency?.flag}</span>
+                    <span className={`font-bold text-sm sm:text-base ${
                       theme === 'dark' ? 'text-green-400' : 'text-green-600'
                     }`}>
                       {currentCurrency?.symbol}
                     </span>
-                    <span className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                    <span className={`text-sm sm:text-base ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                       {currentCurrency?.name}
                     </span>
                   </div>
@@ -315,7 +298,7 @@ const Settings = () => {
                 <select
                   value={currency}
                   onChange={(e) => handleCurrencyChange(e.target.value)}
-                  className={`w-full p-3 rounded-lg border transition-colors ${
+                  className={`w-full p-3 rounded-lg border transition-colors text-sm sm:text-base ${
                     theme === 'dark'
                       ? 'border-gray-600 bg-gray-800 text-white'
                       : 'border-gray-300 bg-white text-gray-900'
@@ -330,16 +313,16 @@ const Settings = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200 dark:border-gray-600">
+            {/* Save Button */}
+            <div className="pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-600">
               <button
                 onClick={handleSaveSettings}
                 disabled={isSaving}
-                className="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 sm:py-4 rounded-xl transition-all duration-200 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 {isSaving ? (
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     <span>Saving...</span>
                   </div>
                 ) : (
@@ -349,35 +332,25 @@ const Settings = () => {
                   </div>
                 )}
               </button>
-
-              <button
-                onClick={() => setShowLogoutModal(true)}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl transition-colors duration-200"
-              >
-                <div className="flex items-center justify-center space-x-2">
-                  <LogOut className="w-4 h-4" />
-                  <span>Log Out</span>
-                </div>
-              </button>
             </div>
           </div>
         </div>
 
         {/* Additional Settings Info */}
-        <div className={`mt-8 p-6 rounded-2xl ${
+        <div className={`mt-6 sm:mt-8 p-4 sm:p-6 rounded-xl sm:rounded-2xl ${
           theme === 'dark'
             ? 'bg-gray-800 border border-gray-700'
             : 'bg-blue-50 border border-blue-200'
         }`}>
           <div className="flex items-start space-x-3">
-            <Lightbulb className="w-6 h-6 text-blue-600 mt-1" />
+            <Lightbulb className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mt-1 flex-shrink-0" />
             <div>
-              <h4 className={`font-semibold mb-2 ${
+              <h4 className={`font-semibold mb-2 text-sm sm:text-base ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
                 Settings Information
               </h4>
-              <ul className={`space-y-1 text-sm ${
+              <ul className={`space-y-1 text-xs sm:text-sm ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
               }`}>
                 <li>• Theme settings are applied immediately and saved to your browser</li>
@@ -389,51 +362,6 @@ const Settings = () => {
           </div>
         </div>
       </div>
-
-      {/* Logout Confirmation Modal */}
-      {showLogoutModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className={`rounded-3xl shadow-2xl max-w-md w-full ${
-            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-          }`}>
-            <div className="bg-gradient-to-r from-red-500 to-red-600 px-8 py-6 rounded-t-3xl">
-              <h3 className="text-2xl font-bold text-white">Confirm Logout</h3>
-            </div>
-
-            <div className="p-8">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-                  <LogOut className="w-8 h-8 text-red-600" />
-                </div>
-                <p className={`text-lg ${
-                  theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-                }`}>
-                  Are you sure you want to log out? You will need to sign in again to access your account.
-                </p>
-              </div>
-
-              <div className="flex space-x-4">
-                <button
-                  onClick={() => setShowLogoutModal(false)}
-                  className={`flex-1 px-6 py-3 border rounded-xl font-medium transition-colors ${
-                    theme === 'dark'
-                      ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                      : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-colors"
-                >
-                  Log Out
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

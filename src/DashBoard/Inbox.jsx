@@ -9,7 +9,8 @@ import {
   X,
   DollarSign,
   Send,
-  Heart
+  Heart,
+  Calendar
 } from 'lucide-react';
 
 const Inbox = () => {
@@ -226,23 +227,62 @@ const Inbox = () => {
     return chats.reduce((total, chat) => total + chat.unreadCount, 0);
   };
 
+  // Mobile chat list item component
+  const ChatListItem = ({ chat }) => (
+    <div
+      onClick={() => handleChatSelect(chat)}
+      className="p-4 border-b border-gray-100 active:bg-gray-50 transition-colors"
+    >
+      <div className="flex items-start space-x-3">
+        <div className="relative flex-shrink-0">
+          <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl">
+            {chat.avatar}
+          </div>
+          {chat.isOnline && (
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+          )}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-gray-900 truncate flex items-center text-sm sm:text-base">
+              {chat.name}
+              {chat.isFavorite && <Star className="ml-1 w-3 h-3 text-yellow-500 fill-current flex-shrink-0" />}
+              {chat.isSupport && <Settings className="ml-1 w-3 h-3 text-blue-500 flex-shrink-0" />}
+            </h3>
+            <div className="flex items-center space-x-2 flex-shrink-0">
+              <span className="text-xs text-gray-500">
+                {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+              {chat.unreadCount > 0 && (
+                <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
+                  {chat.unreadCount}
+                </span>
+              )}
+            </div>
+          </div>
+          <p className="text-sm text-gray-600 truncate mt-1">{chat.lastMessage}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 lg:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         
         {/* Header - Hide on mobile when chat is selected */}
-        <div className={`text-center mb-6 lg:mb-8 ${!showChatList && 'hidden lg:block'}`}>
-          <div className="inline-flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-4 lg:mb-6">
-            <MessageCircle className="w-8 h-8 lg:w-10 lg:h-10 text-white" />
+        <div className={`text-center mb-6 sm:mb-8 ${!showChatList && 'hidden lg:block'}`}>
+          <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-4 sm:mb-6">
+            <MessageCircle className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
           </div>
-          <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-2 lg:mb-4">Inbox</h1>
-          <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 sm:mb-4">Inbox</h1>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Manage your conversations, support tickets, and business deals
           </p>
         </div>
 
         {/* Main Inbox Interface */}
-        <div className="bg-white rounded-2xl lg:rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
           
           {/* Mobile: Show either chat list or chat view */}
           <div className="lg:hidden">
@@ -251,7 +291,7 @@ const Inbox = () => {
               <div className="h-[calc(100vh-200px)] flex flex-col">
                 {/* Mobile Header */}
                 <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-4">
-                  <h2 className="text-lg font-bold text-white flex items-center justify-between">
+                  <h2 className="text-lg sm:text-xl font-bold text-white flex items-center justify-between">
                     <span>Messages</span>
                     <span className="bg-white bg-opacity-20 text-sm px-2 py-1 rounded-full">
                       {getUnreadCount()} unread
@@ -286,7 +326,7 @@ const Inbox = () => {
                       <button
                         key={tab.key}
                         onClick={() => setActiveTab(tab.key)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap flex items-center space-x-1 ${
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap flex items-center space-x-1 min-h-[44px] ${
                           activeTab === tab.key
                             ? 'bg-blue-100 text-blue-700'
                             : 'text-gray-600 hover:text-gray-800'
@@ -308,42 +348,7 @@ const Inbox = () => {
                     </div>
                   ) : (
                     filteredChats.map(chat => (
-                      <div
-                        key={chat.id}
-                        onClick={() => handleChatSelect(chat)}
-                        className="p-4 border-b border-gray-100 active:bg-gray-50 transition-colors"
-                      >
-                        <div className="flex items-start space-x-3">
-                          <div className="relative">
-                            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl">
-                              {chat.avatar}
-                            </div>
-                            {chat.isOnline && (
-                              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
-                            )}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <h3 className="font-semibold text-gray-900 truncate flex items-center">
-                                {chat.name}
-                                {chat.isFavorite && <Star className="ml-1 w-3 h-3 text-yellow-500 fill-current" />}
-                                {chat.isSupport && <Settings className="ml-1 w-3 h-3 text-blue-500" />}
-                              </h3>
-                              <div className="flex items-center space-x-2">
-                                <span className="text-xs text-gray-500">
-                                  {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </span>
-                                {chat.unreadCount > 0 && (
-                                  <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
-                                    {chat.unreadCount}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            <p className="text-sm text-gray-600 truncate mt-1">{chat.lastMessage}</p>
-                          </div>
-                        </div>
-                      </div>
+                      <ChatListItem key={chat.id} chat={chat} />
                     ))
                   )}
                 </div>
@@ -354,14 +359,14 @@ const Inbox = () => {
                 <div className="h-[calc(100vh-120px)] flex flex-col">
                   {/* Mobile Chat Header */}
                   <div className="bg-gray-50 px-4 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-3 flex-1 min-w-0">
                       <button
                         onClick={handleBackToList}
-                        className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+                        className="p-2 hover:bg-gray-200 rounded-lg transition-colors flex-shrink-0"
                       >
                         <ArrowLeft className="w-5 h-5" />
                       </button>
-                      <div className="relative">
+                      <div className="relative flex-shrink-0">
                         <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-lg">
                           {selectedChat.avatar}
                         </div>
@@ -369,14 +374,14 @@ const Inbox = () => {
                           <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                         )}
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 text-base">{selectedChat.name}</h3>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-base truncate">{selectedChat.name}</h3>
                         <p className="text-sm text-gray-500">
                           {selectedChat.isOnline ? 'Online' : 'Last seen recently'}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 flex-shrink-0">
                       <button
                         onClick={() => toggleFavorite(selectedChat.id)}
                         className={`p-2 rounded-lg transition-colors ${
@@ -660,10 +665,10 @@ const Inbox = () => {
       {/* Create Deal Modal - Mobile Responsive */}
       {showCreateDeal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl lg:rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="bg-gradient-to-r from-green-500 to-blue-600 px-4 lg:px-8 py-4 lg:py-6 rounded-t-2xl lg:rounded-t-3xl">
+          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-gradient-to-r from-green-500 to-blue-600 px-4 sm:px-8 py-4 sm:py-6 rounded-t-2xl sm:rounded-t-3xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-xl lg:text-2xl font-bold text-white">Create Deal Proposal</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-white">Create Deal Proposal</h3>
                 <button
                   onClick={() => setShowCreateDeal(false)}
                   className="text-white hover:text-gray-200 transition-colors p-1"
@@ -673,8 +678,8 @@ const Inbox = () => {
               </div>
             </div>
 
-            <div className="p-4 lg:p-8 space-y-4 lg:space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+            <div className="p-4 sm:p-8 space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">Deal Title *</label>
                   <input

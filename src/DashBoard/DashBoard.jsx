@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import {
     FiDollarSign,
     FiSettings,
@@ -14,13 +14,7 @@ import {
     FiUser,
 } from 'react-icons/fi';
 import logo from '../../public/Picsart_24-12-18_17-11-57-456.png';
-import AddList from './AddList';
-import Deposit from './Deposit';
-import JobTask from './JobTask';
-import MyJobList from './MyJobList';
 import WithDrawForm from './WithDrawForm';
-import FindJobs from './FindJobs';
-import PostJob from './PostJob';
 import AddFund from './AddFund';
 import BuySubscription from './BuySubscription';
 import ReferEarn from './ReferEarn';
@@ -31,7 +25,6 @@ import Inbox from './Inbox';
 import History from './History';
 import Settings from './Settings';
 import Overview from './Overview';
-import Profile from './Profile';
 import DashboardHome from './DashBoardHome';
 
 const Dashboard = () => {
@@ -65,6 +58,7 @@ const Dashboard = () => {
     }, [sidebarOpen, isMobile]);
 
   const navItems = [
+    { name: 'Dashboard', icon: FiBriefcase, badge: null }, // Add this as first item
     { name: 'Add Fund', icon: FiPlus, badge: null },
     { name: 'Buy Subscription', icon: FiCreditCard, badge: null },
     { name: 'Withdraw', icon: FiCreditCard, badge: null },
@@ -75,7 +69,6 @@ const Dashboard = () => {
     { name: 'Inbox', icon: FiMail, badge: null },
     { name: 'History', icon: FiFileText, badge: null },
     { name: 'Settings', icon: FiSettings, badge: null },
-    { name: 'Profile', icon: FiUser , badge: null },
     { name: 'Overview', icon: FiBriefcase, badge: null },
   
 ];
@@ -235,7 +228,6 @@ const Dashboard = () => {
                         {activePage === 'Inbox' && <Inbox></Inbox>}
                         {activePage === 'History' && <History></History>}
                         {activePage === 'Settings' && <Settings></Settings>}
-                        {activePage === 'Profile' && <Profile></Profile>}
                         {activePage === 'Overview' && <Overview></Overview>}
                        
                      

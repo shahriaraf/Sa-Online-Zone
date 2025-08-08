@@ -12,7 +12,9 @@ import {
   FileText,
   Phone,
   RefreshCw,
-  BarChart
+  BarChart,
+  Calendar,
+  Activity
 } from 'lucide-react';
 
 const MyOrders = () => {
@@ -138,7 +140,7 @@ const MyOrders = () => {
     };
     
     return (
-      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${statusStyles[status] || 'bg-gray-100 text-gray-800 border-gray-200'}`}>
+      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${statusStyles[status] || 'bg-gray-100 text-gray-800 border-gray-200'}`}>
         <span className="mr-1">{icons[status]}</span>
         {status}
       </span>
@@ -156,78 +158,133 @@ const MyOrders = () => {
   const completedOrders = orders.filter(order => order.status === 'Completed').length;
   const processingOrders = orders.filter(order => order.status === 'Processing').length;
 
+  // Mobile card component for orders
+  const OrderCard = ({ order }) => (
+    <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-3 shadow-sm">
+      <div className="flex items-start justify-between">
+        <div className="flex-1 min-w-0">
+          <div className="font-mono text-sm font-medium text-gray-900">{order.id}</div>
+          <div className="text-sm text-gray-600 mt-1 line-clamp-2">{order.postShow}</div>
+        </div>
+        <div className="ml-2">{getStatusBadge(order.status)}</div>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-3 text-sm">
+        <div className="space-y-1">
+          <div className="text-gray-500">Amount</div>
+          <div className="font-semibold text-green-600">${order.amount.toFixed(2)}</div>
+        </div>
+        <div className="space-y-1">
+          <div className="text-gray-500">Duration</div>
+          <div className="text-gray-900">{order.duration}</div>
+        </div>
+      </div>
+      
+      <div className="pt-2 border-t border-gray-100">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center text-xs text-gray-500">
+            <Calendar className="w-3 h-3 mr-1" />
+            {order.time}
+          </div>
+          <button
+            onClick={() => setSelectedOrder(order)}
+            className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-colors duration-150"
+          >
+            <Eye className="mr-1 w-3 h-3" />
+            View
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-4 sm:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">My Orders</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 sm:mb-4">My Orders</h1>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Track and manage all your order history and post showcases
           </p>
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                <p className="text-3xl font-bold text-indigo-600">{orders.length}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-6 border border-gray-100">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div className="mb-2 sm:mb-0">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Total Orders</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-indigo-600">{orders.length}</p>
               </div>
-              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                <BarChart className="w-6 h-6 text-indigo-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Spent</p>
-                <p className="text-3xl font-bold text-green-600">${totalAmount.toFixed(2)}</p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-green-600" />
+              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-indigo-100 rounded-full flex items-center justify-center self-end sm:self-auto">
+                <BarChart className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Completed</p>
-                <p className="text-3xl font-bold text-blue-600">{completedOrders}</p>
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-6 border border-gray-100">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div className="mb-2 sm:mb-0">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Total Spent</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600">${totalAmount.toFixed(2)}</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-blue-600" />
+              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center self-end sm:self-auto">
+                <DollarSign className="w-4 h-4 sm:w-6 sm:h-6 text-green-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Processing</p>
-                <p className="text-3xl font-bold text-orange-600">{processingOrders}</p>
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-6 border border-gray-100">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div className="mb-2 sm:mb-0">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Completed</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600">{completedOrders}</p>
               </div>
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                <Clock className="w-6 h-6 text-orange-600" />
+              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center self-end sm:self-auto">
+                <CheckCircle className="w-4 h-4 sm:w-6 sm:h-6 text-blue-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-6 border border-gray-100">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div className="mb-2 sm:mb-0">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Processing</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-orange-600">{processingOrders}</p>
+              </div>
+              <div className="w-8 h-8 sm:w-12 sm:h-12 bg-orange-100 rounded-full flex items-center justify-center self-end sm:self-auto">
+                <Clock className="w-4 h-4 sm:w-6 sm:h-6 text-orange-600" />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Filters and Search */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+        {/* Filters and Search - Mobile Optimized */}
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="space-y-4">
+            {/* Search Bar */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search orders..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+              />
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <Search className="w-4 h-4 text-gray-400" />
+              </div>
+            </div>
+            
+            {/* Filter Buttons */}
             <div className="flex flex-wrap gap-2">
               {['all', 'completed', 'processing', 'pending', 'cancelled'].map((status) => (
                 <button
                   key={status}
                   onClick={() => setFilterStatus(status)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                  className={`px-3 sm:px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm ${
                     filterStatus === status
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -237,31 +294,26 @@ const MyOrders = () => {
                 </button>
               ))}
             </div>
-            
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search orders..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              />
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <Search className="w-4 h-4 text-gray-400" />
-              </div>
-            </div>
           </div>
         </div>
 
         {/* Orders List */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-6">
-            <h2 className="text-2xl font-bold text-white flex items-center space-x-2">  
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-4 sm:px-8 py-4 sm:py-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">  
               <span>Order History</span>
             </h2>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Mobile View - Cards */}
+          <div className="block lg:hidden p-4 space-y-4">
+            {filteredOrders.map((order) => (
+              <OrderCard key={order.id} order={order} />
+            ))}
+          </div>
+
+          {/* Desktop View - Table */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="min-w-full">
               <thead className="bg-gray-50">
                 <tr>
@@ -310,39 +362,39 @@ const MyOrders = () => {
           </div>
 
           {filteredOrders.length === 0 && (
-            <div className="text-center py-12">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Package className="w-12 h-12 text-gray-400" />
+            <div className="text-center py-8 sm:py-12">
+              <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Package className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No orders found</h3>
-              <p className="text-gray-500">Try adjusting your search or filter criteria.</p>
+              <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">No orders found</h3>
+              <p className="text-sm sm:text-base text-gray-500">Try adjusting your search or filter criteria.</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Order Details Modal */}
+      {/* Order Details Modal - Mobile Optimized */}
       {selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-8 py-6 rounded-t-3xl">
+          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-2xl max-h-screen overflow-y-auto">
+            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-4 sm:px-8 py-4 sm:py-6 rounded-t-2xl sm:rounded-t-3xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold text-white">Order Details</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-white">Order Details</h3>
                 <button
                   onClick={() => setSelectedOrder(null)}
-                  className="text-white hover:text-gray-200 transition-colors"
+                  className="text-white hover:text-gray-200 transition-colors p-1"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               </div>
             </div>
 
-            <div className="p-8 space-y-6">
+            <div className="p-4 sm:p-8 space-y-6">
               {/* Order Info */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Order ID</label>
-                  <p className="text-lg font-mono font-semibold text-gray-900">{selectedOrder.id}</p>
+                  <p className="text-base sm:text-lg font-mono font-semibold text-gray-900">{selectedOrder.id}</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
@@ -350,11 +402,11 @@ const MyOrders = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Amount</label>
-                  <p className="text-lg font-semibold text-green-600">${selectedOrder.amount.toFixed(2)}</p>
+                  <p className="text-base sm:text-lg font-semibold text-green-600">${selectedOrder.amount.toFixed(2)}</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Order Time</label>
-                  <p className="text-gray-900">{selectedOrder.time}</p>
+                  <p className="text-sm sm:text-base text-gray-900">{selectedOrder.time}</p>
                 </div>
               </div>
 
@@ -362,7 +414,7 @@ const MyOrders = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Post Show</label>
                 <div className="bg-gray-50 rounded-xl p-4">
-                  <h4 className="font-semibold text-gray-900 mb-2">{selectedOrder.postShow}</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">{selectedOrder.postShow}</h4>
                   <p className="text-gray-600 text-sm mb-3">{selectedOrder.description}</p>
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <span className="flex items-center">
@@ -377,17 +429,17 @@ const MyOrders = () => {
               {selectedOrder.status === 'Completed' && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">Performance Metrics</label>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="bg-blue-50 rounded-xl p-4 text-center">
-                      <p className="text-2xl font-bold text-blue-600">{selectedOrder.views.toLocaleString()}</p>
+                      <p className="text-xl sm:text-2xl font-bold text-blue-600">{selectedOrder.views.toLocaleString()}</p>
                       <p className="text-sm text-blue-700">Views</p>
                     </div>
                     <div className="bg-green-50 rounded-xl p-4 text-center">
-                      <p className="text-2xl font-bold text-green-600">{selectedOrder.clicks.toLocaleString()}</p>
+                      <p className="text-xl sm:text-2xl font-bold text-green-600">{selectedOrder.clicks.toLocaleString()}</p>
                       <p className="text-sm text-green-700">Clicks</p>
                     </div>
                     <div className="bg-purple-50 rounded-xl p-4 text-center">
-                      <p className="text-2xl font-bold text-purple-600">{selectedOrder.conversions}</p>
+                      <p className="text-xl sm:text-2xl font-bold text-purple-600">{selectedOrder.conversions}</p>
                       <p className="text-sm text-purple-700">Conversions</p>
                     </div>
                   </div>
@@ -395,17 +447,17 @@ const MyOrders = () => {
               )}
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-3 pt-4">
-                <button className="flex items-center space-x-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-4">
+                <button className="flex items-center justify-center space-x-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm">
                   <FileText className="w-4 h-4" />
                   <span>Download Invoice</span>
                 </button>
-                <button className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                <button className="flex items-center justify-center space-x-2 px-4 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm">
                   <Phone className="w-4 h-4" />
                   <span>Contact Support</span>
                 </button>
                 {selectedOrder.status === 'Completed' && (
-                  <button className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                  <button className="flex items-center justify-center space-x-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm sm:col-span-2 lg:col-span-1">
                     <RefreshCw className="w-4 h-4" />
                     <span>Reorder</span>
                   </button>
