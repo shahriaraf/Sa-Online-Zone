@@ -1,4 +1,22 @@
 import React, { useState } from 'react';
+import {
+  FileText,
+  ClipboardList,
+  Plus,
+  CheckCircle,
+  Clock,
+  Edit,
+  XCircle,
+  Eye,
+  MousePointer,
+  Target,
+  DollarSign,
+  Image,
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  X
+} from 'lucide-react';
 
 const PostManagement = () => {
   const [activeTab, setActiveTab] = useState('list');
@@ -120,10 +138,10 @@ const PostManagement = () => {
     };
     
     const icons = {
-      'Active': '✅',
-      'Pending': '⏳',
-      'Draft': '📝',
-      'Rejected': '❌'
+      'Active': <CheckCircle className="w-3 h-3" />,
+      'Pending': <Clock className="w-3 h-3" />,
+      'Draft': <FileText className="w-3 h-3" />,
+      'Rejected': <XCircle className="w-3 h-3" />
     };
     
     return (
@@ -335,7 +353,7 @@ const PostManagement = () => {
               required
             />
             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <span className="text-gray-500 font-medium">$</span>
+              <DollarSign className="w-4 h-4 text-gray-500" />
             </div>
           </div>
         </div>
@@ -365,7 +383,7 @@ const PostManagement = () => {
             />
             <label htmlFor="image-upload" className="cursor-pointer flex flex-col items-center">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
-                <span className="text-xl">🖼️</span>
+                <Image className="w-6 h-6 text-blue-600" />
               </div>
               <p className="text-sm font-medium text-gray-700">
                 {formData.image ? formData.image.name : 'Upload Image'}
@@ -402,7 +420,10 @@ const PostManagement = () => {
       <div className="bg-gray-50 rounded-xl p-6 space-y-6">
         {/* Targeting Info */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-3">🎯 Targeting Information</h4>
+          <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+            <Target className="w-5 h-5 mr-2" />
+            Targeting Information
+          </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <span className="text-sm font-medium text-gray-600">Zone:</span>
@@ -421,7 +442,10 @@ const PostManagement = () => {
 
         {/* Post Details */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-3">📝 Post Details</h4>
+          <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+            <FileText className="w-5 h-5 mr-2" />
+            Post Details
+          </h4>
           <div className="space-y-3">
             <div>
               <span className="text-sm font-medium text-gray-600">Title:</span>
@@ -458,7 +482,10 @@ const PostManagement = () => {
 
         {/* Pricing Information */}
         <div className="border-t pt-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-3">💰 Pricing Information</h4>
+          <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+            <DollarSign className="w-5 h-5 mr-2" />
+            Pricing Information
+          </h4>
           <div className="bg-white rounded-lg p-4 space-y-2">
             <div className="flex justify-between">
               <span className="text-gray-600">Post Amount:</span>
@@ -485,7 +512,7 @@ const PostManagement = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-6">
-            <span className="text-3xl">📄</span>
+            <FileText className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 mb-4">Post Management</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -498,23 +525,25 @@ const PostManagement = () => {
           <div className="bg-white rounded-2xl shadow-lg p-1 border border-gray-200">
             <button
               onClick={() => setActiveTab('list')}
-              className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+              className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center space-x-2 ${
                 activeTab === 'list'
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              📋 Post List
+              <ClipboardList className="w-4 h-4" />
+              <span>Post List</span>
             </button>
             <button
               onClick={() => setActiveTab('create')}
-              className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+              className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center space-x-2 ${
                 activeTab === 'create'
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              ➕ Create Post
+              <Plus className="w-4 h-4" />
+              <span>Create Post</span>
             </button>
           </div>
         </div>
@@ -524,7 +553,7 @@ const PostManagement = () => {
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
             <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-6">
               <h2 className="text-2xl font-bold text-white flex items-center space-x-2">
-                <span>📋</span>
+                <ClipboardList className="w-6 h-6" />
                 <span>Post List</span>
                 <span className="bg-white bg-opacity-20 text-sm px-3 py-1 rounded-full">
                   {posts.length} posts
@@ -564,8 +593,14 @@ const PostManagement = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-xs text-gray-500">
-                          <div>👁️ {post.views.toLocaleString()} views</div>
-                          <div>👆 {post.clicks.toLocaleString()} clicks</div>
+                          <div className="flex items-center">
+                            <Eye className="w-3 h-3 mr-1" />
+                            {post.views.toLocaleString()} views
+                          </div>
+                          <div className="flex items-center">
+                            <MousePointer className="w-3 h-3 mr-1" />
+                            {post.clicks.toLocaleString()} clicks
+                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -574,11 +609,11 @@ const PostManagement = () => {
                             onClick={() => setSelectedPost(post)}
                             className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors duration-150"
                           >
-                            <span className="mr-1">👁️</span>
+                            <Eye className="mr-1 w-3 h-3" />
                             View
                           </button>
                           <button className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors duration-150">
-                            <span className="mr-1">✏️</span>
+                            <Edit className="mr-1 w-3 h-3" />
                             Edit
                           </button>
                         </div>
@@ -621,7 +656,7 @@ const PostManagement = () => {
                   disabled={currentStep === 1}
                   className="flex items-center space-x-2 px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                 >
-                  <span>←</span>
+                  <ArrowLeft className="w-4 h-4" />
                   <span>Back</span>
                 </button>
 
@@ -646,14 +681,14 @@ const PostManagement = () => {
                     className="flex items-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors duration-200"
                   >
                     <span>Next</span>
-                    <span>→</span>
+                    <ArrowRight className="w-4 h-4" />
                   </button>
                 ) : (
                   <button
                     onClick={handleSubmit}
                     className="flex items-center space-x-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition-colors duration-200"
                   >
-                    <span>✓</span>
+                    <Check className="w-4 h-4" />
                     <span>Submit Post</span>
                   </button>
                 )}
@@ -674,7 +709,7 @@ const PostManagement = () => {
                   onClick={() => setSelectedPost(null)}
                   className="text-white hover:text-gray-200 transition-colors"
                 >
-                  <span className="text-2xl">✕</span>
+                  <X className="w-6 h-6" />
                 </button>
               </div>
             </div>

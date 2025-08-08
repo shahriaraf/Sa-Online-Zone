@@ -1,4 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import {
+  Settings as SettingsIcon,
+  Palette,
+  Sun,
+  Moon,
+  Globe,
+  DollarSign,
+  Save,
+  LogOut,
+  Lightbulb
+} from 'lucide-react';
 
 const Settings = () => {
   // State management for settings
@@ -108,7 +119,7 @@ const Settings = () => {
     <div className={`min-h-screen transition-colors duration-300 ${
       theme === 'dark' 
         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900' 
-        : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
+        : 'bg-gradient-to-br from-blue-50 via-white to-blue-50'
     }`}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
@@ -116,10 +127,10 @@ const Settings = () => {
         <div className="text-center mb-8">
           <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 ${
             theme === 'dark'
-              ? 'bg-gradient-to-r from-indigo-600 to-purple-700'
-              : 'bg-gradient-to-r from-indigo-500 to-purple-600'
+              ? 'bg-gradient-to-r from-indigo-600 to-blue-700'
+              : 'bg-gradient-to-r from-indigo-500 to-blue-600'
           }`}>
-            <span className="text-3xl">⚙️</span>
+            <SettingsIcon className="w-10 h-10 text-white" />
           </div>
           <h1 className={`text-5xl font-bold mb-4 ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -141,7 +152,7 @@ const Settings = () => {
         }`}>
           
           {/* Card Header */}
-          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-8 py-6">
+          <div className="bg-gradient-to-r from-indigo-500 to-blue-600 px-8 py-6">
             <h2 className="text-2xl font-bold text-white">Account Settings</h2>
             <p className="text-indigo-100 mt-1">Manage your preferences and account settings</p>
           </div>
@@ -151,7 +162,7 @@ const Settings = () => {
             {/* Theme Settings */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 mb-4">
-                <span className="text-2xl">🎨</span>
+                <Palette className="w-6 h-6 text-blue-600" />
                 <h3 className={`text-xl font-semibold ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
@@ -172,7 +183,7 @@ const Settings = () => {
                 >
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 bg-white rounded-full border border-gray-300 flex items-center justify-center">
-                      ☀️
+                      <Sun className="w-4 h-4 text-yellow-500" />
                     </div>
                     <div className="text-left">
                       <p className={`font-semibold ${
@@ -199,7 +210,7 @@ const Settings = () => {
                 >
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 bg-gray-800 rounded-full border border-gray-600 flex items-center justify-center">
-                      🌙
+                      <Moon className="w-4 h-4 text-blue-400" />
                     </div>
                     <div className="text-left">
                       <p className={`font-semibold ${
@@ -221,7 +232,7 @@ const Settings = () => {
             {/* Language Settings */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 mb-4">
-                <span className="text-2xl">🌍</span>
+                <Globe className="w-6 h-6 text-blue-600" />
                 <h3 className={`text-xl font-semibold ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
@@ -269,7 +280,7 @@ const Settings = () => {
             {/* Currency Settings */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 mb-4">
-                <span className="text-2xl">💰</span>
+                <DollarSign className="w-6 h-6 text-blue-600" />
                 <h3 className={`text-xl font-semibold ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
@@ -324,7 +335,7 @@ const Settings = () => {
               <button
                 onClick={handleSaveSettings}
                 disabled={isSaving}
-                className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
+                className="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 rounded-xl transition-all duration-200 disabled:cursor-not-allowed"
               >
                 {isSaving ? (
                   <div className="flex items-center justify-center space-x-2">
@@ -333,7 +344,7 @@ const Settings = () => {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center space-x-2">
-                    <span>💾</span>
+                    <Save className="w-4 h-4" />
                     <span>Save Settings</span>
                   </div>
                 )}
@@ -344,7 +355,7 @@ const Settings = () => {
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl transition-colors duration-200"
               >
                 <div className="flex items-center justify-center space-x-2">
-                  <span>🚪</span>
+                  <LogOut className="w-4 h-4" />
                   <span>Log Out</span>
                 </div>
               </button>
@@ -359,7 +370,7 @@ const Settings = () => {
             : 'bg-blue-50 border border-blue-200'
         }`}>
           <div className="flex items-start space-x-3">
-            <span className="text-2xl">💡</span>
+            <Lightbulb className="w-6 h-6 text-blue-600 mt-1" />
             <div>
               <h4 className={`font-semibold mb-2 ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -391,7 +402,9 @@ const Settings = () => {
 
             <div className="p-8">
               <div className="text-center mb-6">
-                <div className="text-6xl mb-4">🚪</div>
+                <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                  <LogOut className="w-8 h-8 text-red-600" />
+                </div>
                 <p className={`text-lg ${
                   theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
                 }`}>

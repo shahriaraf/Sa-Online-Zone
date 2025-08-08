@@ -1,4 +1,23 @@
 import React, { useState } from 'react';
+import {
+  DollarSign,
+  TrendingDown,
+  Package,
+  TrendingUp,
+  Mail,
+  Clock,
+  RotateCcw,
+  Users,
+  Crown,
+  BarChart3,
+  ClipboardList,
+  CreditCard,
+  CheckCircle,
+  Settings,
+  Zap,
+  Phone,
+  IdCard
+} from 'lucide-react';
 
 const Overview = () => {
   // Sample user data
@@ -61,41 +80,41 @@ const Overview = () => {
       category: 'Account Status',
       status: 'Verified',
       description: 'Your account is fully verified and active',
-      icon: '✅',
+      icon: CheckCircle,
       color: 'green'
     },
     {
       category: 'Payment Status',
       status: 'Connected',
       description: 'Payment methods are configured and working',
-      icon: '💳',
+      icon: CreditCard,
       color: 'blue'
     },
     {
       category: 'KYC Status',
       status: 'Approved',
       description: 'Identity verification completed successfully',
-      icon: '🆔',
+      icon: IdCard,
       color: 'green'
     },
     {
       category: 'Support Level',
       status: 'Premium',
       description: 'Priority support with 24/7 assistance',
-      icon: '🛠️',
-      color: 'purple'
+      icon: Settings,
+      color: 'blue'
     }
   ];
 
   const getActivityIcon = (type) => {
     const icons = {
-      deposit: '💰',
-      order: '📦',
-      referral: '🤝',
-      withdrawal: '💸',
-      subscription: '💎'
+      deposit: DollarSign,
+      order: Package,
+      referral: Users,
+      withdrawal: TrendingDown,
+      subscription: Crown
     };
-    return icons[type] || '📋';
+    return icons[type] || ClipboardList;
   };
 
   const getStatusBadge = (status) => {
@@ -113,7 +132,6 @@ const Overview = () => {
     const colors = {
       green: 'bg-green-100 text-green-800 border-green-200',
       blue: 'bg-blue-100 text-blue-800 border-blue-200',
-      purple: 'bg-purple-100 text-purple-800 border-purple-200',
       orange: 'bg-orange-100 text-orange-800 border-orange-200',
       red: 'bg-red-100 text-red-800 border-red-200'
     };
@@ -121,7 +139,7 @@ const Overview = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
@@ -158,7 +176,7 @@ const Overview = () => {
                 <p className="text-sm text-green-500 mt-1">+{userData.monthlyGrowth}% this month</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">💰</span>
+                <DollarSign className="w-6 h-6 text-green-600" />
               </div>
             </div>
           </div>
@@ -172,7 +190,7 @@ const Overview = () => {
                 <p className="text-sm text-gray-500 mt-1">Total expenditure</p>
               </div>
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">💸</span>
+                <TrendingDown className="w-6 h-6 text-red-600" />
               </div>
             </div>
           </div>
@@ -186,7 +204,7 @@ const Overview = () => {
                 <p className="text-sm text-gray-500 mt-1">All time orders</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">📦</span>
+                <Package className="w-6 h-6 text-blue-600" />
               </div>
             </div>
           </div>
@@ -196,11 +214,11 @@ const Overview = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Earnings</p>
-                <p className="text-3xl font-bold text-purple-600">${userData.totalEarnings.toFixed(2)}</p>
+                <p className="text-3xl font-bold text-blue-600">${userData.totalEarnings.toFixed(2)}</p>
                 <p className="text-sm text-gray-500 mt-1">Including referrals</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">📈</span>
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <TrendingUp className="w-6 h-6 text-blue-600" />
               </div>
             </div>
           </div>
@@ -217,7 +235,7 @@ const Overview = () => {
                 <p className="text-2xl font-bold text-indigo-600">{userData.receiveOrders}</p>
               </div>
               <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
-                <span className="text-xl">📨</span>
+                <Mail className="w-5 h-5 text-indigo-600" />
               </div>
             </div>
           </div>
@@ -230,7 +248,7 @@ const Overview = () => {
                 <p className="text-2xl font-bold text-yellow-600">{userData.pendingOrders}</p>
               </div>
               <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-                <span className="text-xl">⏳</span>
+                <Clock className="w-5 h-5 text-yellow-600" />
               </div>
             </div>
           </div>
@@ -243,7 +261,7 @@ const Overview = () => {
                 <p className="text-2xl font-bold text-orange-600">{userData.inProgressOrders}</p>
               </div>
               <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                <span className="text-xl">🔄</span>
+                <RotateCcw className="w-5 h-5 text-orange-600" />
               </div>
             </div>
           </div>
@@ -256,7 +274,7 @@ const Overview = () => {
                 <p className="text-2xl font-bold text-green-600">{userData.referralUsers}</p>
               </div>
               <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-xl">🤝</span>
+                <Users className="w-5 h-5 text-green-600" />
               </div>
             </div>
           </div>
@@ -267,16 +285,16 @@ const Overview = () => {
           
           {/* Subscription Information */}
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-            <div className="bg-gradient-to-r from-purple-500 to-indigo-600 px-6 py-4">
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4">
               <h3 className="text-xl font-bold text-white flex items-center">
-                <span className="mr-2">💎</span>
+                <Crown className="w-5 h-5 mr-2" />
                 Current Subscription
               </h3>
             </div>
             <div className="p-6">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">👑</span>
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Crown className="w-8 h-8 text-blue-600" />
                 </div>
                 <h4 className="text-xl font-bold text-gray-900 mb-2">{userData.subscriptionName}</h4>
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusBadge(userData.subscriptionStatus.toLowerCase())}`}>
@@ -299,7 +317,7 @@ const Overview = () => {
                 </div>
               </div>
               
-              <button className="w-full mt-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-2 rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-colors">
+              <button className="w-full mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors">
                 Manage Subscription
               </button>
             </div>
@@ -307,35 +325,38 @@ const Overview = () => {
 
           {/* Recent Activities */}
           <div className="lg:col-span-2 bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-4">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
               <h3 className="text-xl font-bold text-white flex items-center">
-                <span className="mr-2">📊</span>
+                <BarChart3 className="w-5 h-5 mr-2" />
                 Recent Activities
               </h3>
             </div>
             <div className="p-6">
               <div className="space-y-4">
-                {recentActivities.map((activity) => (
-                  <div key={activity.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <span className="text-lg">{getActivityIcon(activity.type)}</span>
+                {recentActivities.map((activity) => {
+                  const ActivityIcon = getActivityIcon(activity.type);
+                  return (
+                    <div key={activity.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                          <ActivityIcon className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-gray-900">{activity.description}</p>
+                          <p className="text-sm text-gray-500">{activity.timestamp}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">{activity.description}</p>
-                        <p className="text-sm text-gray-500">{activity.timestamp}</p>
+                      <div className="text-right">
+                        <p className={`font-bold ${activity.amount > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {activity.amount > 0 ? '+' : ''}${Math.abs(activity.amount).toFixed(2)}
+                        </p>
+                        <span className={getStatusBadge(activity.status)}>
+                          {activity.status}
+                        </span>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className={`font-bold ${activity.amount > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {activity.amount > 0 ? '+' : ''}${Math.abs(activity.amount).toFixed(2)}
-                      </p>
-                      <span className={getStatusBadge(activity.status)}>
-                        {activity.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               <button className="w-full mt-4 text-blue-600 font-semibold py-2 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
                 View All Activities
@@ -348,7 +369,7 @@ const Overview = () => {
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
           <div className="bg-gradient-to-r from-green-500 to-blue-600 px-8 py-6">
             <h3 className="text-2xl font-bold text-white flex items-center">
-              <span className="mr-2">📋</span>
+              <ClipboardList className="w-6 h-6 mr-2" />
               Status Information
             </h3>
             <p className="text-green-100 mt-1">Current status of your account and services</p>
@@ -356,29 +377,31 @@ const Overview = () => {
           
           <div className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {statusInfo.map((status, index) => (
-                <div key={index} className={`p-6 rounded-xl border-2 ${getStatusColor(status.color)}`}>
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl">
-                      {status.icon}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold text-gray-900">{status.category}</h4>
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                          status.color === 'green' ? 'bg-green-600 text-white' :
-                          status.color === 'blue' ? 'bg-blue-600 text-white' :
-                          status.color === 'purple' ? 'bg-purple-600 text-white' :
-                          'bg-gray-600 text-white'
-                        }`}>
-                          {status.status}
-                        </span>
+              {statusInfo.map((status, index) => {
+                const StatusIcon = status.icon;
+                return (
+                  <div key={index} className={`p-6 rounded-xl border-2 ${getStatusColor(status.color)}`}>
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                        <StatusIcon className="w-6 h-6 text-gray-600" />
                       </div>
-                      <p className="text-sm text-gray-600">{status.description}</p>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-semibold text-gray-900">{status.category}</h4>
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            status.color === 'green' ? 'bg-green-600 text-white' :
+                            status.color === 'blue' ? 'bg-blue-600 text-white' :
+                            'bg-gray-600 text-white'
+                          }`}>
+                            {status.status}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600">{status.description}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -386,28 +409,36 @@ const Overview = () => {
         {/* Quick Actions */}
         <div className="mt-8 bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
           <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-            <span className="mr-2">⚡</span>
+            <Zap className="w-6 h-6 mr-2" />
             Quick Actions
           </h3>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button className="p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors group">
-              <div className="text-3xl mb-2">💰</div>
+              <div className="mb-2 flex justify-center">
+                <DollarSign className="w-8 h-8 text-blue-600" />
+              </div>
               <p className="font-semibold text-gray-900 group-hover:text-blue-600">Add Funds</p>
             </button>
             
             <button className="p-4 bg-green-50 hover:bg-green-100 rounded-xl transition-colors group">
-              <div className="text-3xl mb-2">📦</div>
+              <div className="mb-2 flex justify-center">
+                <Package className="w-8 h-8 text-green-600" />
+              </div>
               <p className="font-semibold text-gray-900 group-hover:text-green-600">Create Order</p>
             </button>
             
-            <button className="p-4 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors group">
-              <div className="text-3xl mb-2">💸</div>
-              <p className="font-semibold text-gray-900 group-hover:text-purple-600">Withdraw</p>
+            <button className="p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors group">
+              <div className="mb-2 flex justify-center">
+                <TrendingDown className="w-8 h-8 text-blue-600" />
+              </div>
+              <p className="font-semibold text-gray-900 group-hover:text-blue-600">Withdraw</p>
             </button>
             
             <button className="p-4 bg-orange-50 hover:bg-orange-100 rounded-xl transition-colors group">
-              <div className="text-3xl mb-2">📞</div>
+              <div className="mb-2 flex justify-center">
+                <Phone className="w-8 h-8 text-orange-600" />
+              </div>
               <p className="font-semibold text-gray-900 group-hover:text-orange-600">Support</p>
             </button>
           </div>

@@ -8,13 +8,10 @@ import {
     FiBriefcase,
     FiClipboard,
     FiCreditCard,
-    FiUser,
     FiMail,
     FiChevronDown,
     FiPlus,
-    FiUsers,
-    FiTrendingUp,
-    FiDownload
+    FiUser,
 } from 'react-icons/fi';
 import logo from '../../public/Picsart_24-12-18_17-11-57-456.png';
 import AddList from './AddList';
@@ -34,6 +31,7 @@ import Inbox from './Inbox';
 import History from './History';
 import Settings from './Settings';
 import Overview from './Overview';
+import Profile from './Profile';
 
 const Dashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -68,6 +66,7 @@ const Dashboard = () => {
   const navItems = [
     { name: 'Add Fund', icon: FiPlus, badge: null },
     { name: 'Buy Subscription', icon: FiCreditCard, badge: null },
+    { name: 'Withdraw', icon: FiCreditCard, badge: null },
     { name: 'Deposit', icon: FiDollarSign, badge: null },
     { name: 'Refer & Earn', icon: FiUser, badge: null },
     { name: 'My Order', icon: FiClipboard, badge: null },
@@ -76,8 +75,9 @@ const Dashboard = () => {
     { name: 'Inbox', icon: FiMail, badge: null },
     { name: 'History', icon: FiFileText, badge: null },
     { name: 'Settings', icon: FiSettings, badge: null },
+    { name: 'Profile', icon: FiUser , badge: null },
     { name: 'Overview', icon: FiBriefcase, badge: null },
-    { name: 'Withdraw', icon: FiCreditCard, badge: '5' },
+  
 ];
 
 
@@ -226,6 +226,7 @@ const Dashboard = () => {
                     
                         {activePage === 'Add Fund' && <AddFund></AddFund>}
                         {activePage === 'Buy Subscription' && <BuySubscription></BuySubscription>}
+                        {activePage === 'Withdraw' && <WithDrawForm />}
                         {activePage === 'Deposit' && <Deposit />}
                         {activePage === 'Refer & Earn' && <ReferEarn></ReferEarn>}
                         {activePage === 'My Order' && <MyOrders></MyOrders>}
@@ -234,8 +235,9 @@ const Dashboard = () => {
                         {activePage === 'Inbox' && <Inbox></Inbox>}
                         {activePage === 'History' && <History></History>}
                         {activePage === 'Settings' && <Settings></Settings>}
+                        {activePage === 'Profile' && <Profile></Profile>}
                         {activePage === 'Overview' && <Overview></Overview>}
-                        {activePage === 'Withdraw' && <WithDrawForm />}
+                       
                      
                     </main>
                 </div>

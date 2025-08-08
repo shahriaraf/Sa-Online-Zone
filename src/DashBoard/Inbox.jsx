@@ -1,4 +1,16 @@
 import React, { useState } from 'react';
+import {
+  MessageCircle,
+  Search,
+  Star,
+  Settings,
+  ArrowLeft,
+  ClipboardList,
+  X,
+  DollarSign,
+  Send,
+  Heart
+} from 'lucide-react';
 
 const Inbox = () => {
   const [selectedChat, setSelectedChat] = useState(null);
@@ -6,6 +18,7 @@ const Inbox = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [message, setMessage] = useState('');
   const [showCreateDeal, setShowCreateDeal] = useState(false);
+  const [showChatList, setShowChatList] = useState(true); // For mobile navigation
 
   // Sample chat data
   const [chats, setChats] = useState([
@@ -115,6 +128,16 @@ const Inbox = () => {
     return matchesSearch && matchesTab;
   });
 
+  const handleChatSelect = (chat) => {
+    setSelectedChat(chat);
+    setShowChatList(false); // Hide chat list on mobile when chat is selected
+  };
+
+  const handleBackToList = () => {
+    setShowChatList(true);
+    setSelectedChat(null);
+  };
+
   const handleSendMessage = () => {
     if (message.trim() && selectedChat) {
       const newMessage = {
@@ -204,239 +227,454 @@ const Inbox = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 lg:py-8">
         
-       
+        {/* Header - Hide on mobile when chat is selected */}
+        <div className={`text-center mb-6 lg:mb-8 ${!showChatList && 'hidden lg:block'}`}>
+          <div className="inline-flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-4 lg:mb-6">
+            <MessageCircle className="w-8 h-8 lg:w-10 lg:h-10 text-white" />
+          </div>
+          <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-2 lg:mb-4">Inbox</h1>
+          <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4">
+            Manage your conversations, support tickets, and business deals
+          </p>
+        </div>
 
         {/* Main Inbox Interface */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden h-[700px] flex">
+        <div className="bg-white rounded-2xl lg:rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
           
-          {/* Sidebar */}
-          <div className="w-1/3 border-r border-gray-200 flex flex-col">
-            {/* Sidebar Header */}
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-4">
-              <h2 className="text-xl font-bold text-white flex items-center justify-between">
-                <span>Messages</span>
-                <span className="bg-white bg-opacity-20 text-sm px-2 py-1 rounded-full">
-                  {getUnreadCount()} unread
-                </span>
-              </h2>
-            </div>
-
-            {/* Search Bar */}
-            <div className="p-4 border-b border-gray-200">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search conversations..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <span className="text-gray-400">🔍</span>
+          {/* Mobile: Show either chat list or chat view */}
+          <div className="lg:hidden">
+            {showChatList ? (
+              /* Mobile Chat List */
+              <div className="h-[calc(100vh-200px)] flex flex-col">
+                {/* Mobile Header */}
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-4">
+                  <h2 className="text-lg font-bold text-white flex items-center justify-between">
+                    <span>Messages</span>
+                    <span className="bg-white bg-opacity-20 text-sm px-2 py-1 rounded-full">
+                      {getUnreadCount()} unread
+                    </span>
+                  </h2>
                 </div>
-              </div>
-            </div>
 
-            {/* Filter Tabs */}
-            <div className="px-4 py-2 border-b border-gray-200">
-              <div className="flex space-x-1">
-                {[
-                  { key: 'all', label: 'All', icon: '💬' },
-                  { key: 'favorites', label: 'Favorites', icon: '⭐' },
-                  { key: 'support', label: 'Support', icon: '🛠️' }
-                ].map(tab => (
-                  <button
-                    key={tab.key}
-                    onClick={() => setActiveTab(tab.key)}
-                    className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
-                      activeTab === tab.key
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:text-gray-800'
-                    }`}
-                  >
-                    <span className="mr-1">{tab.icon}</span>
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Chat List */}
-            <div className="flex-1 overflow-y-auto">
-              {filteredChats.length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
-                  <div className="text-4xl mb-2">💬</div>
-                  <p>No conversations found</p>
-                </div>
-              ) : (
-                filteredChats.map(chat => (
-                  <div
-                    key={chat.id}
-                    onClick={() => setSelectedChat(chat)}
-                    className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
-                      selectedChat?.id === chat.id ? 'bg-blue-50 border-blue-200' : ''
-                    }`}
-                  >
-                    <div className="flex items-start space-x-3">
-                      <div className="relative">
-                        <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl">
-                          {chat.avatar}
-                        </div>
-                        {chat.isOnline && (
-                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <h3 className="font-semibold text-gray-900 truncate flex items-center">
-                            {chat.name}
-                            {chat.isFavorite && <span className="ml-1 text-yellow-500">⭐</span>}
-                            {chat.isSupport && <span className="ml-1 text-blue-500">🛠️</span>}
-                          </h3>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-xs text-gray-500">
-                              {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </span>
-                            {chat.unreadCount > 0 && (
-                              <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
-                                {chat.unreadCount}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-600 truncate mt-1">{chat.lastMessage}</p>
-                      </div>
+                {/* Mobile Search */}
+                <div className="p-4 border-b border-gray-200">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search conversations..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                    />
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <Search className="w-4 h-4 text-gray-400" />
                     </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* Main Chat Area */}
-          <div className="flex-1 flex flex-col">
-            {selectedChat ? (
-              <>
-                {/* Chat Header */}
-                <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="relative">
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-lg">
-                        {selectedChat.avatar}
-                      </div>
-                      {selectedChat.isOnline && (
-                        <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">{selectedChat.name}</h3>
-                      <p className="text-sm text-gray-500">
-                        {selectedChat.isOnline ? 'Online' : 'Last seen recently'}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => toggleFavorite(selectedChat.id)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        selectedChat.isFavorite
-                          ? 'bg-yellow-100 text-yellow-600'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                      }`}
-                    >
-                      ⭐
-                    </button>
-                    <button
-                      onClick={() => setShowCreateDeal(true)}
-                      className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
-                    >
-                      📋
-                    </button>
                   </div>
                 </div>
 
-                {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                  {selectedChat.messages.map(msg => (
-                    <div
-                      key={msg.id}
-                      className={`flex ${msg.isOwn ? 'justify-end' : 'justify-start'}`}
-                    >
-                      <div
-                        className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
-                          msg.isOwn
-                            ? 'bg-blue-600 text-white'
-                            : msg.isDeal
-                            ? 'bg-green-100 text-green-800 border border-green-200'
-                            : 'bg-gray-100 text-gray-900'
+                {/* Mobile Filter Tabs */}
+                <div className="px-4 py-3 border-b border-gray-200">
+                  <div className="flex space-x-1 overflow-x-auto">
+                    {[
+                      { key: 'all', label: 'All', icon: MessageCircle },
+                      { key: 'favorites', label: 'Favorites', icon: Star },
+                      { key: 'support', label: 'Support', icon: Settings }
+                    ].map(tab => (
+                      <button
+                        key={tab.key}
+                        onClick={() => setActiveTab(tab.key)}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap flex items-center space-x-1 ${
+                          activeTab === tab.key
+                            ? 'bg-blue-100 text-blue-700'
+                            : 'text-gray-600 hover:text-gray-800'
                         }`}
                       >
-                        <p className="whitespace-pre-line">{msg.message}</p>
-                        <p className={`text-xs mt-1 ${
-                          msg.isOwn ? 'text-blue-100' : 'text-gray-500'
-                        }`}>
-                          {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        <tab.icon className="w-3 h-3" />
+                        <span>{tab.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Mobile Chat List */}
+                <div className="flex-1 overflow-y-auto">
+                  {filteredChats.length === 0 ? (
+                    <div className="p-8 text-center text-gray-500">
+                      <MessageCircle className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                      <p>No conversations found</p>
+                    </div>
+                  ) : (
+                    filteredChats.map(chat => (
+                      <div
+                        key={chat.id}
+                        onClick={() => handleChatSelect(chat)}
+                        className="p-4 border-b border-gray-100 active:bg-gray-50 transition-colors"
+                      >
+                        <div className="flex items-start space-x-3">
+                          <div className="relative">
+                            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl">
+                              {chat.avatar}
+                            </div>
+                            {chat.isOnline && (
+                              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <h3 className="font-semibold text-gray-900 truncate flex items-center">
+                                {chat.name}
+                                {chat.isFavorite && <Star className="ml-1 w-3 h-3 text-yellow-500 fill-current" />}
+                                {chat.isSupport && <Settings className="ml-1 w-3 h-3 text-blue-500" />}
+                              </h3>
+                              <div className="flex items-center space-x-2">
+                                <span className="text-xs text-gray-500">
+                                  {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </span>
+                                {chat.unreadCount > 0 && (
+                                  <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
+                                    {chat.unreadCount}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <p className="text-sm text-gray-600 truncate mt-1">{chat.lastMessage}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            ) : (
+              /* Mobile Chat View */
+              selectedChat && (
+                <div className="h-[calc(100vh-120px)] flex flex-col">
+                  {/* Mobile Chat Header */}
+                  <div className="bg-gray-50 px-4 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <button
+                        onClick={handleBackToList}
+                        className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+                      >
+                        <ArrowLeft className="w-5 h-5" />
+                      </button>
+                      <div className="relative">
+                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-lg">
+                          {selectedChat.avatar}
+                        </div>
+                        {selectedChat.isOnline && (
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-base">{selectedChat.name}</h3>
+                        <p className="text-sm text-gray-500">
+                          {selectedChat.isOnline ? 'Online' : 'Last seen recently'}
                         </p>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => toggleFavorite(selectedChat.id)}
+                        className={`p-2 rounded-lg transition-colors ${
+                          selectedChat.isFavorite
+                            ? 'bg-yellow-100 text-yellow-600'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        <Star className={`w-4 h-4 ${selectedChat.isFavorite ? 'fill-current' : ''}`} />
+                      </button>
+                      <button
+                        onClick={() => setShowCreateDeal(true)}
+                        className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+                      >
+                        <ClipboardList className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
 
-                {/* Message Input */}
-                <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
-                  <div className="flex items-center space-x-3">
-                    <input
-                      type="text"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Type your message..."
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                    />
-                    <button
-                      onClick={handleSendMessage}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      Send
-                    </button>
+                  {/* Mobile Messages */}
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    {selectedChat.messages.map(msg => (
+                      <div
+                        key={msg.id}
+                        className={`flex ${msg.isOwn ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-[85%] px-4 py-3 rounded-2xl ${
+                            msg.isOwn
+                              ? 'bg-blue-600 text-white'
+                              : msg.isDeal
+                              ? 'bg-green-100 text-green-800 border border-green-200'
+                              : 'bg-gray-100 text-gray-900'
+                          }`}
+                        >
+                          <p className="whitespace-pre-line text-sm">{msg.message}</p>
+                          <p className={`text-xs mt-1 ${
+                            msg.isOwn ? 'text-blue-100' : 'text-gray-500'
+                          }`}>
+                            {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Mobile Message Input */}
+                  <div className="bg-gray-50 px-4 py-4 border-t border-gray-200">
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="text"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Type your message..."
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                      />
+                      <button
+                        onClick={handleSendMessage}
+                        className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                      >
+                        <Send className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </>
-            ) : (
-              /* No Chat Selected */
-              <div className="flex-1 flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                  <div className="text-6xl mb-4">💬</div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">No conversation selected</h3>
-                  <p className="text-gray-600">Choose a conversation from the sidebar to start messaging</p>
+              )
+            )}
+          </div>
+
+          {/* Desktop: Show both sidebar and chat */}
+          <div className="hidden lg:flex h-[700px]">
+            {/* Desktop Sidebar */}
+            <div className="w-1/3 border-r border-gray-200 flex flex-col">
+              {/* Sidebar Header */}
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+                <h2 className="text-xl font-bold text-white flex items-center justify-between">
+                  <span>Messages</span>
+                  <span className="bg-white bg-opacity-20 text-sm px-2 py-1 rounded-full">
+                    {getUnreadCount()} unread
+                  </span>
+                </h2>
+              </div>
+
+              {/* Search Bar */}
+              <div className="p-4 border-b border-gray-200">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search conversations..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <Search className="w-4 h-4 text-gray-400" />
+                  </div>
                 </div>
               </div>
-            )}
+
+              {/* Filter Tabs */}
+              <div className="px-4 py-2 border-b border-gray-200">
+                <div className="flex space-x-1">
+                  {[
+                    { key: 'all', label: 'All', icon: MessageCircle },
+                    { key: 'favorites', label: 'Favorites', icon: Star },
+                    { key: 'support', label: 'Support', icon: Settings }
+                  ].map(tab => (
+                    <button
+                      key={tab.key}
+                      onClick={() => setActiveTab(tab.key)}
+                      className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors flex items-center space-x-1 ${
+                        activeTab === tab.key
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'text-gray-600 hover:text-gray-800'
+                      }`}
+                    >
+                      <tab.icon className="w-3 h-3" />
+                      <span>{tab.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Chat List */}
+              <div className="flex-1 overflow-y-auto">
+                {filteredChats.length === 0 ? (
+                  <div className="p-8 text-center text-gray-500">
+                    <MessageCircle className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                    <p>No conversations found</p>
+                  </div>
+                ) : (
+                  filteredChats.map(chat => (
+                    <div
+                      key={chat.id}
+                      onClick={() => setSelectedChat(chat)}
+                      className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
+                        selectedChat?.id === chat.id ? 'bg-blue-50 border-blue-200' : ''
+                      }`}
+                    >
+                      <div className="flex items-start space-x-3">
+                        <div className="relative">
+                          <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-xl">
+                            {chat.avatar}
+                          </div>
+                          {chat.isOnline && (
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-semibold text-gray-900 truncate flex items-center">
+                              {chat.name}
+                              {chat.isFavorite && <Star className="ml-1 w-3 h-3 text-yellow-500 fill-current" />}
+                              {chat.isSupport && <Settings className="ml-1 w-3 h-3 text-blue-500" />}
+                            </h3>
+                            <div className="flex items-center space-x-2">
+                              <span className="text-xs text-gray-500">
+                                {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </span>
+                              {chat.unreadCount > 0 && (
+                                <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
+                                  {chat.unreadCount}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-600 truncate mt-1">{chat.lastMessage}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Desktop Main Chat Area */}
+            <div className="flex-1 flex flex-col">
+              {selectedChat ? (
+                <>
+                  {/* Desktop Chat Header */}
+                  <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="relative">
+                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-lg">
+                          {selectedChat.avatar}
+                        </div>
+                        {selectedChat.isOnline && (
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900">{selectedChat.name}</h3>
+                        <p className="text-sm text-gray-500">
+                          {selectedChat.isOnline ? 'Online' : 'Last seen recently'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => toggleFavorite(selectedChat.id)}
+                        className={`p-2 rounded-lg transition-colors ${
+                          selectedChat.isFavorite
+                            ? 'bg-yellow-100 text-yellow-600'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        <Star className={`w-4 h-4 ${selectedChat.isFavorite ? 'fill-current' : ''}`} />
+                      </button>
+                      <button
+                        onClick={() => setShowCreateDeal(true)}
+                        className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+                      >
+                        <ClipboardList className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Desktop Messages */}
+                  <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                    {selectedChat.messages.map(msg => (
+                      <div
+                        key={msg.id}
+                        className={`flex ${msg.isOwn ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
+                            msg.isOwn
+                              ? 'bg-blue-600 text-white'
+                              : msg.isDeal
+                              ? 'bg-green-100 text-green-800 border border-green-200'
+                              : 'bg-gray-100 text-gray-900'
+                          }`}
+                        >
+                          <p className="whitespace-pre-line">{msg.message}</p>
+                          <p className={`text-xs mt-1 ${
+                            msg.isOwn ? 'text-blue-100' : 'text-gray-500'
+                          }`}>
+                            {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Desktop Message Input */}
+                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="text"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Type your message..."
+                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                      />
+                      <button
+                        onClick={handleSendMessage}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        Send
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* No Chat Selected */
+                <div className="flex-1 flex items-center justify-center bg-gray-50">
+                  <div className="text-center">
+                    <MessageCircle className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">No conversation selected</h3>
+                    <p className="text-gray-600">Choose a conversation from the sidebar to start messaging</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Create Deal Modal */}
+      {/* Create Deal Modal - Mobile Responsive */}
       {showCreateDeal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full">
-            <div className="bg-gradient-to-r from-green-500 to-blue-600 px-8 py-6 rounded-t-3xl">
+          <div className="bg-white rounded-2xl lg:rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-gradient-to-r from-green-500 to-blue-600 px-4 lg:px-8 py-4 lg:py-6 rounded-t-2xl lg:rounded-t-3xl">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold text-white">Create Deal Proposal</h3>
+                <h3 className="text-xl lg:text-2xl font-bold text-white">Create Deal Proposal</h3>
                 <button
                   onClick={() => setShowCreateDeal(false)}
-                  className="text-white hover:text-gray-200 transition-colors"
+                  className="text-white hover:text-gray-200 transition-colors p-1"
                 >
-                  <span className="text-2xl">✕</span>
+                  <X className="w-6 h-6" />
                 </button>
               </div>
             </div>
 
-            <div className="p-8 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 lg:p-8 space-y-4 lg:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">Deal Title *</label>
                   <input
@@ -444,7 +682,7 @@ const Inbox = () => {
                     value={dealData.title}
                     onChange={(e) => setDealData({ ...dealData, title: e.target.value })}
                     placeholder="Enter deal title"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
                   />
                 </div>
                 <div className="space-y-2">
@@ -455,10 +693,10 @@ const Inbox = () => {
                       value={dealData.amount}
                       onChange={(e) => setDealData({ ...dealData, amount: e.target.value })}
                       placeholder="0.00"
-                      className="w-full p-3 pl-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-3 pl-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                      <span className="text-gray-500">$</span>
+                      <DollarSign className="w-4 h-4 text-gray-500" />
                     </div>
                   </div>
                 </div>
@@ -471,7 +709,7 @@ const Inbox = () => {
                   value={dealData.duration}
                   onChange={(e) => setDealData({ ...dealData, duration: e.target.value })}
                   placeholder="e.g., 30 days, 3 months"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
                 />
               </div>
 
@@ -482,7 +720,7 @@ const Inbox = () => {
                   onChange={(e) => setDealData({ ...dealData, description: e.target.value })}
                   placeholder="Describe the deal details..."
                   rows={4}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-base"
                 />
               </div>
 
@@ -493,20 +731,20 @@ const Inbox = () => {
                   onChange={(e) => setDealData({ ...dealData, terms: e.target.value })}
                   placeholder="Enter terms and conditions..."
                   rows={3}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-base"
                 />
               </div>
 
-              <div className="flex space-x-4 pt-4">
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
                 <button
                   onClick={() => setShowCreateDeal(false)}
-                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleCreateDeal}
-                  className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
                 >
                   Create Deal
                 </button>

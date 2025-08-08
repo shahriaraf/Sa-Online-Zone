@@ -1,4 +1,19 @@
 import React, { useState } from 'react';
+import { 
+  LuStar, 
+  LuDollarSign, 
+  LuFileText, 
+  LuSettings, 
+  LuShield, 
+  LuSparkles, 
+  LuCheck, 
+  LuX, 
+  LuCreditCard, 
+  LuPhone, 
+  LuLink, 
+  LuUser, 
+  LuGem 
+} from 'react-icons/lu';
 
 const BuySubscription = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -109,7 +124,6 @@ const BuySubscription = () => {
         
         {/* Header */}
         <div className="text-center mb-12">
-        
           <h1 className="text-5xl font-bold text-gray-900 mb-4">Choose Your Package</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Select the perfect subscription package that fits your business goals and start earning commissions today
@@ -123,13 +137,13 @@ const BuySubscription = () => {
               <div
                 key={pkg.id}
                 className={`relative bg-white rounded-3xl shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:scale-105 ${
-                  pkg.popular ? 'border-purple-500 ring-4 ring-purple-200' : 'border-gray-200'
+                  pkg.popular ? 'border-blue-500 ring-4 ring-blue-300' : 'border-gray-200'
                 }`}
               >
                 {pkg.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-purple-500 to-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold">
-                      🌟 Most Popular
+                    <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold flex items-center">
+                      <LuStar className="mr-2 w-4 h-4" /> Most Popular
                     </span>
                   </div>
                 )}
@@ -139,7 +153,7 @@ const BuySubscription = () => {
                   <div className="text-center mb-6">
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
                     <p className="text-gray-600 mb-4">{pkg.description}</p>
-                    <div className="text-4xl font-bold text-purple-600 mb-2">
+                    <div className="text-4xl font-bold text-blue-600 mb-2">
                       ${pkg.price}
                       <span className="text-lg text-gray-500 font-normal">/month</span>
                     </div>
@@ -148,7 +162,7 @@ const BuySubscription = () => {
                   {/* Commission Structure */}
                   <div className="mb-6">
                     <h4 className="font-semibold text-gray-800 mb-3 flex items-center">
-                      <span className="mr-2">💰</span>
+                      <LuDollarSign className="mr-2 w-5 h-5" />
                       Commission Generation
                     </h4>
                     <div className="space-y-2">
@@ -170,26 +184,34 @@ const BuySubscription = () => {
                   {/* Package Details */}
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">📝 Sell Posts</span>
+                      <span className="text-gray-600 flex items-center">
+                        <LuFileText className="mr-2 w-4 h-4" /> Sell Posts
+                      </span>
                       <span className="font-semibold">{pkg.sellPosts}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">⚙️ Settings</span>
+                      <span className="text-gray-600 flex items-center">
+                        <LuSettings className="mr-2 w-4 h-4" /> Settings
+                      </span>
                       <span className="font-semibold">{pkg.settings}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">🛡️ Trusted Guarantee</span>
+                      <span className="text-gray-600 flex items-center">
+                        <LuShield className="mr-2 w-4 h-4" /> Trusted Guarantee
+                      </span>
                       <span className="font-semibold text-green-600">{pkg.trustedGuarantee}%</span>
                     </div>
                   </div>
 
                   {/* Features */}
                   <div className="mb-8">
-                    <h4 className="font-semibold text-gray-800 mb-3">✨ Features</h4>
+                    <h4 className="font-semibold text-gray-800 mb-3 flex items-center">
+                      <LuSparkles className="mr-2 w-5 h-5" /> Features
+                    </h4>
                     <ul className="space-y-2">
                       {pkg.features.map((feature, index) => (
                         <li key={index} className="flex items-center text-sm text-gray-600">
-                          <span className="mr-2 text-green-500">✓</span>
+                          <LuCheck className="mr-2 w-4 h-4 text-green-500" />
                           {feature}
                         </li>
                       ))}
@@ -201,7 +223,7 @@ const BuySubscription = () => {
                     onClick={() => handlePackageSelect(pkg)}
                     className={`w-full py-4 rounded-xl font-semibold transition-all duration-200 ${
                       pkg.popular
-                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg'
+                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg'
                         : 'bg-gray-900 hover:bg-gray-800 text-white'
                     }`}
                   >
@@ -216,7 +238,7 @@ const BuySubscription = () => {
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
               {/* Form Header */}
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-6">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-2xl font-bold text-white">Complete Your Subscription</h2>
@@ -228,7 +250,7 @@ const BuySubscription = () => {
                     onClick={() => setShowForm(false)}
                     className="text-white hover:text-purple-200 transition-colors"
                   >
-                    <span className="text-2xl">✕</span>
+                    <LuX className="w-6 h-6" />
                   </button>
                 </div>
               </div>
@@ -240,7 +262,7 @@ const BuySubscription = () => {
                     <label className="block text-sm font-medium text-gray-700">
                       NID Front Page *
                     </label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-purple-400 transition-colors">
+                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-blue-400 transition-colors">
                       <input
                         type="file"
                         accept="image/*"
@@ -252,7 +274,7 @@ const BuySubscription = () => {
                       />
                       <label htmlFor="nid-front" className="cursor-pointer flex flex-col items-center">
                         <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-2">
-                          <span className="text-xl">🆔</span>
+                          <LuCreditCard className="w-6 h-6 text-blue-600" />
                         </div>
                         <p className="text-sm font-medium text-gray-700">
                           {formData.nidFront ? formData.nidFront.name : 'Upload NID Front'}
@@ -266,7 +288,7 @@ const BuySubscription = () => {
                     <label className="block text-sm font-medium text-gray-700">
                       NID Back Page *
                     </label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-purple-400 transition-colors">
+                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-blue-400 transition-colors">
                       <input
                         type="file"
                         accept="image/*"
@@ -278,7 +300,7 @@ const BuySubscription = () => {
                       />
                       <label htmlFor="nid-back" className="cursor-pointer flex flex-col items-center">
                         <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-2">
-                          <span className="text-xl">🆔</span>
+                          <LuCreditCard className="w-6 h-6 text-blue-600" />
                         </div>
                         <p className="text-sm font-medium text-gray-700">
                           {formData.nidBack ? formData.nidBack.name : 'Upload NID Back'}
@@ -299,7 +321,7 @@ const BuySubscription = () => {
                       name="permanentAddress"
                       rows={3}
                       placeholder="Enter your permanent address"
-                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       value={formData.permanentAddress}
                       onChange={handleInputChange}
                       required
@@ -314,7 +336,7 @@ const BuySubscription = () => {
                       name="presentAddress"
                       rows={3}
                       placeholder="Enter your present address"
-                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       value={formData.presentAddress}
                       onChange={handleInputChange}
                       required
@@ -333,13 +355,13 @@ const BuySubscription = () => {
                         type="tel"
                         name="contactNumber"
                         placeholder="+1 (555) 123-4567"
-                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         value={formData.contactNumber}
                         onChange={handleInputChange}
                         required
                       />
                       <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                        <span className="text-gray-400">📞</span>
+                        <LuPhone className="text-gray-400 w-5 h-5" />
                       </div>
                     </div>
                   </div>
@@ -353,12 +375,12 @@ const BuySubscription = () => {
                         type="url"
                         name="socialLink"
                         placeholder="https://facebook.com/yourprofile"
-                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         value={formData.socialLink}
                         onChange={handleInputChange}
                       />
                       <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                        <span className="text-gray-400">🔗</span>
+                        <LuLink className="text-gray-400 w-5 h-5" />
                       </div>
                     </div>
                   </div>
@@ -369,7 +391,7 @@ const BuySubscription = () => {
                   <label className="block text-sm font-medium text-gray-700">
                     Profile Image *
                   </label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 hover:border-purple-400 transition-colors">
+                  <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 hover:border-blue-400 transition-colors">
                     <input
                       type="file"
                       accept="image/*"
@@ -381,7 +403,7 @@ const BuySubscription = () => {
                     />
                     <label htmlFor="profile-image" className="cursor-pointer flex flex-col items-center">
                       <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                        <span className="text-2xl">👤</span>
+                        <LuUser className="w-8 h-8 text-blue-600" />
                       </div>
                       <p className="text-lg font-medium text-gray-700 mb-2">
                         {formData.profileImage ? formData.profileImage.name : 'Upload Profile Image'}
@@ -396,7 +418,7 @@ const BuySubscription = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 rounded-xl transition-all duration-200 disabled:cursor-not-allowed shadow-lg"
+                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 rounded-xl transition-all duration-200 disabled:cursor-not-allowed shadow-lg"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center space-x-2">
@@ -406,7 +428,7 @@ const BuySubscription = () => {
                     ) : (
                       <div className="flex items-center justify-center space-x-2">
                         <span>Complete Subscription - ${selectedPackage.price}</span>
-                        <span>💎</span>
+                        <LuGem className="w-5 h-5 ml-2" />
                       </div>
                     )}
                   </button>

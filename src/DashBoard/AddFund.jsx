@@ -1,4 +1,12 @@
 import React, { useState } from 'react';
+import { 
+  LuCreditCard, 
+  LuUser, 
+  LuHash, 
+  LuUpload, 
+  LuFileText, 
+  LuEye 
+} from 'react-icons/lu';
 
 const AddFund = () => {
   const [formData, setFormData] = useState({
@@ -52,16 +60,13 @@ const AddFund = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4">
-            <span className="text-2xl">💸</span>
-          </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Add Fund</h1>
           <p className="text-gray-600">Submit your fund request with transaction details</p>
         </div>
 
         {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4">
+          <div className="bg-blue-500 px-6 py-4">
             <h2 className="text-xl font-semibold text-white">Fund Request Form</h2>
           </div>
           
@@ -99,7 +104,7 @@ const AddFund = () => {
                     required
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <span className="text-gray-400">💳</span>
+                    <LuCreditCard className="text-gray-400 w-5 h-5" />
                   </div>
                 </div>
               </div>
@@ -119,7 +124,7 @@ const AddFund = () => {
                     required
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <span className="text-gray-400">👤</span>
+                    <LuUser className="text-gray-400 w-5 h-5" />
                   </div>
                 </div>
               </div>
@@ -139,7 +144,7 @@ const AddFund = () => {
                     required
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <span className="text-gray-400">#️⃣</span>
+                    <LuHash className="text-gray-400 w-5 h-5" />
                   </div>
                 </div>
               </div>
@@ -185,7 +190,7 @@ const AddFund = () => {
                   className="cursor-pointer flex flex-col items-center space-y-2"
                 >
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <span className="text-xl">📁</span>
+                    <LuUpload className="text-blue-600 w-6 h-6" />
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-medium text-gray-700">
@@ -201,7 +206,7 @@ const AddFund = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed shadow-lg"
+              className="w-full bg-blue-500 hover:bg-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed shadow-lg"
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center space-x-2">
@@ -211,7 +216,6 @@ const AddFund = () => {
               ) : (
                 <div className="flex items-center justify-center space-x-2">
                   <span>Submit Fund Request</span>
-                  <span>✨</span>
                 </div>
               )}
             </button>
@@ -221,13 +225,10 @@ const AddFund = () => {
         {/* History Section */}
         {history.length > 0 && (
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
               <h3 className="text-xl font-semibold text-white flex items-center space-x-2">
-                <span>📜</span>
+                <LuFileText className="w-5 h-5" />
                 <span>Submission History</span>
-                <span className="bg-white bg-opacity-20 text-xs px-2 py-1 rounded-full">
-                  {history.length} entries
-                </span>
               </h3>
             </div>
 
@@ -254,7 +255,7 @@ const AddFund = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         <div className="flex items-center space-x-2">
-                          <span>💳</span>
+                          <LuCreditCard className="w-4 h-4 text-blue-600" />
                           <span>{item.methodName}</span>
                         </div>
                       </td>
@@ -272,7 +273,7 @@ const AddFund = () => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors duration-150"
                           >
-                            <span className="mr-1">👁️</span>
+                            <LuEye className="mr-1 w-3 h-3" />
                             View
                           </a>
                         ) : (

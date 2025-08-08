@@ -1,4 +1,19 @@
 import React, { useState } from 'react';
+import {
+  DollarSign,
+  CheckCircle,
+  Clock,
+  XCircle,
+  Undo,
+  Search,
+  Eye,
+  Package,
+  X,
+  FileText,
+  Phone,
+  RefreshCw,
+  BarChart
+} from 'lucide-react';
 
 const MyOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -113,13 +128,13 @@ const MyOrders = () => {
       'Cancelled': 'bg-red-100 text-red-800 border-red-200',
       'Refunded': 'bg-gray-100 text-gray-800 border-gray-200'
     };
-    
+
     const icons = {
-      'Completed': '✅',
-      'Processing': '⏳',
-      'Pending': '⏰',
-      'Cancelled': '❌',
-      'Refunded': '↩️'
+      'Completed': <CheckCircle className="w-3 h-3" />,
+      'Processing': <Clock className="w-3 h-3" />,
+      'Pending': <Clock className="w-3 h-3" />,
+      'Cancelled': <XCircle className="w-3 h-3" />,
+      'Refunded': <Undo className="w-3 h-3" />
     };
     
     return (
@@ -147,7 +162,6 @@ const MyOrders = () => {
         
         {/* Header */}
         <div className="text-center mb-8">
-      
           <h1 className="text-5xl font-bold text-gray-900 mb-4">My Orders</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Track and manage all your order history and post showcases
@@ -163,7 +177,7 @@ const MyOrders = () => {
                 <p className="text-3xl font-bold text-indigo-600">{orders.length}</p>
               </div>
               <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">📊</span>
+                <BarChart className="w-6 h-6 text-indigo-600" />
               </div>
             </div>
           </div>
@@ -175,7 +189,7 @@ const MyOrders = () => {
                 <p className="text-3xl font-bold text-green-600">${totalAmount.toFixed(2)}</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">💰</span>
+                <DollarSign className="w-6 h-6 text-green-600" />
               </div>
             </div>
           </div>
@@ -187,7 +201,7 @@ const MyOrders = () => {
                 <p className="text-3xl font-bold text-blue-600">{completedOrders}</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">✅</span>
+                <CheckCircle className="w-6 h-6 text-blue-600" />
               </div>
             </div>
           </div>
@@ -199,7 +213,7 @@ const MyOrders = () => {
                 <p className="text-3xl font-bold text-orange-600">{processingOrders}</p>
               </div>
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">⏳</span>
+                <Clock className="w-6 h-6 text-orange-600" />
               </div>
             </div>
           </div>
@@ -215,7 +229,7 @@ const MyOrders = () => {
                   onClick={() => setFilterStatus(status)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                     filterStatus === status
-                      ? 'bg-indigo-600 text-white shadow-md'
+                      ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -233,7 +247,7 @@ const MyOrders = () => {
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <span className="text-gray-400">🔍</span>
+                <Search className="w-4 h-4 text-gray-400" />
               </div>
             </div>
           </div>
@@ -241,7 +255,7 @@ const MyOrders = () => {
 
         {/* Orders List */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-8 py-6">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-6">
             <h2 className="text-2xl font-bold text-white flex items-center space-x-2">  
               <span>Order History</span>
             </h2>
@@ -285,7 +299,7 @@ const MyOrders = () => {
                         onClick={() => setSelectedOrder(order)}
                         className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-colors duration-150"
                       >
-                        <span className="mr-1">👁️</span>
+                        <Eye className="mr-1 w-3 h-3" />
                         View Details
                       </button>
                     </td>
@@ -298,7 +312,7 @@ const MyOrders = () => {
           {filteredOrders.length === 0 && (
             <div className="text-center py-12">
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-4xl">📦</span>
+                <Package className="w-12 h-12 text-gray-400" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">No orders found</h3>
               <p className="text-gray-500">Try adjusting your search or filter criteria.</p>
@@ -310,7 +324,7 @@ const MyOrders = () => {
       {/* Order Details Modal */}
       {selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto hide-scrollbar">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
             <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-8 py-6 rounded-t-3xl">
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-bold text-white">Order Details</h3>
@@ -318,7 +332,7 @@ const MyOrders = () => {
                   onClick={() => setSelectedOrder(null)}
                   className="text-white hover:text-gray-200 transition-colors"
                 >
-                  <span className="text-2xl">✕</span>
+                  <X className="w-6 h-6" />
                 </button>
               </div>
             </div>
@@ -351,7 +365,10 @@ const MyOrders = () => {
                   <h4 className="font-semibold text-gray-900 mb-2">{selectedOrder.postShow}</h4>
                   <p className="text-gray-600 text-sm mb-3">{selectedOrder.description}</p>
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span>⏱️ Duration: {selectedOrder.duration}</span>
+                    <span className="flex items-center">
+                      <Clock className="w-4 h-4 mr-1" />
+                      Duration: {selectedOrder.duration}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -380,16 +397,16 @@ const MyOrders = () => {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3 pt-4">
                 <button className="flex items-center space-x-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors">
-                  <span>📄</span>
+                  <FileText className="w-4 h-4" />
                   <span>Download Invoice</span>
                 </button>
                 <button className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                  <span>📞</span>
+                  <Phone className="w-4 h-4" />
                   <span>Contact Support</span>
                 </button>
                 {selectedOrder.status === 'Completed' && (
                   <button className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
-                    <span>🔄</span>
+                    <RefreshCw className="w-4 h-4" />
                     <span>Reorder</span>
                   </button>
                 )}

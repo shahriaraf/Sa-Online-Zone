@@ -1,4 +1,23 @@
 import React, { useState } from 'react';
+import {
+  BarChart3,
+  DollarSign,
+  TrendingDown,
+  Package,
+  Mail,
+  Crown,
+  Users,
+  FileText,
+  CheckCircle,
+  Circle,
+  Clock,
+  Timer,
+  XCircle,
+  Edit,
+  ClipboardList,
+  Search,
+  TrendingUp
+} from 'lucide-react';
 
 const History = () => {
   const [activeTab, setActiveTab] = useState('deposit');
@@ -169,13 +188,13 @@ const History = () => {
   ];
 
   const tabs = [
-    { key: 'deposit', label: 'Deposit History', icon: '💰' },
-    { key: 'withdrawal', label: 'Withdrawal History', icon: '💸' },
-    { key: 'order', label: 'Order History', icon: '📦' },
-    { key: 'receive', label: 'Receive Orders', icon: '📨' },
-    { key: 'subscription', label: 'Subscriptions', icon: '💎' },
-    { key: 'referral', label: 'Referrals', icon: '🤝' },
-    { key: 'post', label: 'Posts', icon: '📄' }
+    { key: 'deposit', label: 'Deposit History', icon: DollarSign },
+    { key: 'withdrawal', label: 'Withdrawal History', icon: TrendingDown },
+    { key: 'order', label: 'Order History', icon: Package },
+    { key: 'receive', label: 'Receive Orders', icon: Mail },
+    { key: 'subscription', label: 'Subscriptions', icon: Crown },
+    { key: 'referral', label: 'Referrals', icon: Users },
+    { key: 'post', label: 'Posts', icon: FileText }
   ];
 
   const getStatusBadge = (status) => {
@@ -193,16 +212,16 @@ const History = () => {
     };
     
     const icons = {
-      'Completed': '✅',
-      'Active': '🟢',
-      'Pending': '⏳',
-      'Processing': '⏱️',
-      'Accepted': '✅',
-      'Rejected': '❌',
-      'Paid': '💰',
-      'Draft': '📝',
-      'Expired': '⏰',
-      'Failed': '❌'
+      'Completed': <CheckCircle className="w-3 h-3" />,
+      'Active': <Circle className="w-3 h-3 fill-current" />,
+      'Pending': <Clock className="w-3 h-3" />,
+      'Processing': <Timer className="w-3 h-3" />,
+      'Accepted': <CheckCircle className="w-3 h-3" />,
+      'Rejected': <XCircle className="w-3 h-3" />,
+      'Paid': <DollarSign className="w-3 h-3" />,
+      'Draft': <Edit className="w-3 h-3" />,
+      'Expired': <Clock className="w-3 h-3" />,
+      'Failed': <XCircle className="w-3 h-3" />
     };
     
     return (
@@ -250,7 +269,9 @@ const History = () => {
       return (
         <tr>
           <td colSpan="8" className="px-6 py-12 text-center text-gray-500">
-            <div className="text-4xl mb-2">📋</div>
+            <div className="flex justify-center mb-2">
+              <ClipboardList className="w-12 h-12 text-gray-400" />
+            </div>
             <p>No records found</p>
           </td>
         </tr>
@@ -306,7 +327,7 @@ const History = () => {
             <td className="px-6 py-4 whitespace-nowrap font-semibold text-green-600">${item.amount.toFixed(2)}</td>
             <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(item.status)}</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.date}</td>
-            <td className="px-6 py-4 whitespace-nowrap font-semibold text-purple-600">${item.commission.toFixed(2)}</td>
+            <td className="px-6 py-4 whitespace-nowrap font-semibold text-blue-600">${item.commission.toFixed(2)}</td>
           </tr>
         ));
 
@@ -333,7 +354,7 @@ const History = () => {
             <td className="px-6 py-4 whitespace-nowrap">
               <span className={`px-2 py-1 rounded text-xs ${
                 item.level === 'Direct' ? 'bg-blue-100 text-blue-800' :
-                item.level === '2nd Level' ? 'bg-purple-100 text-purple-800' :
+                item.level === '2nd Level' ? 'bg-blue-100 text-blue-800' :
                 'bg-indigo-100 text-indigo-800'
               }`}>
                 {item.level}
@@ -383,13 +404,13 @@ const History = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mb-6">
-            <span className="text-3xl">📊</span>
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-full mb-6">
+            <BarChart3 className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 mb-4">History</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -410,7 +431,7 @@ const History = () => {
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                 }`}
               >
-                <span>{tab.icon}</span>
+                <tab.icon className="w-4 h-4" />
                 <span>{tab.label}</span>
               </button>
             ))}
@@ -445,7 +466,7 @@ const History = () => {
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <span className="text-gray-400">🔍</span>
+                <Search className="w-4 h-4 text-gray-400" />
               </div>
             </div>
           </div>
@@ -453,9 +474,9 @@ const History = () => {
 
         {/* History Table */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-8 py-6">
+          <div className="bg-gradient-to-r from-indigo-500 to-blue-600 px-8 py-6">
             <h2 className="text-2xl font-bold text-white flex items-center space-x-2">
-              <span>{tabs.find(tab => tab.key === activeTab)?.icon}</span>
+              {React.createElement(tabs.find(tab => tab.key === activeTab)?.icon, { className: "w-6 h-6" })}
               <span>{tabs.find(tab => tab.key === activeTab)?.label}</span>
               <span className="bg-white bg-opacity-20 text-sm px-3 py-1 rounded-full">
                 {getFilteredData().length} records
@@ -490,7 +511,7 @@ const History = () => {
                 <p className="text-3xl font-bold text-indigo-600">{getCurrentData().length}</p>
               </div>
               <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">📊</span>
+                <BarChart3 className="w-6 h-6 text-indigo-600" />
               </div>
             </div>
           </div>
@@ -504,7 +525,7 @@ const History = () => {
                 </p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">📈</span>
+                <TrendingUp className="w-6 h-6 text-green-600" />
               </div>
             </div>
           </div>
@@ -513,10 +534,10 @@ const History = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Filtered Results</p>
-                <p className="text-3xl font-bold text-purple-600">{getFilteredData().length}</p>
+                <p className="text-3xl font-bold text-blue-600">{getFilteredData().length}</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">🔍</span>
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <Search className="w-6 h-6 text-blue-600" />
               </div>
             </div>
           </div>

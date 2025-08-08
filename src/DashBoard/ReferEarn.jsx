@@ -1,4 +1,19 @@
 import React, { useState } from 'react';
+import { 
+  LuDollarSign, 
+  LuUsers, 
+  LuClock, 
+  LuTrendingUp, 
+  LuLink, 
+  LuTicket, 
+  LuSmartphone, 
+  LuFacebook, 
+  LuTwitter, 
+  LuMessageCircle, 
+  LuMail, 
+  LuCheck, 
+  LuCopy 
+} from 'react-icons/lu';
 
 const ReferEarn = () => {
   const [copySuccess, setCopySuccess] = useState('');
@@ -99,7 +114,7 @@ const ReferEarn = () => {
   const getLevelBadge = (level) => {
     const levelStyles = {
       'Direct': 'bg-blue-100 text-blue-800',
-      '2nd Level': 'bg-purple-100 text-purple-800',
+      '2nd Level': 'bg-blue-100 text-blue-800',
       '3rd Level': 'bg-indigo-100 text-indigo-800'
     };
     
@@ -116,9 +131,6 @@ const ReferEarn = () => {
         
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-green-500 to-blue-600 rounded-full mb-6">
-            <span className="text-3xl">🚀</span>
-          </div>
           <h1 className="text-5xl font-bold text-gray-900 mb-4">Refer & Earn</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Share your referral link with friends and earn commissions on every successful signup and purchase
@@ -134,7 +146,7 @@ const ReferEarn = () => {
                 <p className="text-3xl font-bold text-green-600">${userReferralData.totalEarned.toFixed(2)}</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">💰</span>
+                <LuDollarSign className="w-6 h-6 text-green-600" />
               </div>
             </div>
           </div>
@@ -146,7 +158,7 @@ const ReferEarn = () => {
                 <p className="text-3xl font-bold text-blue-600">{userReferralData.totalReferrals}</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">👥</span>
+                <LuUsers className="w-6 h-6 text-blue-600" />
               </div>
             </div>
           </div>
@@ -158,7 +170,7 @@ const ReferEarn = () => {
                 <p className="text-3xl font-bold text-orange-600">${userReferralData.pendingEarnings.toFixed(2)}</p>
               </div>
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">⏳</span>
+                <LuClock className="w-6 h-6 text-orange-600" />
               </div>
             </div>
           </div>
@@ -167,10 +179,10 @@ const ReferEarn = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">This Month</p>
-                <p className="text-3xl font-bold text-purple-600">${userReferralData.thisMonthEarnings.toFixed(2)}</p>
+                <p className="text-3xl font-bold text-blue-600">${userReferralData.thisMonthEarnings.toFixed(2)}</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-2xl">📈</span>
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <LuTrendingUp className="w-6 h-6 text-blue-600" />
               </div>
             </div>
           </div>
@@ -182,8 +194,8 @@ const ReferEarn = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl text-white">1️⃣</span>
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-3xl font-bold text-white">1</span>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Share Your Link</h3>
               <p className="text-gray-600">Share your unique referral link or promo code with friends, family, and social networks.</p>
@@ -191,15 +203,15 @@ const ReferEarn = () => {
 
             <div className="text-center">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl text-white">2️⃣</span>
+                <span className="text-3xl font-bold text-white">2</span>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">They Sign Up</h3>
               <p className="text-gray-600">When someone uses your link to sign up and purchases a subscription package, you earn commissions.</p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl text-white">3️⃣</span>
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-3xl font-bold text-white">3</span>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Earn Money</h3>
               <p className="text-gray-600">Receive instant commissions and ongoing earnings from your referral network up to 3 levels deep.</p>
@@ -209,7 +221,7 @@ const ReferEarn = () => {
 
         {/* Referral Tools */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-green-500 to-blue-600 px-8 py-6">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-6">
             <h2 className="text-2xl font-bold text-white">Your Referral Tools</h2>
             <p className="text-green-100 mt-1">Use these tools to share and track your referrals</p>
           </div>
@@ -217,8 +229,8 @@ const ReferEarn = () => {
           <div className="p-8 space-y-6">
             {/* Referral Link */}
             <div className="space-y-3">
-              <label className="block text-lg font-semibold text-gray-800">
-                🔗 Your Referral Link
+              <label className="block text-lg font-semibold text-gray-800 flex items-center">
+                <LuLink className="mr-2 w-5 h-5" /> Your Referral Link
               </label>
               <div className="flex items-center space-x-3">
                 <input
@@ -231,7 +243,7 @@ const ReferEarn = () => {
                   onClick={() => copyToClipboard(userReferralData.referralLink, 'link')}
                   className="px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors duration-200 flex items-center space-x-2"
                 >
-                  <span>{copySuccess === 'link' ? '✓' : '📋'}</span>
+                  {copySuccess === 'link' ? <LuCheck className="w-4 h-4" /> : <LuCopy className="w-4 h-4" />}
                   <span>{copySuccess === 'link' ? 'Copied!' : 'Copy'}</span>
                 </button>
               </div>
@@ -239,8 +251,8 @@ const ReferEarn = () => {
 
             {/* Promo Code */}
             <div className="space-y-3">
-              <label className="block text-lg font-semibold text-gray-800">
-                🎟️ Your Promo Code
+              <label className="block text-lg font-semibold text-gray-800 flex items-center">
+                <LuTicket className="mr-2 w-5 h-5" /> Your Promo Code
               </label>
               <div className="flex items-center space-x-3">
                 <input
@@ -253,7 +265,7 @@ const ReferEarn = () => {
                   onClick={() => copyToClipboard(userReferralData.promoCode, 'code')}
                   className="px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors duration-200 flex items-center space-x-2"
                 >
-                  <span>{copySuccess === 'code' ? '✓' : '📋'}</span>
+                  {copySuccess === 'code' ? <LuCheck className="w-4 h-4" /> : <LuCopy className="w-4 h-4" />}
                   <span>{copySuccess === 'code' ? 'Copied!' : 'Copy'}</span>
                 </button>
               </div>
@@ -261,20 +273,20 @@ const ReferEarn = () => {
 
             {/* Share Buttons */}
             <div className="pt-4">
-              <label className="block text-lg font-semibold text-gray-800 mb-4">
-                📱 Quick Share
+              <label className="block text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <LuSmartphone className="mr-2 w-5 h-5" /> Quick Share
               </label>
               <div className="flex flex-wrap gap-3">
                 <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                  <span>📘</span>
+                  <LuFacebook className="w-4 h-4" />
                   <span>Facebook</span>
                 </button>
                 <button className="flex items-center space-x-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-lg transition-colors">
-                  <span>🐦</span>
+                  <LuTwitter className="w-4 h-4" />
                   <span>Twitter</span>
                 </button>
                 <button className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
-                  <span>💬</span>
+                  <LuMessageCircle className="w-4 h-4" />
                   <span>WhatsApp</span>
                 </button>
                 <button className="flex items-center space-x-2 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg transition-colors">
@@ -282,7 +294,7 @@ const ReferEarn = () => {
                   <span>LinkedIn</span>
                 </button>
                 <button className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                  <span>✉️</span>
+                  <LuMail className="w-4 h-4" />
                   <span>Email</span>
                 </button>
               </div>
@@ -292,13 +304,9 @@ const ReferEarn = () => {
 
         {/* Referral History */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-500 to-pink-600 px-8 py-6">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-6">
             <h2 className="text-2xl font-bold text-white flex items-center space-x-2">
-              <span>📊</span>
               <span>Referral History</span>
-              <span className="bg-white bg-opacity-20 text-sm px-3 py-1 rounded-full">
-                {referralHistory.length} users
-              </span>
             </h2>
           </div>
 
@@ -320,7 +328,7 @@ const ReferEarn = () => {
                 {referralHistory.map((user, index) => (
                   <tr key={user.id} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-semibold">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold">
                         {index + 1}
                       </div>
                     </td>
