@@ -28,10 +28,7 @@ import {
 import Headline from '../HeadLine/Headline';
 
 const DashboardHome = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedSubCategory, setSelectedSubCategory] = useState('');
-    const [selectedCountry, setSelectedCountry] = useState('');
+
     const [showViewAll, setShowViewAll] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
     const [showBuyModal, setShowBuyModal] = useState(false);
@@ -65,15 +62,6 @@ const DashboardHome = () => {
         ]
     };
 
-    const categories = ['Electronics', 'Fashion', 'Home & Garden', 'Services', 'Digital'];
-    const subCategories = {
-        'Electronics': ['Smartphones', 'Laptops', 'Cameras'],
-        'Fashion': ['Clothing', 'Shoes', 'Accessories'],
-        'Home & Garden': ['Furniture', 'Decor', 'Tools'],
-        'Services': ['Marketing', 'Design', 'Development'],
-        'Digital': ['Software', 'Apps', 'Online Courses']
-    };
-    const countries = ['United States', 'Canada', 'United Kingdom', 'Germany', 'France'];
 
     const posts = [
         {
@@ -322,67 +310,7 @@ const DashboardHome = () => {
                     </div>
                 </div>
 
-                {/* Search & Filters */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-white/20 mb-6 sm:mb-8">
-                    <div className="flex items-center space-x-3 mb-4 sm:mb-6">
-                        <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                            <Search className="w-4 h-4 text-indigo-600" />
-                        </div>
-                        <h3 className="text-lg sm:text-xl font-bold text-gray-900">Search & Filter Posts</h3>
-                    </div>
-
-                    {/* Mobile-first responsive grid */}
-                    <div className="space-y-4">
-                        {/* Search Input - Full width on mobile */}
-                        <div className="relative">
-                            <input
-                                type="text"
-                                placeholder="Search posts..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
-                            />
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                        </div>
-
-                        {/* Filters - Stack on mobile, grid on larger screens */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                            <select
-                                value={selectedCategory}
-                                onChange={(e) => setSelectedCategory(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-                            >
-                                <option value="">All Categories</option>
-                                {categories.map(category => (
-                                    <option key={category} value={category}>{category}</option>
-                                ))}
-                            </select>
-
-                            <select
-                                value={selectedSubCategory}
-                                onChange={(e) => setSelectedSubCategory(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-                                disabled={!selectedCategory}
-                            >
-                                <option value="">All Sub Categories</option>
-                                {selectedCategory && subCategories[selectedCategory]?.map(subCat => (
-                                    <option key={subCat} value={subCat}>{subCat}</option>
-                                ))}
-                            </select>
-
-                            <select
-                                value={selectedCountry}
-                                onChange={(e) => setSelectedCountry(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-                            >
-                                <option value="">All Countries</option>
-                                {countries.map(country => (
-                                    <option key={country} value={country}>{country}</option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-                </div>
+               
 
                 {/* Posts Section */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl border border-white/20 overflow-hidden">

@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { 
-  LuCreditCard, 
-  LuUser, 
-  LuHash, 
-  LuUpload, 
-  LuFileText, 
-  LuEye 
-} from 'react-icons/lu';
+  CreditCard, 
+  User, 
+  Hash, 
+  Upload, 
+  FileText, 
+  Eye,
+  Edit,
+  Check,
+  X,
+  Play
+} from 'lucide-react';
 import Headline from '../HeadLine/Headline';
 
 const AddFund = () => {
   const [formData, setFormData] = useState({
-    details: '',
     methodName: '',
     senderAccount: '',
     transactionId: '',
@@ -21,6 +24,14 @@ const AddFund = () => {
 
   const [history, setHistory] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Admin description state
+  const [adminDescription, setAdminDescription] = useState('Welcome to the Add Fund section. Here you can submit your fund requests with proper transaction details. Please ensure all information is accurate before submitting.');
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [tempDescription, setTempDescription] = useState('');
+  
+  // Assume this comes from your auth context or props
+  const isAdmin = true; // You can replace this with actual admin check
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -46,7 +57,6 @@ const AddFund = () => {
 
     setHistory([newEntry, ...history]);
     setFormData({
-      details: '',
       methodName: '',
       senderAccount: '',
       transactionId: '',
@@ -56,15 +66,132 @@ const AddFund = () => {
     setIsSubmitting(false);
   };
 
+  const startEditingDescription = () => {
+    setTempDescription(adminDescription);
+    setIsEditingDescription(true);
+  };
+
+  const saveDescription = () => {
+    setAdminDescription(tempDescription);
+    setIsEditingDescription(false);
+  };
+
+  const cancelEditingDescription = () => {
+    setTempDescription('');
+    setIsEditingDescription(false);
+  };
+
+  const VideoTutorial = () => (
+    <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <div className="bg-gradient-to-r from-purple-500 to-blue-500 px-6 py-4">
+        <h3 className="text-xl font-semibold text-white flex items-center space-x-2">
+          <Play className="w-5 h-5" />
+          <span>Video Tutorial</span>
+        </h3>
+      </div>
+      
+      <div className="p-6">
+        <div className="relative bg-gray-900 rounded-xl overflow-hidden">
+          <div className="aspect-video">
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="How to Add Funds - Tutorial"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="rounded-xl"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-100 py-8">
-       <Headline className='mb-10'  headlines={["Welcome to our amazing platform!"]} ></Headline>
+      <Headline className='mb-10' headlines={["Welcome to our amazing platform!"]} />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Add Fund</h1>
           <p className="text-gray-600">Submit your fund request with transaction details</p>
+        </div>
+
+        {/* Admin Description and Video Tutorial Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          {/* Admin Description Section */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+              <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-semibold text-white flex items-center space-x-2">
+                    <FileText className="w-5 h-5" />
+                    <span>Instructions</span>
+                  </h3>
+                  {isAdmin && (
+                    <button
+                      onClick={startEditingDescription}
+                      className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                      title="Edit instructions"
+                    >
+                      <Edit className="w-4 h-4 text-white" />
+                    </button>
+                  )}
+                </div>
+              </div>
+              
+              <div className="p-6">
+                {isEditingDescription ? (
+                  <div className="space-y-4">
+                    <textarea
+                      value={tempDescription}
+                      onChange={(e) => setTempDescription(e.target.value)}
+                      rows={6}
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 resize-none"
+                      placeholder="Enter instructions for users..."
+                    />
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={saveDescription}
+                        className="flex items-center space-x-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                      >
+                        <Check className="w-4 h-4" />
+                        <span>Save</span>
+                      </button>
+                      <button
+                        onClick={cancelEditingDescription}
+                        className="flex items-center space-x-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                        <span>Cancel</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <p className="text-gray-700 leading-relaxed">{adminDescription}</p>
+                    {isAdmin && adminDescription && (
+                      <button
+                        onClick={startEditingDescription}
+                        className="absolute top-0 right-0 p-2 text-gray-400 hover:text-green-500 hover:bg-green-50 rounded-lg transition-all duration-200"
+                        title="Edit instructions"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Video Tutorial Section */}
+          <div className="lg:col-span-1">
+            <VideoTutorial />
+          </div>
         </div>
 
         {/* Form Card */}
@@ -74,27 +201,11 @@ const AddFund = () => {
           </div>
           
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {/* Details */}
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Transaction Details
-              </label>
-              <textarea
-                name="details"
-                rows={4}
-                placeholder="Enter transaction details, purpose, or additional notes..."
-                className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
-                value={formData.details}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
             {/* Grid Form Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Payment Method
+                  Payment Method *
                 </label>
                 <div className="relative">
                   <input
@@ -107,14 +218,14 @@ const AddFund = () => {
                     required
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <LuCreditCard className="text-gray-400 w-5 h-5" />
+                    <CreditCard className="text-gray-400 w-5 h-5" />
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Sender Account
+                  Sender Account *
                 </label>
                 <div className="relative">
                   <input
@@ -127,14 +238,14 @@ const AddFund = () => {
                     required
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <LuUser className="text-gray-400 w-5 h-5" />
+                    <User className="text-gray-400 w-5 h-5" />
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Transaction ID
+                  Transaction ID *
                 </label>
                 <div className="relative">
                   <input
@@ -147,14 +258,14 @@ const AddFund = () => {
                     required
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <LuHash className="text-gray-400 w-5 h-5" />
+                    <Hash className="text-gray-400 w-5 h-5" />
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Amount
+                  Amount *
                 </label>
                 <div className="relative">
                   <input
@@ -177,7 +288,7 @@ const AddFund = () => {
             {/* File Upload */}
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
-                Screenshot (Optional)
+                Transaction Screenshot *
               </label>
               <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-blue-400 transition-colors duration-200">
                 <input
@@ -187,19 +298,20 @@ const AddFund = () => {
                   onChange={handleChange}
                   className="hidden"
                   id="screenshot-upload"
+                  required
                 />
                 <label
                   htmlFor="screenshot-upload"
                   className="cursor-pointer flex flex-col items-center space-y-2"
                 >
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <LuUpload className="text-blue-600 w-6 h-6" />
+                    <Upload className="text-blue-600 w-6 h-6" />
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-medium text-gray-700">
-                      {formData.screenshot ? formData.screenshot.name : 'Upload screenshot'}
+                      {formData.screenshot ? formData.screenshot.name : 'Upload transaction screenshot'}
                     </p>
-                    <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+                    <p className="text-xs text-gray-500">PNG, JPG up to 10MB (Required)</p>
                   </div>
                 </label>
               </div>
@@ -230,7 +342,7 @@ const AddFund = () => {
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
             <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
               <h3 className="text-xl font-semibold text-white flex items-center space-x-2">
-                <LuFileText className="w-5 h-5" />
+                <FileText className="w-5 h-5" />
                 <span>Submission History</span>
               </h3>
             </div>
@@ -258,7 +370,7 @@ const AddFund = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         <div className="flex items-center space-x-2">
-                          <LuCreditCard className="w-4 h-4 text-blue-600" />
+                          <CreditCard className="w-4 h-4 text-blue-600" />
                           <span>{item.methodName}</span>
                         </div>
                       </td>
@@ -276,7 +388,7 @@ const AddFund = () => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors duration-150"
                           >
-                            <LuEye className="mr-1 w-3 h-3" />
+                            <Eye className="mr-1 w-3 h-3" />
                             View
                           </a>
                         ) : (

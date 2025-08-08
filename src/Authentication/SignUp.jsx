@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     FiMail,
     FiLock,
@@ -14,6 +14,17 @@ import {
     FiChevronDown
 } from 'react-icons/fi';
 import { FaGoogle, FaFacebookF } from 'react-icons/fa';
+import { 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    updateProfile,
+    sendPasswordResetEmail,
+    onAuthStateChanged
+} from 'firebase/auth';
+import { auth } from '../../firebase'; // Adjust path as needed
 
 // Country codes data
 const countryCodes = [
@@ -221,11 +232,12 @@ const CountrySelectField = ({ value, onChange, error }) => {
 };
 
 // Social button
-const SocialButton = ({ icon: Icon, provider, onClick }) => (
+const SocialButton = ({ icon: Icon, provider, onClick, disabled }) => (
     <button
         type="button"
         onClick={onClick}
-        className="flex-1 flex items-center justify-center gap-3 py-3 px-4 bg-white border-2 border-gray-200 rounded-xl text-gray-700 hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 group"
+        disabled={disabled}
+        className="flex-1 flex items-center justify-center gap-3 py-3 px-4 bg-white border-2 border-gray-200 rounded-xl text-gray-700 hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
     >
         <Icon className="text-lg group-hover:scale-110 transition-transform" />
         <span className="text-sm font-medium">{provider}</span>
@@ -243,10 +255,101 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
     </div>
 );
 
-const SignUp = () => {
+// Forgot Password Modal
+const ForgotPasswordModal = ({ isOpen, onClose, onSend }) => {
+    const [email, setEmail] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!email) return;
+
+        setIsLoading(true);
+        try {
+            await sendPasswordResetEmail(auth, email);
+            setMessage('Password reset email sent! Check your inbox.');
+            setTimeout(() => {
+                onClose();
+                setEmail('');
+                setMessage('');
+            }, 3000);
+        } catch (error) {
+            setMessage(getFirebaseErrorMessage(error.code));
+        }
+        setIsLoading(false);
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold text-gray-900">Reset Password</h3>
+                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+                        <FiX className="w-5 h-5" />
+                    </button>
+                </div>
+                <p className="text-gray-600 mb-4">Enter your email address and we'll send you a link to reset your password.</p>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 mb-4"
+                        required
+                    />
+                    {message && (
+                        <p className={`text-sm mb-4 ${message.includes('sent') ? 'text-green-600' : 'text-red-600'}`}>
+                            {message}
+                        </p>
+                    )}
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                    >
+                        {isLoading ? 'Sending...' : 'Send Reset Link'}
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+// Helper function to get user-friendly error messages
+const getFirebaseErrorMessage = (errorCode) => {
+    switch (errorCode) {
+        case 'auth/user-not-found':
+            return 'No account found with this email address.';
+        case 'auth/wrong-password':
+            return 'Incorrect password. Please try again.';
+        case 'auth/email-already-in-use':
+            return 'An account with this email already exists.';
+        case 'auth/weak-password':
+            return 'Password should be at least 6 characters long.';
+        case 'auth/invalid-email':
+            return 'Please enter a valid email address.';
+        case 'auth/too-many-requests':
+            return 'Too many failed attempts. Please try again later.';
+        case 'auth/popup-closed-by-user':
+            return 'Sign-in popup was closed. Please try again.';
+        case 'auth/cancelled-popup-request':
+            return 'Only one popup request is allowed at a time.';
+        case 'auth/popup-blocked':
+            return 'Popup was blocked by the browser. Please allow popups and try again.';
+        default:
+            return 'An error occurred. Please try again.';
+    }
+};
+
+const SignUp = ({ onAuthSuccess }) => {
     const [isSignUp, setIsSignUp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -260,6 +363,20 @@ const SignUp = () => {
     const [countryCode, setCountryCode] = useState('+1');
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [authError, setAuthError] = useState('');
+    const [user, setUser] = useState(null);
+
+    // Listen for authentication state changes
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            if (currentUser && onAuthSuccess) {
+                onAuthSuccess(currentUser);
+            }
+        });
+
+        return () => unsubscribe();
+    }, [onAuthSuccess]);
 
     const getPasswordStrength = (password) => {
         let strength = 0;
@@ -298,8 +415,8 @@ const SignUp = () => {
 
         if (!formData.password) {
             newErrors.password = 'Password is required';
-        } else if (formData.password.length < 8) {
-            newErrors.password = 'Password must be at least 8 characters';
+        } else if (formData.password.length < 6) {
+            newErrors.password = 'Password must be at least 6 characters';
         }
 
         if (isSignUp && formData.password !== formData.confirmPassword) {
@@ -310,15 +427,108 @@ const SignUp = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    // Email/Password Authentication
+    const handleEmailAuth = async () => {
+        try {
+            let userCredential;
+
+            if (isSignUp) {
+                // Create new user
+                userCredential = await createUserWithEmailAndPassword(
+                    auth, 
+                    formData.email, 
+                    formData.password
+                );
+
+                // Update user profile with display name
+                await updateProfile(userCredential.user, {
+                    displayName: formData.name
+                });
+
+                // Here you can save additional user data to your database
+                // saveUserData(userCredential.user.uid, {
+                //     name: formData.name,
+                //     username: formData.username,
+                //     whatsapp: countryCode + formData.whatsapp,
+                //     country: formData.country
+                // });
+
+                console.log('User created:', {
+                    uid: userCredential.user.uid,
+                    name: formData.name,
+                    username: formData.username,
+                    whatsapp: countryCode + formData.whatsapp,
+                    country: formData.country
+                });
+
+            } else {
+                // Sign in existing user
+                userCredential = await signInWithEmailAndPassword(
+                    auth, 
+                    formData.email, 
+                    formData.password
+                );
+            }
+
+            console.log('Authentication successful:', userCredential.user);
+            setAuthError('');
+
+        } catch (error) {
+            console.error('Authentication error:', error);
+            setAuthError(getFirebaseErrorMessage(error.code));
+        }
+    };
+
+    // Google Authentication
+    const handleGoogleAuth = async () => {
+        try {
+            const provider = new GoogleAuthProvider();
+            provider.addScope('email');
+            provider.addScope('profile');
+            
+            const result = await signInWithPopup(auth, provider);
+            console.log('Google authentication successful:', result.user);
+            setAuthError('');
+
+            // If it's a new user and this was meant to be a signup, you might want to collect additional info
+            // if (isSignUp && result.additionalUserInfo?.isNewUser) {
+            //     // Redirect to complete profile or show additional form
+            // }
+
+        } catch (error) {
+            console.error('Google authentication error:', error);
+            setAuthError(getFirebaseErrorMessage(error.code));
+        }
+    };
+
+    // Facebook Authentication
+    const handleFacebookAuth = async () => {
+        try {
+            const provider = new FacebookAuthProvider();
+            provider.addScope('email');
+            
+            const result = await signInWithPopup(auth, provider);
+            console.log('Facebook authentication successful:', result.user);
+            setAuthError('');
+
+        } catch (error) {
+            console.error('Facebook authentication error:', error);
+            setAuthError(getFirebaseErrorMessage(error.code));
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
 
         setIsLoading(true);
-        setTimeout(() => {
+        setAuthError('');
+
+        try {
+            await handleEmailAuth();
+        } finally {
             setIsLoading(false);
-            console.log('Form submitted:', { ...formData, countryCode });
-        }, 2000);
+        }
     };
 
     const handleChange = (e) => {
@@ -332,6 +542,10 @@ const SignUp = () => {
                 ...prev,
                 [name]: ''
             }));
+        }
+        // Clear auth error when user starts typing
+        if (authError) {
+            setAuthError('');
         }
     };
 
@@ -349,6 +563,7 @@ const SignUp = () => {
         });
         setCountryCode('+1');
         setErrors({});
+        setAuthError('');
     };
 
     return (
@@ -386,10 +601,30 @@ const SignUp = () => {
                         </p>
                     </div>
 
+                    {/* Auth Error Display */}
+                    {authError && (
+                        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                            <p className="text-sm text-red-600 flex items-center gap-2">
+                                <FiX className="w-4 h-4" />
+                                {authError}
+                            </p>
+                        </div>
+                    )}
+
                     <div className="mb-6">
                         <div className="flex gap-3 mb-4">
-                            <SocialButton icon={FaGoogle} provider="Google" onClick={() => console.log('Google login')} />
-                            <SocialButton icon={FaFacebookF} provider="Facebook" onClick={() => console.log('Facebook login')} />
+                            <SocialButton 
+                                icon={FaGoogle} 
+                                provider="Google" 
+                                onClick={handleGoogleAuth}
+                                disabled={isLoading}
+                            />
+                            <SocialButton 
+                                icon={FaFacebookF} 
+                                provider="Facebook" 
+                                onClick={handleFacebookAuth}
+                                disabled={isLoading}
+                            />
                         </div>
                     </div>
 
@@ -447,7 +682,11 @@ const SignUp = () => {
 
                         {!isSignUp && (
                             <div className="text-right">
-                                <button type="button" className="text-blue-500 hover:text-blue-600 text-sm transition-colors">
+                                <button 
+                                    type="button" 
+                                    onClick={() => setShowForgotPassword(true)}
+                                    className="text-blue-500 hover:text-blue-600 text-sm transition-colors"
+                                >
                                     Forgot password?
                                 </button>
                             </div>
@@ -507,6 +746,12 @@ const SignUp = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Forgot Password Modal */}
+            <ForgotPasswordModal 
+                isOpen={showForgotPassword}
+                onClose={() => setShowForgotPassword(false)}
+            />
         </div>
     );
 };

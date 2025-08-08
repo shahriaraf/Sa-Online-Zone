@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { 
-  LuStar, 
-  LuDollarSign, 
-  LuFileText, 
-  LuSettings, 
-  LuShield, 
-  LuSparkles, 
-  LuCheck, 
-  LuX, 
-  LuCreditCard, 
-  LuPhone, 
-  LuLink, 
-  LuUser, 
-  LuGem 
-} from 'react-icons/lu';
+  Star, 
+  DollarSign, 
+  FileText, 
+  Settings, 
+  Shield, 
+  Sparkles, 
+  Check, 
+  X, 
+  CreditCard, 
+  Phone, 
+  Link, 
+  User, 
+  Gem,
+  Edit3,
+  Save,
+  XCircle
+} from 'lucide-react';
 import Headline from '../HeadLine/Headline';
 
-const BuySubscription = () => {
+const BuySubscription = ({ isAdmin = true }) => { // Add isAdmin prop, defaulting to true for demo
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [formData, setFormData] = useState({
     nidFront: null,
@@ -29,9 +32,11 @@ const BuySubscription = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [editingPackage, setEditingPackage] = useState(null);
+  const [editData, setEditData] = useState({});
 
-  // Sample packages data
-  const packages = [
+  // Sample packages data with commission percentages
+  const [packages, setPackages] = useState([
     {
       id: 1,
       name: "Starter Package",
@@ -40,6 +45,7 @@ const BuySubscription = () => {
       sellPosts: 10,
       settings: "Basic",
       trustedGuarantee: 85,
+      commission: 15, // Add commission percentage
       popular: false,
       features: ["Basic Dashboard", "Email Support", "Monthly Reports"]
     },
@@ -51,6 +57,7 @@ const BuySubscription = () => {
       sellPosts: 50,
       settings: "Advanced",
       trustedGuarantee: 92,
+      commission: 25, // Add commission percentage
       popular: true,
       features: ["Advanced Dashboard", "Priority Support", "Weekly Reports", "Analytics Tools"]
     },
@@ -62,10 +69,11 @@ const BuySubscription = () => {
       sellPosts: 200,
       settings: "Premium",
       trustedGuarantee: 98,
+      commission: 35, // Add commission percentage
       popular: false,
       features: ["Premium Dashboard", "24/7 Support", "Daily Reports", "Advanced Analytics", "Custom Branding"]
     }
-  ];
+  ]);
 
   const handlePackageSelect = (pkg) => {
     setSelectedPackage(pkg);
@@ -87,7 +95,7 @@ const BuySubscription = () => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    alert(`Subscription purchased successfully!\nPackage: ${selectedPackage.name}\nPrice: $${selectedPackage.price}`);
+    alert(`Subscription purchased successfully!\nPackage: ${selectedPackage.name}\nPrice: $${selectedPackage.price}\nCommission: ${selectedPackage.commission}%`);
     
     // Reset form
     setFormData({
@@ -104,9 +112,40 @@ const BuySubscription = () => {
     setSelectedPackage(null);
   };
 
+  // Admin editing functions
+  const startEditing = (pkg) => {
+    setEditingPackage(pkg.id);
+    setEditData({
+      name: pkg.name,
+      commission: pkg.commission
+    });
+  };
+
+  const cancelEditing = () => {
+    setEditingPackage(null);
+    setEditData({});
+  };
+
+  const saveEditing = () => {
+    setPackages(prev => prev.map(pkg => 
+      pkg.id === editingPackage 
+        ? { ...pkg, name: editData.name, commission: editData.commission }
+        : pkg
+    ));
+    setEditingPackage(null);
+    setEditData({});
+  };
+
+  const handleEditChange = (field, value) => {
+    setEditData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 py-4 sm:py-8">
-      <Headline className='mb-10'  headlines={["Welcome to our amazing platform!"]} ></Headline>
+      <Headline className='mb-10' headlines={["Welcome to our amazing platform!"]} />
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         
         {/* Header */}
@@ -132,15 +171,59 @@ const BuySubscription = () => {
                 {pkg.popular && (
                   <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
                     <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold flex items-center">
-                      <LuStar className="mr-1 sm:mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Most Popular
+                      <Star className="mr-1 sm:mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Most Popular
                     </span>
+                  </div>
+                )}
+
+                {/* Admin Edit Controls */}
+                {isAdmin && (
+                  <div className="absolute top-3 right-3 z-10">
+                    {editingPackage === pkg.id ? (
+                      <div className="flex items-center space-x-1">
+                        <button
+                          onClick={saveEditing}
+                          className="p-1.5 bg-green-500 hover:bg-green-600 text-white rounded-full transition-colors"
+                          title="Save changes"
+                        >
+                          <Save className="w-3 h-3" />
+                        </button>
+                        <button
+                          onClick={cancelEditing}
+                          className="p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full transition-colors"
+                          title="Cancel editing"
+                        >
+                          <XCircle className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => startEditing(pkg)}
+                        className="p-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 rounded-full transition-colors"
+                        title="Edit package"
+                      >
+                        <Edit3 className="w-3 h-3" />
+                      </button>
+                    )}
                   </div>
                 )}
 
                 <div className="p-4 sm:p-6 lg:p-8">
                   {/* Package Header */}
                   <div className="text-center mb-4 sm:mb-6">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
+                    {/* Editable Package Name */}
+                    {editingPackage === pkg.id ? (
+                      <input
+                        type="text"
+                        value={editData.name}
+                        onChange={(e) => handleEditChange('name', e.target.value)}
+                        className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 w-full text-center border-b-2 border-blue-500 focus:outline-none bg-transparent"
+                        placeholder="Package name"
+                      />
+                    ) : (
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
+                    )}
+                    
                     <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed">{pkg.description}</p>
                     <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">
                       ${pkg.price}
@@ -152,33 +235,54 @@ const BuySubscription = () => {
                   <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
                     <div className="flex justify-between items-center">
                       <span className="text-sm sm:text-base text-gray-600 flex items-center">
-                        <LuFileText className="mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Sell Posts
+                        <FileText className="mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Sell Posts
                       </span>
                       <span className="text-sm sm:text-base font-semibold">{pkg.sellPosts}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm sm:text-base text-gray-600 flex items-center">
-                        <LuSettings className="mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Settings
+                        <Settings className="mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Settings
                       </span>
                       <span className="text-sm sm:text-base font-semibold">{pkg.settings}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm sm:text-base text-gray-600 flex items-center">
-                        <LuShield className="mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Trusted Guarantee
+                        <Shield className="mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Trusted Guarantee
                       </span>
                       <span className="text-sm sm:text-base font-semibold text-green-600">{pkg.trustedGuarantee}%</span>
+                    </div>
+                    {/* Editable Commission */}
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm sm:text-base text-gray-600 flex items-center">
+                        <DollarSign className="mr-2 w-3 h-3 sm:w-4 sm:h-4" /> Commission
+                      </span>
+                      {editingPackage === pkg.id ? (
+                        <div className="flex items-center">
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={editData.commission}
+                            onChange={(e) => handleEditChange('commission', parseInt(e.target.value) || 0)}
+                            className="text-sm sm:text-base font-semibold text-green-600 w-12 text-right border-b border-green-500 focus:outline-none bg-transparent"
+                          />
+                          <span className="text-sm sm:text-base font-semibold text-green-600 ml-1">%</span>
+                        </div>
+                      ) : (
+                        <span className="text-sm sm:text-base font-semibold text-green-600">{pkg.commission}%</span>
+                      )}
                     </div>
                   </div>
 
                   {/* Features */}
                   <div className="mb-6 sm:mb-8">
                     <h4 className="text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-3 flex items-center">
-                      <LuSparkles className="mr-2 w-4 h-4 sm:w-5 sm:h-5" /> Features
+                      <Sparkles className="mr-2 w-4 h-4 sm:w-5 sm:h-5" /> Features
                     </h4>
                     <ul className="space-y-1.5 sm:space-y-2">
                       {pkg.features.map((feature, index) => (
                         <li key={index} className="flex items-center text-xs sm:text-sm text-gray-600">
-                          <LuCheck className="mr-2 w-3 h-3 sm:w-4 sm:h-4 text-green-500 flex-shrink-0" />
+                          <Check className="mr-2 w-3 h-3 sm:w-4 sm:h-4 text-green-500 flex-shrink-0" />
                           <span className="leading-relaxed">{feature}</span>
                         </li>
                       ))}
@@ -188,13 +292,16 @@ const BuySubscription = () => {
                   {/* Select Button */}
                   <button
                     onClick={() => handlePackageSelect(pkg)}
+                    disabled={editingPackage === pkg.id}
                     className={`w-full py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base transition-all duration-200 ${
-                      pkg.popular
+                      editingPackage === pkg.id
+                        ? 'bg-gray-400 cursor-not-allowed text-white'
+                        : pkg.popular
                         ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg'
                         : 'bg-gray-900 hover:bg-gray-800 text-white'
                     }`}
                   >
-                    Choose {pkg.name}
+                    {editingPackage === pkg.id ? 'Editing...' : `Choose ${pkg.name}`}
                   </button>
                 </div>
               </div>
@@ -210,14 +317,14 @@ const BuySubscription = () => {
                   <div>
                     <h2 className="text-lg sm:text-2xl font-bold text-white">Complete Your Subscription</h2>
                     <p className="text-purple-100 mt-1 text-sm sm:text-base">
-                      {selectedPackage.name} - ${selectedPackage.price}/month
+                      {selectedPackage.name} - ${selectedPackage.price}/month - {selectedPackage.commission}% Commission
                     </p>
                   </div>
                   <button
                     onClick={() => setShowForm(false)}
                     className="text-white hover:text-purple-200 transition-colors p-1"
                   >
-                    <LuX className="w-5 h-5 sm:w-6 sm:h-6" />
+                    <X className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
                 </div>
               </div>
@@ -241,7 +348,7 @@ const BuySubscription = () => {
                       />
                       <label htmlFor="nid-front" className="cursor-pointer flex flex-col items-center">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-full flex items-center justify-center mb-2">
-                          <LuCreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                          <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
                         </div>
                         <p className="text-xs sm:text-sm font-medium text-gray-700 text-center">
                           {formData.nidFront ? formData.nidFront.name : 'Upload NID Front'}
@@ -267,7 +374,7 @@ const BuySubscription = () => {
                       />
                       <label htmlFor="nid-back" className="cursor-pointer flex flex-col items-center">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-full flex items-center justify-center mb-2">
-                          <LuCreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                          <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
                         </div>
                         <p className="text-xs sm:text-sm font-medium text-gray-700 text-center">
                           {formData.nidBack ? formData.nidBack.name : 'Upload NID Back'}
@@ -328,7 +435,7 @@ const BuySubscription = () => {
                         required
                       />
                       <div className="absolute inset-y-0 right-0 flex items-center pr-3 sm:pr-4">
-                        <LuPhone className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+                        <Phone className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                       </div>
                     </div>
                   </div>
@@ -347,7 +454,7 @@ const BuySubscription = () => {
                         onChange={handleInputChange}
                       />
                       <div className="absolute inset-y-0 right-0 flex items-center pr-3 sm:pr-4">
-                        <LuLink className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+                        <Link className="text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                       </div>
                     </div>
                   </div>
@@ -370,7 +477,7 @@ const BuySubscription = () => {
                     />
                     <label htmlFor="profile-image" className="cursor-pointer flex flex-col items-center">
                       <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-                        <LuUser className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+                        <User className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
                       </div>
                       <p className="text-base sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2 text-center">
                         {formData.profileImage ? formData.profileImage.name : 'Upload Profile Image'}
@@ -395,7 +502,7 @@ const BuySubscription = () => {
                     ) : (
                       <div className="flex items-center justify-center space-x-2">
                         <span>Complete Subscription - ${selectedPackage.price}</span>
-                        <LuGem className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+                        <Gem className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
                       </div>
                     )}
                   </button>

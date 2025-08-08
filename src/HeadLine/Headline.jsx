@@ -5,7 +5,7 @@ import { Speaker, Volume2, VolumeX, Pause, Play } from 'lucide-react';
 const Headline = ({ 
   headlines = ["Welcome to our platform!"], 
   speed = 50, // pixels per second
-  backgroundColor = "from-blue-600 to-purple-600",
+  backgroundColor = "from-blue-500 to-blue-600",
   textColor = "text-white",
   showIcon = true,
   pauseOnHover = true,
