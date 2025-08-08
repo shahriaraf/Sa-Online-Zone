@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { FaWallet, FaArrowDown, FaMoneyBillWave } from 'react-icons/fa';
 
-const DepositSection = () => {
+const Deposit = () => {
   const [paymentMethod, setPaymentMethod] = useState('bkash');
   const [amount, setAmount] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [currentBalance, setCurrentBalance] = useState(2000);
   const [lastDeposit, setLastDeposit] = useState(0);
   const [totalDeposited, setTotalDeposited] = useState(5000);
+  const [depositHistory, setDepositHistory] = useState([]);
+
+  const generateDepositId = () => {
+    return 'DEP' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,9 +23,22 @@ const DepositSection = () => {
       return;
     }
 
+    // Create deposit record
+    const depositRecord = {
+      id: Date.now(),
+      depositId: generateDepositId(),
+      paymentMethod: paymentMethod,
+      transactionId: transactionId,
+      amount: depositAmount,
+      date: new Date().toLocaleString(),
+      status: 'Completed'
+    };
+
+    // Update states
     setCurrentBalance(prev => prev + depositAmount);
     setLastDeposit(depositAmount);
     setTotalDeposited(prev => prev + depositAmount);
+    setDepositHistory(prev => [depositRecord, ...prev]);
 
     alert(`Successfully deposited ${depositAmount}৳ via ${paymentMethod}!`);
 
@@ -28,8 +46,27 @@ const DepositSection = () => {
     setTransactionId('');
   };
 
+  const getPaymentMethodIcon = (method) => {
+    const icons = {
+      'bkash': '📱',
+      'nagad': '💰',
+      'rocket': '🚀',
+      'bank': '🏦'
+    };
+    return icons[method] || '💳';
+  };
+
+  const getStatusBadge = (status) => {
+    const statusStyles = {
+      'Completed': 'bg-green-100 text-green-800',
+      'Pending': 'bg-yellow-100 text-yellow-800',
+      'Failed': 'bg-red-100 text-red-800'
+    };
+    return `px-2 py-1 rounded-full text-xs font-medium ${statusStyles[status] || 'bg-gray-100 text-gray-800'}`;
+  };
+
   return (
-    <div className="w-full max-w-3xl mx-auto mt-10 p-6 rounded-2xl bg-white text-gray-800 shadow-2xl">
+    <div className="w-full max-w-5xl mx-auto mt-10 p-6 rounded-2xl bg-white text-gray-800 shadow-2xl">
       <h2 className="text-3xl font-bold text-center mb-10">💳 Deposit Funds</h2>
 
       {/* Summary Boxes */}
@@ -52,7 +89,7 @@ const DepositSection = () => {
       </div>
 
       {/* Deposit Form */}
-      <form onSubmit={handleSubmit} className="space-y-6 p-6 rounded-xl border border-gray-200 bg-gray-50">
+      <form onSubmit={handleSubmit} className="space-y-6 p-6 rounded-xl border border-gray-200 bg-gray-50 mb-10">
         {/* Payment Method */}
         <div>
           <label className="block text-sm font-medium mb-1">Payment Method</label>
@@ -102,8 +139,72 @@ const DepositSection = () => {
           Submit Deposit
         </button>
       </form>
+
+      {/* Deposit History Table */}
+      {depositHistory.length > 0 && (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-700 to-sky-500 px-6 py-4">
+            <h3 className="text-xl font-bold text-white">📋 Deposit History</h3>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Deposit ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Transaction ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Payment Method
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Amount
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Date & Time
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {depositHistory.map((deposit) => (
+                  <tr key={deposit.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                      {deposit.depositId}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                      {deposit.transactionId}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div className="flex items-center">
+                        <span className="mr-2">{getPaymentMethodIcon(deposit.paymentMethod)}</span>
+                        <span className="capitalize">{deposit.paymentMethod}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">
+                      {deposit.amount} ৳
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {deposit.date}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={getStatusBadge(deposit.status)}>
+                        {deposit.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default DepositSection;
+export default Deposit;

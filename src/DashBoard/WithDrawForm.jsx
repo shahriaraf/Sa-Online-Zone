@@ -8,6 +8,11 @@ const WithDrawForm = () => {
   const [availableBalance, setAvailableBalance] = useState(3000);
   const [lastWithdraw, setLastWithdraw] = useState(0);
   const [totalWithdrawn, setTotalWithdrawn] = useState(2500);
+  const [withdrawalHistory, setWithdrawalHistory] = useState([]);
+
+  const generateTransactionId = () => {
+    return 'WTD' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,9 +28,22 @@ const WithDrawForm = () => {
       return;
     }
 
+    // Create withdrawal record
+    const withdrawalRecord = {
+      id: Date.now(),
+      transactionId: generateTransactionId(),
+      paymentMethod: paymentMethod,
+      accountNumber: accountNumber,
+      amount: amount,
+      date: new Date().toLocaleString(),
+      status: 'Processing'
+    };
+
+    // Update states
     setAvailableBalance(prev => prev - amount);
     setLastWithdraw(amount);
     setTotalWithdrawn(prev => prev + amount);
+    setWithdrawalHistory(prev => [withdrawalRecord, ...prev]);
 
     alert(`Successfully withdrawn ${amount}৳ via ${paymentMethod}.`);
 
@@ -33,8 +51,27 @@ const WithDrawForm = () => {
     setAccountNumber('');
   };
 
+  const getPaymentMethodIcon = (method) => {
+    const icons = {
+      'bkash': '📱',
+      'nagad': '💰',
+      'rocket': '🚀',
+      'bank': '🏦'
+    };
+    return icons[method] || '💳';
+  };
+
+  const getStatusBadge = (status) => {
+    const statusStyles = {
+      'Processing': 'bg-yellow-100 text-yellow-800',
+      'Completed': 'bg-green-100 text-green-800',
+      'Failed': 'bg-red-100 text-red-800'
+    };
+    return `px-2 py-1 rounded-full text-xs font-medium ${statusStyles[status] || 'bg-gray-100 text-gray-800'}`;
+  };
+
   return (
-    <div className="w-full max-w-3xl mx-auto mt-10 p-6 rounded-2xl bg-white text-gray-800 shadow-2xl">
+    <div className="w-full max-w-5xl mx-auto mt-10 p-6 rounded-2xl bg-white text-gray-800 shadow-2xl">
       <h2 className="text-3xl font-bold text-center mb-10">💸 Withdraw Funds</h2>
 
       {/* Summary Boxes */}
@@ -57,7 +94,7 @@ const WithDrawForm = () => {
       </div>
 
       {/* Withdraw Form */}
-      <form onSubmit={handleSubmit} className="space-y-6 p-6 rounded-xl border border-gray-200 bg-gray-50">
+      <form onSubmit={handleSubmit} className="space-y-6 p-6 rounded-xl border border-gray-200 bg-gray-50 mb-10">
         {/* Payment Method */}
         <div>
           <label className="block text-sm font-medium mb-1">Payment Method</label>
@@ -108,6 +145,70 @@ const WithDrawForm = () => {
           Submit Withdrawal
         </button>
       </form>
+
+      {/* Withdrawal History Table */}
+      {withdrawalHistory.length > 0 && (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-700 to-sky-500 px-6 py-4">
+            <h3 className="text-xl font-bold text-white">📋 Withdrawal History</h3>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Transaction ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Payment Method
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Account Number
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Amount
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Date & Time
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {withdrawalHistory.map((withdrawal) => (
+                  <tr key={withdrawal.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                      {withdrawal.transactionId}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div className="flex items-center">
+                        <span className="mr-2">{getPaymentMethodIcon(withdrawal.paymentMethod)}</span>
+                        <span className="capitalize">{withdrawal.paymentMethod}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
+                      {withdrawal.accountNumber}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">
+                      {withdrawal.amount} ৳
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {withdrawal.date}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={getStatusBadge(withdrawal.status)}>
+                        {withdrawal.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

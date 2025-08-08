@@ -10,9 +10,41 @@ import {
     FiShield,
     FiUsers,
     FiTrendingUp,
-    FiPhone
+    FiPhone,
+    FiChevronDown
 } from 'react-icons/fi';
 import { FaGoogle, FaFacebookF } from 'react-icons/fa';
+
+// Country codes data
+const countryCodes = [
+    { code: '+1', country: 'US', flag: '🇺🇸' },
+    { code: '+44', country: 'UK', flag: '🇬🇧' },
+    { code: '+91', country: 'IN', flag: '🇮🇳' },
+    { code: '+86', country: 'CN', flag: '🇨🇳' },
+    { code: '+81', country: 'JP', flag: '🇯🇵' },
+    { code: '+49', country: 'DE', flag: '🇩🇪' },
+    { code: '+33', country: 'FR', flag: '🇫🇷' },
+    { code: '+39', country: 'IT', flag: '🇮🇹' },
+    { code: '+34', country: 'ES', flag: '🇪🇸' },
+    { code: '+7', country: 'RU', flag: '🇷🇺' },
+    { code: '+55', country: 'BR', flag: '🇧🇷' },
+    { code: '+52', country: 'MX', flag: '🇲🇽' },
+    { code: '+61', country: 'AU', flag: '🇦🇺' },
+    { code: '+82', country: 'KR', flag: '🇰🇷' },
+    { code: '+971', country: 'AE', flag: '🇦🇪' },
+    { code: '+966', country: 'SA', flag: '🇸🇦' },
+];
+
+// Countries data
+const countries = [
+    'United States', 'United Kingdom', 'India', 'China', 'Japan', 'Germany', 
+    'France', 'Italy', 'Spain', 'Russia', 'Brazil', 'Mexico', 'Australia', 
+    'South Korea', 'United Arab Emirates', 'Saudi Arabia', 'Canada', 'Netherlands',
+    'Switzerland', 'Sweden', 'Norway', 'Denmark', 'Finland', 'Belgium', 'Austria',
+    'Portugal', 'Greece', 'Turkey', 'Egypt', 'South Africa', 'Nigeria', 'Kenya',
+    'Thailand', 'Singapore', 'Malaysia', 'Indonesia', 'Philippines', 'Vietnam',
+    'Pakistan', 'Bangladesh', 'Sri Lanka', 'Afghanistan', 'Nepal', 'Myanmar'
+];
 
 // Input field component
 const InputField = ({
@@ -58,6 +90,136 @@ const InputField = ({
     </div>
 );
 
+// Enhanced WhatsApp field with better UI
+const WhatsAppField = ({ value, onChange, error, countryCode, onCountryCodeChange }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const selectedCountry = countryCodes.find(c => c.code === countryCode);
+
+    return (
+        <div className="relative">
+            <div className="relative">
+                <FiPhone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg z-10" />
+                
+                <div className={`flex bg-blue-50 border-2 rounded-xl transition-all duration-300 ${error ? 'border-red-400' : 'border-gray-200 hover:border-blue-300 focus-within:border-blue-500 focus-within:bg-white'}`}>
+                    {/* Country Code Selector */}
+                    <div className="relative">
+                        <button
+                            type="button"
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="pl-12 pr-3 py-4 text-gray-800 focus:outline-none transition-all duration-300 flex items-center gap-2 min-w-[120px] border-r border-gray-300 hover:bg-blue-100 rounded-l-xl"
+                        >
+                            <span className="text-lg">{selectedCountry?.flag || '🌍'}</span>
+                            <span className="text-sm font-medium text-gray-700">{countryCode}</span>
+                            <FiChevronDown className={`text-xs text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        
+                        {isOpen && (
+                            <div className="absolute top-full left-0 w-64 max-h-60 overflow-y-auto bg-white border-2 border-gray-200 rounded-xl shadow-xl z-30 mt-2">
+                                <div className="p-2">
+                                    {countryCodes.map((country) => (
+                                        <button
+                                            key={country.code}
+                                            type="button"
+                                            onClick={() => {
+                                                onCountryCodeChange(country.code);
+                                                setIsOpen(false);
+                                            }}
+                                            className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-blue-50 transition-colors rounded-lg group"
+                                        >
+                                            <span className="text-lg">{country.flag}</span>
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-medium text-gray-800 group-hover:text-blue-600">{country.code}</span>
+                                                <span className="text-xs text-gray-500">{country.country}</span>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Phone Number Input */}
+                    <input
+                        type="tel"
+                        name="whatsapp"
+                        placeholder="Enter phone number"
+                        value={value}
+                        onChange={onChange}
+                        className="flex-1 pl-4 pr-4 py-4 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none rounded-r-xl"
+                    />
+                </div>
+            </div>
+            {error && (
+                <p className="mt-2 text-sm text-red-500 flex items-center gap-1">
+                    <FiX className="text-xs" />
+                    {error}
+                </p>
+            )}
+            {/* Click outside to close dropdown */}
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 z-20" 
+                    onClick={() => setIsOpen(false)}
+                />
+            )}
+        </div>
+    );
+};
+
+// Country select field
+const CountrySelectField = ({ value, onChange, error }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className="relative">
+            <div className="relative">
+                <FiUsers className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
+                <button
+                    type="button"
+                    onClick={() => setIsOpen(!isOpen)}
+                    className={`w-full pl-12 pr-12 py-4 bg-blue-50 border-2 rounded-xl text-left text-gray-800 focus:outline-none focus:bg-white transition-all duration-300 flex items-center justify-between ${error ? 'border-red-400 focus:border-red-500' : 'border-gray-200 hover:border-blue-300 focus:border-blue-500'}`}
+                >
+                    <span className={value ? 'text-gray-800' : 'text-gray-500'}>
+                        {value || 'Select your country'}
+                    </span>
+                    <FiChevronDown className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isOpen && (
+                    <div className="absolute top-full left-0 w-full max-h-60 overflow-y-auto bg-white border-2 border-gray-200 rounded-xl shadow-lg z-20 mt-1">
+                        {countries.map((country) => (
+                            <button
+                                key={country}
+                                type="button"
+                                onClick={() => {
+                                    onChange({ target: { name: 'country', value: country } });
+                                    setIsOpen(false);
+                                }}
+                                className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
+                            >
+                                {country}
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+            {error && (
+                <p className="mt-2 text-sm text-red-500 flex items-center gap-1">
+                    <FiX className="text-xs" />
+                    {error}
+                </p>
+            )}
+            {/* Click outside to close dropdown */}
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 z-10" 
+                    onClick={() => setIsOpen(false)}
+                />
+            )}
+        </div>
+    );
+};
+
 // Social button
 const SocialButton = ({ icon: Icon, provider, onClick }) => (
     <button
@@ -95,6 +257,7 @@ const SignUp = () => {
         confirmPassword: '',
         policyAccepted: false
     });
+    const [countryCode, setCountryCode] = useState('+1');
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
@@ -115,13 +278,16 @@ const SignUp = () => {
     const validateForm = () => {
         const newErrors = {};
 
+        // Check privacy policy for both login and signup
+        if (!formData.policyAccepted) {
+            newErrors.policyAccepted = 'You must accept our policies';
+        }
+
         if (isSignUp) {
             if (!formData.name.trim()) newErrors.name = 'Name is required';
             if (!formData.username.trim()) newErrors.username = 'Username is required';
             if (!formData.whatsapp.trim()) newErrors.whatsapp = 'WhatsApp number is required';
             if (!formData.country.trim()) newErrors.country = 'Country is required';
-            if (!formData.policyAccepted) newErrors.policyAccepted = 'You must accept our policies';
-
         }
 
         if (!formData.email.trim()) {
@@ -151,7 +317,7 @@ const SignUp = () => {
         setIsLoading(true);
         setTimeout(() => {
             setIsLoading(false);
-            console.log('Form submitted:', formData);
+            console.log('Form submitted:', { ...formData, countryCode });
         }, 2000);
     };
 
@@ -181,6 +347,7 @@ const SignUp = () => {
             confirmPassword: '',
             policyAccepted: false
         });
+        setCountryCode('+1');
         setErrors({});
     };
 
@@ -243,8 +410,19 @@ const SignUp = () => {
                                     <InputField icon={FiUser} type="text" name="username" placeholder="User Name" value={formData.username} onChange={handleChange} error={errors.username} />
                                 </div>
 
-                                <InputField icon={FiPhone} type="tel" name="whatsapp" placeholder="WhatsApp Number" value={formData.whatsapp} onChange={handleChange} error={errors.whatsapp} />
-                                <InputField icon={FiUsers} type="text" name="country" placeholder="Country" value={formData.country} onChange={handleChange} error={errors.country} />
+                                <WhatsAppField 
+                                    value={formData.whatsapp} 
+                                    onChange={handleChange} 
+                                    error={errors.whatsapp}
+                                    countryCode={countryCode}
+                                    onCountryCodeChange={setCountryCode}
+                                />
+                                
+                                <CountrySelectField 
+                                    value={formData.country} 
+                                    onChange={handleChange} 
+                                    error={errors.country} 
+                                />
                             </>
                         )}
 
@@ -275,40 +453,34 @@ const SignUp = () => {
                             </div>
                         )}
 
-                        {!isSignUp && (
-                            <>
-                            
+                        {/* Privacy Policy Checkbox - Now appears on both login and signup */}
+                        <div className="flex items-start gap-2">
+                            <input
+                                type="checkbox"
+                                id="policy"
+                                name="policyAccepted"
+                                checked={formData.policyAccepted}
+                                onChange={handleChange}
+                                className="mt-1 w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
+                            />
+                            <label htmlFor="policy" className="text-sm text-gray-600">
+                                I agree to the{' '}
+                                <button type="button" className="text-blue-500 hover:text-blue-600 underline">
+                                    Terms of Service
+                                </button>{' '}
+                                and{' '}
+                                <button type="button" className="text-blue-500 hover:text-blue-600 underline">
+                                    Privacy Policy
+                                </button>
+                            </label>
+                        </div>
 
-                                <div className="flex items-start gap-2">
-                                    <input
-                                        type="checkbox"
-                                        id="policy"
-                                        name="policyAccepted"
-                                        checked={formData.policyAccepted}
-                                        onChange={handleChange}
-                                        className="mt-1"
-                                    />
-                                    <label htmlFor="policy" className="text-sm text-gray-600">
-                                        I agree to the{' '}
-                                        <button type="button" className="text-blue-500 hover:text-blue-600 underline">
-                                            Terms of Service
-                                        </button>{' '}
-                                        and{' '}
-                                        <button type="button" className="text-blue-500 hover:text-blue-600 underline">
-                                            Privacy Policy
-                                        </button>
-                                    </label>
-                                </div>
-
-                                {errors.policyAccepted && (
-                                    <p className="text-sm text-red-500 flex items-center gap-1">
-                                        <FiX className="text-xs" />
-                                        {errors.policyAccepted}
-                                    </p>
-                                )}
-                            </>
+                        {errors.policyAccepted && (
+                            <p className="text-sm text-red-500 flex items-center gap-1">
+                                <FiX className="text-xs" />
+                                {errors.policyAccepted}
+                            </p>
                         )}
-
 
                         <button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-4 rounded-xl font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed">
                             {isLoading ? (

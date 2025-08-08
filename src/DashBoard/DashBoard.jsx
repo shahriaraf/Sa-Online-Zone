@@ -32,10 +32,11 @@ import History from './History';
 import Settings from './Settings';
 import Overview from './Overview';
 import Profile from './Profile';
+import DashboardHome from './DashBoardHome';
 
 const Dashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [activePage, setActivePage] = useState('Add List');
+    const [activePage, setActivePage] = useState('Dashboard');
     const [isMobile, setIsMobile] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -223,7 +224,8 @@ const Dashboard = () => {
                         </button>
 
                         {/* Conditional Rendering */}
-                    
+
+                        {activePage === 'Dashboard' && <DashboardHome></DashboardHome>}
                         {activePage === 'Add Fund' && <AddFund></AddFund>}
                         {activePage === 'Buy Subscription' && <BuySubscription></BuySubscription>}
                         {activePage === 'Withdraw' && <WithDrawForm />}
