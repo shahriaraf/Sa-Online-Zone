@@ -11,8 +11,10 @@ import {
     FiUser,
     FiMail,
     FiChevronDown,
-    FiSearch,
-    FiPlus 
+    FiPlus,
+    FiUsers,
+    FiTrendingUp,
+    FiDownload
 } from 'react-icons/fi';
 import logo from '../../public/Picsart_24-12-18_17-11-57-456.png';
 import AddList from './AddList';
@@ -22,6 +24,16 @@ import MyJobList from './MyJobList';
 import WithDrawForm from './WithDrawForm';
 import FindJobs from './FindJobs';
 import PostJob from './PostJob';
+import AddFund from './AddFund';
+import BuySubscription from './BuySubscription';
+import ReferEarn from './ReferEarn';
+import MyOrders from './MyOrders';
+import ReceiveOrder from './ReceiveOrder';
+import PostManagement from './PostManagement';
+import Inbox from './Inbox';
+import History from './History';
+import Settings from './Settings';
+import Overview from './Overview';
 
 const Dashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -53,23 +65,27 @@ const Dashboard = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [sidebarOpen, isMobile]);
 
-    const navItems = [
-        { name: 'Add List', icon: FiFileText, badge: null },
-        { name: 'Deposit', icon: FiDollarSign, badge: null },
-        { name: 'Find Jobs', icon: FiSearch, badge: null },
-        { name: 'Post Job', icon: FiPlus, badge: null },
-        { name: 'Job Task', icon: FiClipboard, badge: '12' },
-        { name: 'My Jobs', icon: FiBriefcase, badge: null },
-        { name: 'Withdraw', icon: FiCreditCard, badge: '5' },
-        { name: 'Settings', icon: FiSettings, badge: null }
-    ];
+  const navItems = [
+    { name: 'Add Fund', icon: FiPlus, badge: null },
+    { name: 'Buy Subscription', icon: FiCreditCard, badge: null },
+    { name: 'Deposit', icon: FiDollarSign, badge: null },
+    { name: 'Refer & Earn', icon: FiUser, badge: null },
+    { name: 'My Order', icon: FiClipboard, badge: null },
+    { name: 'Receive Order', icon: FiMail, badge: null },
+    { name: 'Post', icon: FiFileText, badge: null },
+    { name: 'Inbox', icon: FiMail, badge: null },
+    { name: 'History', icon: FiFileText, badge: null },
+    { name: 'Settings', icon: FiSettings, badge: null },
+    { name: 'Overview', icon: FiBriefcase, badge: null },
+    { name: 'Withdraw', icon: FiCreditCard, badge: '5' },
+];
 
 
     return (
         <div className="min-h-screen bg-white">
             <div className="flex h-screen overflow-hidden">
                 {/* Sidebar */}
-                <aside className={`fixed lg:sticky top-0 z-50 w-64 h-screen bg-blue-500 text-white shadow-xl border-r border-gray-300 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+                <aside className={`fixed lg:sticky top-0 z-50 w-64 h-screen overflow-y-auto hide-scrollbar bg-blue-500 text-white shadow-xl border-r border-gray-300 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
                     {/* Profile Section */}
                     <div className="p-6 border-b border-gray-300 flex flex-col items-center text-center">
                         <div className="w-20 h-20 bg-white rounded-full overflow-hidden mb-3 ring-4 ring-white/20">
@@ -112,7 +128,7 @@ const Dashboard = () => {
                 </aside>
 
                 {/* Main Content */}
-                <div className="flex-1 overflow-y-auto">
+                <div className="flex-1 overflow-y-auto hide-scrollbar">
                     {/* Enhanced Top Navbar */}
                     <div className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-3 flex items-center justify-between shadow-lg sticky top-0 z-30">
                         {/* Left: Logo and App Name */}
@@ -207,16 +223,20 @@ const Dashboard = () => {
                         </button>
 
                         {/* Conditional Rendering */}
-                        {activePage === 'Add List' && <AddList></AddList>}
-                        {activePage === 'Find Jobs' && <FindJobs></FindJobs>}
+                    
+                        {activePage === 'Add Fund' && <AddFund></AddFund>}
+                        {activePage === 'Buy Subscription' && <BuySubscription></BuySubscription>}
                         {activePage === 'Deposit' && <Deposit />}
-                        {activePage === 'Job Task' && <JobTask />}
-                        {activePage === 'Post Job' && <PostJob></PostJob>}
-                        {activePage === 'My Jobs' && <MyJobList />}
+                        {activePage === 'Refer & Earn' && <ReferEarn></ReferEarn>}
+                        {activePage === 'My Order' && <MyOrders></MyOrders>}
+                        {activePage === 'Receive Order' && <ReceiveOrder></ReceiveOrder>}
+                        {activePage === 'Post' && <PostManagement></PostManagement>}
+                        {activePage === 'Inbox' && <Inbox></Inbox>}
+                        {activePage === 'History' && <History></History>}
+                        {activePage === 'Settings' && <Settings></Settings>}
+                        {activePage === 'Overview' && <Overview></Overview>}
                         {activePage === 'Withdraw' && <WithDrawForm />}
-                        {activePage === 'Settings' && (
-                            <div className="text-xl font-semibold text-gray-700">Settings Page</div>
-                        )}
+                     
                     </main>
                 </div>
             </div>

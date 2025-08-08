@@ -46,18 +46,7 @@ const Navbar = () => {
                     About us
                 </NavLink>
             </li>
-            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
-                <NavLink
-                    to="/blog"
-                    className={({ isActive }) =>
-                        `relative hover:text-blue-500 transition-all duration-300 ${isActive ? 'text-blue-500' : ''
-                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
-                        }`
-                    }
-                >
-                    Blog
-                </NavLink>
-            </li>
+
             <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
                 <NavLink
                     to="/contact"
@@ -68,6 +57,18 @@ const Navbar = () => {
                     }
                 >
                     Contact
+                </NavLink>
+            </li>
+            <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
+                <NavLink
+                    to="/privacy-policy"
+                    className={({ isActive }) =>
+                        `relative hover:text-blue-500 transition-all duration-300 ${isActive ? 'text-blue-500' : ''
+                        } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
+                        }`
+                    }
+                >
+                    Privacy Policy
                 </NavLink>
             </li>
             <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
@@ -89,8 +90,8 @@ const Navbar = () => {
 
     return (
         <div className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled
-                ? ' backdrop-blur-md shadow-lg border-b border-gray-100'
-                : 'bg-transparent '
+            ? ' backdrop-blur-md shadow-lg border-b border-gray-100'
+            : 'bg-transparent '
             }`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between py-3 relative">
@@ -164,7 +165,7 @@ const Navbar = () => {
                             </div>
 
                             {/* Sidebar Navigation */}
-                            <div className="px-4 py-6 bg-white flex-1 overflow-y-auto">
+                            <div className="px-4 py-6 bg-white flex-1 overflow-y-auto hide-scrollbar">
                                 <ul className="space-y-2">
                                     <li className="transform hover:translate-x-2 transition-transform duration-300">
                                         <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
@@ -194,20 +195,7 @@ const Navbar = () => {
                                             </NavLink>
                                         </div>
                                     </li>
-                                    <li className="transform hover:translate-x-2 transition-transform duration-300">
-                                        <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
-                                            <NavLink
-                                                to="/blog"
-                                                onClick={() => setIsActive(false)}
-                                                className={({ isActive }) =>
-                                                    `text-lg font-medium transition-all duration-300 ${isActive ? 'text-cyan-500' : 'hover:text-cyan-500'
-                                                    }`
-                                                }
-                                            >
-                                                Blog
-                                            </NavLink>
-                                        </div>
-                                    </li>
+
                                     <li className="transform hover:translate-x-2 transition-transform duration-300">
                                         <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
                                             <NavLink
@@ -222,6 +210,18 @@ const Navbar = () => {
                                             </NavLink>
                                         </div>
                                     </li>
+                                    <li className='text-lg mx-0 md:mx-6 my-4 md:my-0 font-medium transition-all duration-300 hover:text-blue-500'>
+                                        <NavLink
+                                            to="/privacy-policy"
+                                            className={({ isActive }) =>
+                                                `relative hover:text-blue-500 transition-all duration-300 ${isActive ? 'text-blue-500' : ''
+                                                } after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${isActive ? 'after:w-full' : ''
+                                                }`
+                                            }
+                                        >
+                                            Privacy Policy
+                                        </NavLink>
+                                    </li>
                                     <li className="transform hover:translate-x-2 transition-transform duration-300">
                                         <div className="p-3 rounded-lg hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition-all duration-300">
                                             <NavLink
@@ -232,7 +232,7 @@ const Navbar = () => {
                                                     }`
                                                 }
                                             >
-                                            Dashboard
+                                                Dashboard
                                             </NavLink>
                                         </div>
                                     </li>

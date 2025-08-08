@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
-import { 
-    FiMail, 
-    FiLock, 
-    FiUser, 
-    FiEye, 
-    FiEyeOff, 
-    FiCheck, 
+import {
+    FiMail,
+    FiLock,
+    FiUser,
+    FiEye,
+    FiEyeOff,
     FiX,
-    FiGithub,
     FiChevronRight,
     FiShield,
     FiUsers,
-    FiTrendingUp
+    FiTrendingUp,
+    FiPhone
 } from 'react-icons/fi';
 import { FaGoogle, FaFacebookF } from 'react-icons/fa';
 
-// Move InputField component outside - this is the fix!
-const InputField = ({ 
-    icon: Icon, 
-    type, 
-    name, 
-    placeholder, 
-    value, 
-    onChange, 
-    error, 
+// Input field component
+const InputField = ({
+    icon: Icon,
+    type,
+    name,
+    placeholder,
+    value,
+    onChange,
+    error,
     showPasswordToggle,
     onTogglePassword,
-    showPassword 
+    showPassword
 }) => (
     <div className="relative">
         <div className="relative">
@@ -37,9 +36,8 @@ const InputField = ({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                className={`w-full pl-12 pr-12 py-4 bg-blue-50 border-2 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:bg-white transition-all duration-300 ${
-                    error ? 'border-red-400 focus:border-red-500' : 'border-gray-200 hover:border-blue-300 focus:border-blue-500'
-                }`}
+                className={`w-full pl-12 pr-12 py-4 bg-blue-50 border-2 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:bg-white transition-all duration-300 ${error ? 'border-red-400 focus:border-red-500' : 'border-gray-200 hover:border-blue-300 focus:border-blue-500'
+                    }`}
             />
             {showPasswordToggle && (
                 <button
@@ -60,7 +58,7 @@ const InputField = ({
     </div>
 );
 
-// Move SocialButton component outside as well
+// Social button
 const SocialButton = ({ icon: Icon, provider, onClick }) => (
     <button
         type="button"
@@ -72,7 +70,7 @@ const SocialButton = ({ icon: Icon, provider, onClick }) => (
     </button>
 );
 
-// Move FeatureCard component outside as well
+// Feature card
 const FeatureCard = ({ icon: Icon, title, description }) => (
     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-white">
         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
@@ -88,16 +86,18 @@ const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        name: '',
+        username: '',
         email: '',
+        whatsapp: '',
+        country: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        policyAccepted: false
     });
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
-    // Password strength calculation
     const getPasswordStrength = (password) => {
         let strength = 0;
         if (password.length >= 8) strength++;
@@ -112,13 +112,16 @@ const SignUp = () => {
     const strengthColors = ['bg-red-500', 'bg-red-400', 'bg-yellow-400', 'bg-blue-400', 'bg-green-500'];
     const strengthLabels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
 
-    // Form validation
     const validateForm = () => {
         const newErrors = {};
 
         if (isSignUp) {
-            if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-            if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+            if (!formData.name.trim()) newErrors.name = 'Name is required';
+            if (!formData.username.trim()) newErrors.username = 'Username is required';
+            if (!formData.whatsapp.trim()) newErrors.whatsapp = 'WhatsApp number is required';
+            if (!formData.country.trim()) newErrors.country = 'Country is required';
+            if (!formData.policyAccepted) newErrors.policyAccepted = 'You must accept our policies';
+
         }
 
         if (!formData.email.trim()) {
@@ -153,10 +156,10 @@ const SignUp = () => {
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: value
+            [name]: type === 'checkbox' ? checked : value
         }));
         if (errors[name]) {
             setErrors(prev => ({
@@ -169,51 +172,37 @@ const SignUp = () => {
     const switchMode = () => {
         setIsSignUp(!isSignUp);
         setFormData({
-            firstName: '',
-            lastName: '',
+            name: '',
+            username: '',
             email: '',
+            whatsapp: '',
+            country: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            policyAccepted: false
         });
         setErrors({});
     };
 
     return (
         <div className="min-h-screen flex">
-            {/* Left side - Branding/Features */}
+            {/* Left side */}
             <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-cyan-500 to-blue-500 relative overflow-hidden">
-                {/* Background decoration */}
                 <div className="absolute inset-0">
                     <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
                     <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl"></div>
                 </div>
-
                 <div className="relative z-10 flex flex-col justify-center p-12 text-white">
                     <div className="mb-12">
-                        <h1 className="text-4xl font-bold mb-4">
-                            Welcome to our Platform
-                        </h1>
+                        <h1 className="text-4xl font-bold mb-4">Welcome to our Platform</h1>
                         <p className="text-xl text-blue-100">
                             Join thousands of users who trust our platform for their business needs.
                         </p>
                     </div>
-
                     <div className="space-y-6">
-                        <FeatureCard
-                            icon={FiShield}
-                            title="Secure & Private"
-                            description="Your data is protected with enterprise-grade security and encryption."
-                        />
-                        <FeatureCard
-                            icon={FiUsers}
-                            title="Team Collaboration"
-                            description="Work together seamlessly with powerful collaboration tools."
-                        />
-                        <FeatureCard
-                            icon={FiTrendingUp}
-                            title="Advanced Analytics"
-                            description="Get insights and analytics to grow your business effectively."
-                        />
+                        <FeatureCard icon={FiShield} title="Secure & Private" description="Your data is protected with enterprise-grade security and encryption." />
+                        <FeatureCard icon={FiUsers} title="Team Collaboration" description="Work together seamlessly with powerful collaboration tools." />
+                        <FeatureCard icon={FiTrendingUp} title="Advanced Analytics" description="Get insights and analytics to grow your business effectively." />
                     </div>
                 </div>
             </div>
@@ -221,140 +210,107 @@ const SignUp = () => {
             {/* Right side - Form */}
             <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-gray-50">
                 <div className="w-full max-w-md">
-                    {/* Header */}
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold text-gray-800 mb-2">
                             {isSignUp ? 'Create Account' : 'Welcome Back'}
                         </h2>
                         <p className="text-gray-600">
-                            {isSignUp 
-                                ? 'Sign up to get started with your account' 
-                                : 'Sign in to access your account'
-                            }
+                            {isSignUp ? 'Sign up to get started with your account' : 'Sign in to access your account'}
                         </p>
                     </div>
 
-                    {/* Social login */}
                     <div className="mb-6">
                         <div className="flex gap-3 mb-4">
                             <SocialButton icon={FaGoogle} provider="Google" onClick={() => console.log('Google login')} />
                             <SocialButton icon={FaFacebookF} provider="Facebook" onClick={() => console.log('Facebook login')} />
                         </div>
-                        <SocialButton icon={FiGithub} provider="GitHub" onClick={() => console.log('GitHub login')} />
                     </div>
 
-                    {/* Divider */}
                     <div className="relative mb-6">
                         <div className="absolute inset-0 flex items-center">
                             <div className="w-full border-t border-gray-200"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                            <span className="bg-gray-50 px-4 text-gray-500">
-                                or continue with email
-                            </span>
+                            <span className="bg-gray-50 px-4 text-gray-500">or continue with email</span>
                         </div>
                     </div>
 
-                    {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {isSignUp && (
-                            <div className="grid grid-cols-2 gap-3">
-                                <InputField
-                                    icon={FiUser}
-                                    type="text"
-                                    name="firstName"
-                                    placeholder="First name"
-                                    value={formData.firstName}
-                                    onChange={handleChange}
-                                    error={errors.firstName}
-                                />
-                                <InputField
-                                    icon={FiUser}
-                                    type="text"
-                                    name="lastName"
-                                    placeholder="Last name"
-                                    value={formData.lastName}
-                                    onChange={handleChange}
-                                    error={errors.lastName}
-                                />
-                            </div>
+                            <>
+                                <div className="grid grid-cols-2 gap-3 pb-4">
+                                    <InputField icon={FiUser} type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} error={errors.name} />
+                                    <InputField icon={FiUser} type="text" name="username" placeholder="User Name" value={formData.username} onChange={handleChange} error={errors.username} />
+                                </div>
+
+                                <InputField icon={FiPhone} type="tel" name="whatsapp" placeholder="WhatsApp Number" value={formData.whatsapp} onChange={handleChange} error={errors.whatsapp} />
+                                <InputField icon={FiUsers} type="text" name="country" placeholder="Country" value={formData.country} onChange={handleChange} error={errors.country} />
+                            </>
                         )}
 
-                        <InputField
-                            icon={FiMail}
-                            type="email"
-                            name="email"
-                            placeholder="Email address"
-                            value={formData.email}
-                            onChange={handleChange}
-                            error={errors.email}
-                        />
+                        <InputField icon={FiMail} type="email" name="email" placeholder="Email address" value={formData.email} onChange={handleChange} error={errors.email} />
 
-                        <InputField
-                            icon={FiLock}
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            error={errors.password}
-                            showPasswordToggle
-                            onTogglePassword={() => setShowPassword(!showPassword)}
-                            showPassword={showPassword}
-                        />
+                        <InputField icon={FiLock} type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} error={errors.password} showPasswordToggle onTogglePassword={() => setShowPassword(!showPassword)} showPassword={showPassword} />
 
-                        {/* Password strength indicator for signup */}
                         {isSignUp && formData.password && (
                             <div className="space-y-2">
                                 <div className="flex gap-1">
                                     {[...Array(5)].map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                                                i < passwordStrength ? strengthColors[passwordStrength - 1] : 'bg-gray-200'
-                                            }`}
-                                        />
+                                        <div key={i} className={`h-1 flex-1 rounded-full transition-all duration-300 ${i < passwordStrength ? strengthColors[passwordStrength - 1] : 'bg-gray-200'}`} />
                                     ))}
                                 </div>
-                                <p className="text-xs text-gray-600">
-                                    Password strength: {passwordStrength > 0 ? strengthLabels[passwordStrength - 1] : 'Enter password'}
-                                </p>
+                                <p className="text-xs text-gray-600">Password strength: {passwordStrength > 0 ? strengthLabels[passwordStrength - 1] : 'Enter password'}</p>
                             </div>
                         )}
 
                         {isSignUp && (
-                            <InputField
-                                icon={FiLock}
-                                type="password"
-                                name="confirmPassword"
-                                placeholder="Confirm password"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                error={errors.confirmPassword}
-                                showPasswordToggle
-                                onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
-                                showPassword={showConfirmPassword}
-                            />
+                            <InputField icon={FiLock} type="password" name="confirmPassword" placeholder="Confirm password" value={formData.confirmPassword} onChange={handleChange} error={errors.confirmPassword} showPasswordToggle onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)} showPassword={showConfirmPassword} />
                         )}
 
-                        {/* Forgot password link for sign in */}
                         {!isSignUp && (
                             <div className="text-right">
-                                <button
-                                    type="button"
-                                    className="text-blue-500 hover:text-blue-600 text-sm transition-colors"
-                                >
+                                <button type="button" className="text-blue-500 hover:text-blue-600 text-sm transition-colors">
                                     Forgot password?
                                 </button>
                             </div>
                         )}
 
-                        {/* Submit button */}
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-4 rounded-xl font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
+                        {!isSignUp && (
+                            <>
+                            
+
+                                <div className="flex items-start gap-2">
+                                    <input
+                                        type="checkbox"
+                                        id="policy"
+                                        name="policyAccepted"
+                                        checked={formData.policyAccepted}
+                                        onChange={handleChange}
+                                        className="mt-1"
+                                    />
+                                    <label htmlFor="policy" className="text-sm text-gray-600">
+                                        I agree to the{' '}
+                                        <button type="button" className="text-blue-500 hover:text-blue-600 underline">
+                                            Terms of Service
+                                        </button>{' '}
+                                        and{' '}
+                                        <button type="button" className="text-blue-500 hover:text-blue-600 underline">
+                                            Privacy Policy
+                                        </button>
+                                    </label>
+                                </div>
+
+                                {errors.policyAccepted && (
+                                    <p className="text-sm text-red-500 flex items-center gap-1">
+                                        <FiX className="text-xs" />
+                                        {errors.policyAccepted}
+                                    </p>
+                                )}
+                            </>
+                        )}
+
+
+                        <button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-4 rounded-xl font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed">
                             {isLoading ? (
                                 <>
                                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -367,31 +323,12 @@ const SignUp = () => {
                                 </>
                             )}
                         </button>
-
-                        {/* Terms and conditions for signup */}
-                        {isSignUp && (
-                            <p className="text-xs text-gray-500 text-center">
-                                By creating an account, you agree to our{' '}
-                                <button type="button" className="text-blue-500 hover:text-blue-600 transition-colors">
-                                    Terms of Service
-                                </button>{' '}
-                                and{' '}
-                                <button type="button" className="text-blue-500 hover:text-blue-600 transition-colors">
-                                    Privacy Policy
-                                </button>
-                            </p>
-                        )}
                     </form>
 
-                    {/* Switch between sign up and sign in */}
                     <div className="mt-6 text-center">
                         <p className="text-gray-600">
                             {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
-                            <button
-                                type="button"
-                                onClick={switchMode}
-                                className="text-blue-500 font-semibold hover:text-blue-600 transition-all"
-                            >
+                            <button type="button" onClick={switchMode} className="text-blue-500 font-semibold hover:text-blue-600 transition-all">
                                 {isSignUp ? 'Sign In' : 'Sign Up'}
                             </button>
                         </p>
