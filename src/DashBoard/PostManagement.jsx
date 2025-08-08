@@ -125,7 +125,7 @@ const PostManagement = () => {
     'Sports & Fitness': ['Exercise Equipment', 'Sportswear', 'Outdoor Gear'],
     'Books & Education': ['Textbooks', 'Online Courses', 'Educational Tools']
   };
-  const types = ['Product Showcase', 'Event Showcase', 'Product Listing', 'Service Promotion', 'Brand Awareness'];
+  const types = ['Online', 'Offline'];
 
   const adminFeePercentage = 15; // 15% admin fee
 

@@ -36,11 +36,6 @@ const BuySubscription = () => {
       name: "Starter Package",
       description: "Perfect for beginners who want to start their journey with basic commission benefits.",
       price: 99,
-      commissions: {
-        fast: 15,
-        second: 10,
-        third: 5
-      },
       sellPosts: 10,
       settings: "Basic",
       trustedGuarantee: 85,
@@ -52,11 +47,6 @@ const BuySubscription = () => {
       name: "Professional Package",
       description: "Advanced features with higher commission rates for serious entrepreneurs.",
       price: 299,
-      commissions: {
-        fast: 25,
-        second: 18,
-        third: 12
-      },
       sellPosts: 50,
       settings: "Advanced",
       trustedGuarantee: 92,
@@ -68,11 +58,6 @@ const BuySubscription = () => {
       name: "Enterprise Package",
       description: "Premium package with maximum benefits and exclusive features for top performers.",
       price: 599,
-      commissions: {
-        fast: 35,
-        second: 28,
-        third: 20
-      },
       sellPosts: 200,
       settings: "Premium",
       trustedGuarantee: 98,
@@ -156,28 +141,6 @@ const BuySubscription = () => {
                     <div className="text-4xl font-bold text-blue-600 mb-2">
                       ${pkg.price}
                       <span className="text-lg text-gray-500 font-normal">/month</span>
-                    </div>
-                  </div>
-
-                  {/* Commission Structure */}
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-800 mb-3 flex items-center">
-                      <LuDollarSign className="mr-2 w-5 h-5" />
-                      Commission Generation
-                    </h4>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center bg-green-50 p-3 rounded-lg">
-                        <span className="text-sm font-medium">Fast Level</span>
-                        <span className="font-bold text-green-600">{pkg.commissions.fast}%</span>
-                      </div>
-                      <div className="flex justify-between items-center bg-yellow-50 p-3 rounded-lg">
-                        <span className="text-sm font-medium">Second Level</span>
-                        <span className="font-bold text-yellow-600">{pkg.commissions.second}%</span>
-                      </div>
-                      <div className="flex justify-between items-center bg-blue-50 p-3 rounded-lg">
-                        <span className="text-sm font-medium">Third Level</span>
-                        <span className="font-bold text-blue-600">{pkg.commissions.third}%</span>
-                      </div>
                     </div>
                   </div>
 

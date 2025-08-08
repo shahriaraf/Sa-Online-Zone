@@ -68,7 +68,6 @@ const Dashboard = () => {
     { name: 'Add Fund', icon: FiPlus, badge: null },
     { name: 'Buy Subscription', icon: FiCreditCard, badge: null },
     { name: 'Withdraw', icon: FiCreditCard, badge: null },
-    { name: 'Deposit', icon: FiDollarSign, badge: null },
     { name: 'Refer & Earn', icon: FiUser, badge: null },
     { name: 'My Order', icon: FiClipboard, badge: null },
     { name: 'Receive Order', icon: FiMail, badge: null },
@@ -229,7 +228,6 @@ const Dashboard = () => {
                         {activePage === 'Add Fund' && <AddFund></AddFund>}
                         {activePage === 'Buy Subscription' && <BuySubscription></BuySubscription>}
                         {activePage === 'Withdraw' && <WithDrawForm />}
-                        {activePage === 'Deposit' && <Deposit />}
                         {activePage === 'Refer & Earn' && <ReferEarn></ReferEarn>}
                         {activePage === 'My Order' && <MyOrders></MyOrders>}
                         {activePage === 'Receive Order' && <ReceiveOrder></ReceiveOrder>}
