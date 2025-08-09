@@ -11,6 +11,7 @@ import {
     FiPlus,
     FiUser,
     FiLogOut,
+    FiUserX,
 } from 'react-icons/fi';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase'; // Adjust path as needed
@@ -27,6 +28,7 @@ import History from './History';
 import Settings from './Settings';
 import Overview from './Overview';
 import DashboardHome from './DashBoardHome';
+import Profile from './Profile'
 
 const Dashboard = ({ user }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -73,6 +75,8 @@ const Dashboard = ({ user }) => {
         { name: 'History', icon: FiFileText, badge: null },
         { name: 'Settings', icon: FiSettings, badge: null },
         { name: 'Overview', icon: FiBriefcase, badge: null },
+        { name: 'Profile', icon: FiUserX, badge: null },
+
     ];
 
     // Logout function
@@ -253,6 +257,7 @@ const Dashboard = ({ user }) => {
                         {activePage === 'History' && <History />}
                         {activePage === 'Settings' && <Settings />}
                         {activePage === 'Overview' && <Overview />}
+                        {activePage === 'Profile' && <Profile></Profile>}
                     </main>
                 </div>
             </div>
